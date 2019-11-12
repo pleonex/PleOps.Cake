@@ -12,17 +12,20 @@ name: $(version)+$(Build.SourceVersion)
 steps:
 
 - task: UseDotNet@2
+  displayName: "Get .NET SDK"
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
 
 - task: DotNetCoreCLI@2
+  displayName: "Build project"
   inputs:
     command: 'build'
     projects: 'src/MyProject.sln'
     arguments: '-c $(buildConfiguration) -p:Version=$(Build.BuildNumber)'
 
 - task: DotNetCoreCLI@2
+  displayName: "Pack libraries"
   inputs:
     command: 'pack'
     packagesToPack: 'src/MyLibrary/MyLibrary.csproj'
@@ -32,14 +35,16 @@ steps:
     versioningScheme: 'byBuildNumber'
 
 - task: DotNetCoreCLI@2
+  displayName: "Prepare applications"
   inputs:
     command: 'publish'
     publishWebProjects: false
     projects: 'src/MyConsole/MyConsole.csproj'
-    arguments: '--no-build -c $(buildConfiguration)'
+    arguments: '--no-build -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)'
     zipAfterPublish: false
 
 - task: PublishBuildArtifacts@1
+  displayName: "Publish artifacts"
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
