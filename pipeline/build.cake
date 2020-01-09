@@ -22,21 +22,25 @@ Task("Pack")
         DeleteDirectory(info.ArtifactsDirectory, deleteConfig);
     }
 
-    var settings = new DotNetCorePackSettings {
-        Configuration = "Release",
-        OutputDirectory = "artifacts/",
-        IncludeSymbols = true,
+    var packSettings = new DotNetCorePackSettings {
+        Configuration = info.Configuration,
+        OutputDirectory = info.ArtifactsDirectory,
+        NoBuild = true,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
-            .TreatAllWarningsAs(info.WarningsAsErrors ? MSBuildTreatAllWarningsAs.Error : MSBuildTreatAllWarningsAs.Message)
-            .WithProperty("SymbolPackageFormat", "snupkg")
+            .WithProperty("Version", info.Version),
     };
-    DotNetCorePack("src/Yarhl.sln", settings);
-});
+    foreach (var project in info.LibraryProjects) {
+        DotNetCorePack($"./src/{project}/{project}.csproj", packSettings);
+    }
 
-Task("Upload-Artifacts")
-    .Description("Upload artifacts to the CI pipeline")
-    .IsDependentOn("Pack")
-    .Does<BuildInfo>(info =>
-{
-
+    var publishSettings = new DotNetCorePublishSettings {
+        Configuration = info.Configuration,
+        OutputDirectory = info.ArtifactsDirectory,
+        NoBuild = true,
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+            .WithProperty("Version", info.Version),
+    };
+    foreach (var project in info.ApplicationProjects) {
+        DotNetCorePublish($"./src/{project}/{project}.csproj", publishSettings);
+    }
 });

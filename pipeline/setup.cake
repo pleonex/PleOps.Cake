@@ -4,6 +4,12 @@ public class BuildInfo
 {
     public string SolutionFile { get; set; }
 
+    public string[] LibraryProjects { get; set; }
+
+    public string[] ApplicationProjects { get; set; }
+
+    public string[] TestProjects { get; set; }
+
     public string Configuration { get; set; }
 
     public string Platform { get; set; }

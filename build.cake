@@ -5,6 +5,16 @@
 
 string target = Argument("target", "Default");
 
+Task("Fill-BuildInfo")
+    .Description("Fill specific project information")
+    .Does<BuildInfo>(info =>
+{
+    info.LibraryProjects = new[] { "MyLibrary" };
+    info.ApplicationProjects = new[] { "MyConsole" };
+    info.TestProjects = new string[0];
+});
+
+
 Task("Post-Build")
     .Does<BuildInfo>(info =>
 {
@@ -22,7 +32,8 @@ Task("Post-Build")
 });
 
 Task("Default")
-    .IsDependentOn("Build");
-    // .IsDependentOn("Post-Build");
+    .IsDependentOn("Fill-BuildInfo")
+    .IsDependentOn("Build")
+    .IsDependentOn("Pack");
 
 RunTarget(target);
