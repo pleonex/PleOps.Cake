@@ -17,7 +17,10 @@ steps:
     packageType: 'sdk'
     version: '3.0.100'
 
-- script: build.ps1
+- script: dotnet tool install --global Cake.Tool
+  displayName: 'Install Cake tool'
+
+- script: dotnet cake build.cake --bootstrap
   displayName: "Set version"
 
 - task: DotNetCoreCLI@2
