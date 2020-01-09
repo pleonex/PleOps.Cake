@@ -7,7 +7,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-name: $(version)+$(Build.SourceVersion)
+# name: $(version)+$(Build.SourceVersion)
 
 steps:
 
@@ -16,6 +16,9 @@ steps:
   inputs:
     packageType: 'sdk'
     version: '3.0.100'
+
+- script: date /t
+  displayName: Get the date
 
 - script: dotnet tool install --global Cake.Tool
   displayName: 'Install Cake tool'
