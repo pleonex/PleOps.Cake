@@ -24,14 +24,7 @@ steps:
   displayName: 'Install Cake tool'
 
 - script: dotnet cake
-  displayName: "Set version"
-
-- task: DotNetCoreCLI@2
   displayName: "Build project"
-  inputs:
-    command: 'build'
-    projects: 'src/MyProject.sln'
-    arguments: '-c $(buildConfiguration) -p:Version=$(Build.BuildNumber)'
 
 - task: DotNetCoreCLI@2
   displayName: "Pack libraries"

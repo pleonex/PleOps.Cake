@@ -22,18 +22,36 @@ Setup<BuildInfo>(context =>
     var info = new BuildInfo {
         Configuration = Argument("configuration", "Release"),
         Platform = Argument("platform", "Any CPU"),
-        Version = Argument("version", "1.0.0"),
         WarningsAsErrors = Argument("warn-as-err", true),
         Tests = Argument("tests", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
     };
 
+    SetVersion(info);
+    FindSolution(info);
+
     return info;
 });
 
-Task("Set-Version")
-    .Does<BuildInfo>(info =>
+void SetVersion(BuildInfo info)
 {
+    // Get the version using the tool GitVersion
     var version = GitVersion();
-    Information("##vso[build.updatebuildnumber]" + version.SemVer);
-});
+    info.Version = version.SemVer;
+    Information("Version: " + info.Version);
+
+    // Set the version in the pipeline of Azure Devops
+    // https://github.com/Microsoft/azure-pipelines-tasks/blob/master/docs/authoring/commands.md
+    Information("##vso[build.updatebuildnumber]" + info.Version);
+}
+
+void FindSolution(BuildInfo info)
+{
+    var solutions = GetFiles("./src/*.sln");
+    if (solutions.Count == 1) {
+        info.SolutionFile = solutions.First().FullPath;
+        Information("Solution file: " + info.SolutionFile);
+    } else {
+        Error("Couldn't find the solution file.");
+    }
+}

@@ -1,15 +1,9 @@
 #load "pipeline/setup.cake"
-// #load "pipeline/build.cake"
+#load "pipeline/build.cake"
 // #load "pipeline/test.cake"
 // #load "pipeline/release.cake"
 
 string target = Argument("target", "Default");
-
-Task("Post-Setup")
-    .Does<BuildInfo>(info =>
-{
-    info.SolutionFile = "src/MyProject.sln";
-});
 
 Task("Post-Build")
     .Does<BuildInfo>(info =>
@@ -28,9 +22,7 @@ Task("Post-Build")
 });
 
 Task("Default")
-    .IsDependentOn("Post-Setup")
-    .IsDependentOn("Set-Version");
-    // .IsDependentOn("Build")
+    .IsDependentOn("Build");
     // .IsDependentOn("Post-Build");
 
 RunTarget(target);
