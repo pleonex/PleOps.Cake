@@ -23,7 +23,7 @@ steps:
 - script: dotnet tool install --global Cake.Tool
   displayName: 'Install Cake tool'
 
-- script: dotnet cake build.cake --bootstrap
+- script: dotnet cake
   displayName: "Set version"
 
 - task: DotNetCoreCLI@2
