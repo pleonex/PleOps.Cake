@@ -9,31 +9,22 @@ Task("Fill-BuildInfo")
     .Description("Fill specific project information")
     .Does<BuildInfo>(info =>
 {
-    info.LibraryProjects = new[] { "MyLibrary" };
-    info.ApplicationProjects = new[] { "MyConsole" };
-    info.TestProjects = new string[0];
+    info.AddLibraryProjects("MyLibrary");
+    info.AddApplicationProjects("MyConsole");
 });
 
 
 Task("Post-Build")
     .Does<BuildInfo>(info =>
 {
-    Information("Post build is running!");
-    // Copy Yarhl.Media for the integration tests
-    // EnsureDirectoryExists($"src/Yarhl.IntegrationTests/{netBinDir}/Plugins");
-    // CopyFileToDirectory(
-    //     $"src/Yarhl.Media/{netstandardBinDir}/Yarhl.Media.dll",
-    //     $"src/Yarhl.IntegrationTests/{netBinDir}/Plugins");
-
-    // EnsureDirectoryExists($"src/Yarhl.IntegrationTests/{netcoreBinDir}/Plugins");
-    // CopyFileToDirectory(
-    //     $"src/Yarhl.Media/{netstandardBinDir}/Yarhl.Media.dll",
-    //     $"src/Yarhl.IntegrationTests/{netcoreBinDir}/Plugins");
+    Information("Post build ran");
 });
 
 Task("Default")
     .IsDependentOn("Fill-BuildInfo")
     .IsDependentOn("Build")
-    .IsDependentOn("Pack");
+    .IsDependentOn("Post-Build")
+    .IsDependentOn("Pack-Libs")
+    .IsDependentOn("Pack-Apps");
 
 RunTarget(target);
