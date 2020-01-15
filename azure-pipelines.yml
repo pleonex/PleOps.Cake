@@ -24,6 +24,13 @@ steps:
 - script: dotnet cake --artifacts=$(Build.ArtifactStagingDirectory)
   displayName: "Build and test"
 
+- task: PublishCodeCoverageResults@1
+  displayName: "Publish code coverage"
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
+    failIfCoverageEmpty: true
+
 - task: PublishBuildArtifacts@1
   displayName: "Publish artifacts"
   inputs:
