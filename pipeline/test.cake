@@ -28,6 +28,11 @@ Task("Test")
 
     DotNetCoreTest(info.SolutionFile, netcoreSettings);
 
+    // Due to a bug in Azure DevOps we need to delete the *.coverage files.
+    // In any case we don't use them, we relay in the Cobertura XML.
+    // https://developercommunity.visualstudio.com/content/problem/790648/publish-test-results-overwrites-code-coverage.html
+    DeleteFiles(TestResults + "/**/*.coverage");
+
     // Create the report
     ReportGenerator(
         new FilePath[] { TestResults + "/**/coverage.cobertura.xml" },
