@@ -1,14 +1,33 @@
 #tool "nuget:?package=GitVersion.CommandLine&version=5.1.3"
 
+using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
+
 public class BuildInfo
 {
+    List<string> libraries;
+    List<string> consoles;
+    List<string> tests;
+
+    public BuildInfo()
+    {
+        libraries = new List<string>();
+        LibraryProjects = new ReadOnlyCollection<string>(libraries);
+
+        consoles = new List<string>();
+        ApplicationProjects = new ReadOnlyCollection<string>(consoles);
+
+        tests = new List<string>();
+        TestProjects = new ReadOnlyCollection<string>(tests);
+    }
+
     public string SolutionFile { get; set; }
 
-    public string[] LibraryProjects { get; set; }
+    public ReadOnlyCollection<string> LibraryProjects { get; }
 
-    public string[] ApplicationProjects { get; set; }
+    public ReadOnlyCollection<string> ApplicationProjects { get; }
 
-    public string[] TestProjects { get; set; }
+    public ReadOnlyCollection<string> TestProjects { get; }
 
     public string Configuration { get; set; }
 
@@ -21,6 +40,33 @@ public class BuildInfo
     public string Tests { get; set; }
 
     public string ArtifactsDirectory { get; set; }
+
+    public bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+    public bool IsLinux => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+    public bool IsMacOS => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+    public void AddLibraryProjects(params string[] names)
+    {
+        foreach (var name in names) {
+            libraries.Add($"./src/{name}/{name}.csproj");
+        }
+    }
+
+    public void AddApplicationProjects(params string[] names)
+    {
+        foreach (var name in names) {
+            consoles.Add($"./src/{name}/{name}.csproj");
+        }
+    }
+
+    public void AddTestProjects(params string[] names)
+    {
+        foreach (var name in names) {
+            tests.Add($"./src/{name}/{name}.csproj");
+        }
+    }
 }
 
 Setup<BuildInfo>(context =>

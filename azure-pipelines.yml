@@ -22,7 +22,7 @@ steps:
   displayName: 'Install Cake tool'
 
 - script: dotnet cake --artifacts=$(Build.ArtifactStagingDirectory)
-  displayName: "Build project"
+  displayName: "Build and test"
 
 - task: PublishBuildArtifacts@1
   displayName: "Publish artifacts"

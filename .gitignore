@@ -4,3 +4,4 @@ tools/*
 !/tools/packages.config
 pipeline/tools/*
 artifacts/
+TestResults/
