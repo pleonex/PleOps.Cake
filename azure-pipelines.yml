@@ -24,6 +24,14 @@ steps:
 - script: dotnet cake --artifacts=$(Build.ArtifactStagingDirectory)
   displayName: "Build and test"
 
+- task: PublishTestResults@2
+  displayName: "Publish test results"
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '*.trx'
+    searchFolder: 'TestResults'
+    failTaskOnFailedTests: true
+
 - task: PublishCodeCoverageResults@1
   displayName: "Publish code coverage"
   inputs:

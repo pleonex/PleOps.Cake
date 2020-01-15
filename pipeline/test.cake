@@ -18,6 +18,7 @@ Task("Test")
         Configuration = info.Configuration,
         NoBuild = true,
         Settings = "Tests.runsettings",
+        Logger = "trx",
         ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
     };
 
