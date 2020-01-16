@@ -8,8 +8,15 @@ Task("Create-ReleaseNotes")
 
 });
 
-Task("Create-DraftRelease")
+Task("Create-GitHubDraftRelease")
     .Description("Create a draft release in GitHub")
+    .Does<BuildInfo>(info =>
+{
+
+});
+
+Task("Confirm-GitHubRelease")
+    .Description("Promote draft release to official")
     .Does<BuildInfo>(info =>
 {
 
@@ -35,11 +42,4 @@ Task("Publish-NuGetReleaseFeed")
         ApiKey = Environment.GetEnvironmentVariable("NUGET_KEY"),
     };
     DotNetCoreNuGetPush(System.IO.Path.Combine("artifacts", "*.nupkg"), settings);
-});
-
-Task("Confirm-Release")
-    .Description("Promote draft release to official")
-    .Does<BuildInfo>(info =>
-{
-
 });
