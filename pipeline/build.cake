@@ -14,6 +14,7 @@ Task("Build")
     var buildConfig = new DotNetCoreBuildSettings {
         Configuration = info.Configuration,
         Verbosity = DotNetCoreVerbosity.Minimal,
+        ArgumentCustomization = x => x.Append("interactive"),
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .TreatAllWarningsAs(warningMode)
             .WithProperty("Version", info.Version),
