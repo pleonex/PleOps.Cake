@@ -46,11 +46,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'artifacts'
     publishLocation: 'Container'
-
-- task: DotNetCoreCLI@2
-  displayName: "Push to test feed"
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: 'f9781677-d662-4f25-be5a-7763dd768c21'

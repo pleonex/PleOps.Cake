@@ -1,7 +1,7 @@
 #load "pipeline/setup.cake"
 #load "pipeline/build.cake"
 #load "pipeline/test.cake"
-// #load "pipeline/release.cake"
+#load "pipeline/release.cake"
 
 string target = Argument("target", "Default");
 
@@ -29,12 +29,14 @@ Task("Build-Test")
 
 Task("Prepare-Release")
     .IsDependentOn("Build-Test")
+    // Build doc
     .IsDependentOn("Pack-Libs")
     .IsDependentOn("Pack-Apps");
 
 Task("Create-TestRelease")
-    .IsDependentOn("Prepare-Release");
-    // Push to the test feed
+    .IsDependentOn("Prepare-Release")
+    .IsDependentOn("Publish-NuGetTestFeed");
+    // Push docs to preview version
 
 Task("Draft-Release")
     .IsDependentOn("Create-TestRelease");
@@ -42,11 +44,12 @@ Task("Draft-Release")
     // Get build and release links (for release notes)
     // Create draft release in GitHub
 
-Task("Confirm-Release");
+Task("Confirm-Release")
     // Get release notes from GitHub
     // Repack NuGet without preview version and with release notes
-    // Push to official feed
+    .IsDependentOn("Publish-NuGetReleaseFeed");
     // Confirm GitHub release
+    // Update docs
 
 Task("Default")
     .IsDependentOn("Prepare-Release");
