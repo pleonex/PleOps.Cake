@@ -1,7 +1,16 @@
+# Build outputs
 obj/
 bin/
+artifacts/
+
+# Build system
 tools/*
 !/tools/packages.config
 pipeline/tools/*
-artifacts/
+
+# Test results
 TestResults/
+
+# Documentation output
+docs/_site
+docs/api
