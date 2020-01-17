@@ -49,5 +49,33 @@
       "cleanupCacheHistory": false,
       "disableGitFeatures": false,
       "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ]
+    },
+    "pdf": {
+      "content": [
+        {
+          "files": [ "pdf/**" ]
+        },
+        {
+          "files": [ "api/**.yml" ],
+          "exclude": [ "**/toc.yml" ]
+        },
+        {
+          "files": [ "index.md" ]
+        },
+        {
+          "files": [ "guides/**" ],
+          "exclude": [ "**/toc.yml" ]
+        },
+        {
+          "files": ["README.md", "CONTRIBUTING.md"],
+          "src": "../"
+        }
+      ],
+      "resource": [
+        {
+          "files": ["images/**"]
+        }
+      ],
+      "dest": "_site_pdf"
     }
 }
