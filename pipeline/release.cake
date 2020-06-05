@@ -30,7 +30,7 @@ Task("Publish-NuGetTestFeed")
         Source = "https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/ProjectFeed/nuget/v3/index.json",
         ApiKey = "key", // it doesn't matter for Azure DevOps
     };
-    DotNetCoreNuGetPush(System.IO.Path.Combine("artifacts", "*.nupkg"), settings);
+    DotNetCoreNuGetPush(System.IO.Path.Combine(info.ArtifactsDirectory, "*.nupkg"), settings);
 });
 
 Task("Publish-NuGetReleaseFeed")
@@ -41,5 +41,5 @@ Task("Publish-NuGetReleaseFeed")
         Source = "https://api.nuget.org/v3/index.json",
         ApiKey = Environment.GetEnvironmentVariable("NUGET_KEY"),
     };
-    DotNetCoreNuGetPush(System.IO.Path.Combine("artifacts", "*.nupkg"), settings);
+    DotNetCoreNuGetPush(System.IO.Path.Combine(info.ArtifactsDirectory, "*.nupkg"), settings);
 });
