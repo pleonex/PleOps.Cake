@@ -27,7 +27,7 @@ Task("Publish-NuGetTestFeed")
     .Does<BuildInfo>(info =>
 {
     var settings = new DotNetCoreNuGetPushSettings {
-        Source = "ProjectFeed",
+        Source = "https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/ProjectFeed/nuget/v3/index.json",
         ApiKey = "key", // it doesn't matter for Azure DevOps
     };
     DotNetCoreNuGetPush(System.IO.Path.Combine("artifacts", "*.nupkg"), settings);
