@@ -11,8 +11,6 @@ public class BuildInfo
 
     public BuildInfo()
     {
-        ArtifactsDirectory = "artifacts";
-
         libraries = new List<string>();
         LibraryProjects = new ReadOnlyCollection<string>(libraries);
 

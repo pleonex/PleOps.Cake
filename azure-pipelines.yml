@@ -21,8 +21,15 @@ steps:
 - script: dotnet tool install --global Cake.Tool
   displayName: 'Install Cake tool'
 
-- script: dotnet cake --target=Create-TestRelease --artifacts=$(Build.ArtifactStagingDirectory)
+- script: dotnet cake --target=Prepare-Release --artifacts=$(Build.ArtifactStagingDirectory)
   displayName: "Build, test and pack"
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: '339c91a8-9d6c-4082-8b1a-93c2ae76b637/e3acf8ba-ec70-46f0-b1a5-da1ce3dd5d9f'
 
 - task: PublishTestResults@2
   displayName: "Publish test results"
