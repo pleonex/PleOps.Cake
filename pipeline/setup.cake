@@ -79,6 +79,7 @@ Setup<BuildInfo>(context =>
         WarningsAsErrors = Argument("warn-as-err", true),
         Tests = Argument("tests", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
+        DocFxFile = "./docs/docfx.json",
     };
 
     SetVersion(info);

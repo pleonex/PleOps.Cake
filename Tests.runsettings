@@ -5,7 +5,7 @@
     <TargetPlatform>x64</TargetPlatform>
 
     <!-- Put results in root folder rather inside each project-->
-    <ResultsDirectory>.\TestResults</ResultsDirectory>
+    <ResultsDirectory>./TestResults</ResultsDirectory>
   </RunConfiguration>
 
   <DataCollectionRunSettings>
