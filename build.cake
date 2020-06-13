@@ -1,5 +1,6 @@
 #load "pipeline/setup.cake"
 #load "pipeline/build.cake"
+#load "pipeline/documentation.cake"
 #load "pipeline/test.cake"
 #load "pipeline/release.cake"
 
@@ -12,6 +13,7 @@ Task("Fill-BuildInfo")
     info.AddLibraryProjects("MyLibrary");
     info.AddApplicationProjects("MyConsole");
     info.AddTestProjects("MyTests");
+    info.DocFxFile = "./docs/docfx.json";
 });
 
 
@@ -21,21 +23,22 @@ Task("Post-Build")
     Information("Post build ran");
 });
 
-Task("Build-Test")
+Task("Build-RunTests")
     .IsDependentOn("Fill-BuildInfo")
     .IsDependentOn("Build")
     .IsDependentOn("Post-Build")
     .IsDependentOn("Test");
 
 Task("Prepare-Release")
-    .IsDependentOn("Build-Test")
-    // Build doc
+    .IsDependentOn("Build-RunTests")
+    // .IsDependentOn("Build-Docs")
     .IsDependentOn("Pack-Libs")
     .IsDependentOn("Pack-Apps");
 
 Task("Create-TestRelease")
-    .IsDependentOn("Prepare-Release")
-    .IsDependentOn("Publish-NuGetTestFeed");
+    .IsDependentOn("Prepare-Release");
+    // .IsDependentOn("Publish-NuGetTestFeed");
+    // Push apps into the Azure DevOps test feed
     // Push docs to preview version
 
 Task("Draft-Release")
@@ -50,6 +53,9 @@ Task("Confirm-Release")
     .IsDependentOn("Publish-NuGetReleaseFeed");
     // Confirm GitHub release
     // Update docs
+
+Task("Serve-Doc")
+    .IsDependentOn("Build-ServeDoc");
 
 Task("Default")
     .IsDependentOn("Prepare-Release");

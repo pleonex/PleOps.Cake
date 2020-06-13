@@ -39,6 +39,8 @@ public class BuildInfo
 
     public string Tests { get; set; }
 
+    public string DocFxFile { get; set; }
+
     public string ArtifactsDirectory { get; set; }
 
     public bool IsWindows => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
