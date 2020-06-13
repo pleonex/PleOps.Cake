@@ -7,17 +7,15 @@ for .NET projects.
 
 The following target are available for build, test and release.
 
-* `Build-RunTests`: build the project and run its tests and quality assurance tools.
+- `Build-Test`: build the project and run its tests and quality assurance tools.
 
-* `Prepare-Release`: run `Build-RunTests`, build the documentation and pack the
-  libraries and executable into NuGet package and self-contained applications.
+- `Prepare-Release`: run `Build-RunTests`, generate the release notes, build the
+  documentation and pack the libraries and executable into NuGet package and
+  self-contained applications.
 
-* `Create-TestRelease`: run `Prepare-Release`, push the artifacts into the test
-  feeds and push the documentation into the _preview_ version.
+- `Create-PreviewRelease`: run `Prepare-Release`, push the artifacts into the
+  preview feeds, push the documentation into preview and tag the release.
 
-* `Draft-Release`: run `Create-TestRelease`, generate the release notes and create
-  a draft release in GitHub.
-
-* `Confirm-Release`: repackage the NuGet without the _preview_ suffix and with
-  the full release notes content, push into the release feeds, confirm the GitHub
-  release and push the documentation.
+- `Promote-Release`: repackage the NuGet without the _preview_ suffix, push into
+  the release feed, push the documentation and create the GitHub release or
+  create a tag.
