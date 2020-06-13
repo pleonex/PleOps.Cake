@@ -16,7 +16,9 @@ Task("Build")
         Verbosity = DotNetCoreVerbosity.Minimal,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .TreatAllWarningsAs(warningMode)
-            .WithProperty("Version", info.Version),
+            .SetVersion(info.Version)
+            .HideDetailedSummary()
+            .WithProperty("GenerateFullPaths", "true"),
     };
     DotNetCoreBuild(info.SolutionFile, buildConfig);
 });
@@ -54,3 +56,12 @@ Task("Pack-Apps")
         DotNetCorePublish(project, publishSettings);
     }
 });
+
+public static DotNetCoreMSBuildSettings HideDetailedSummary(this DotNetCoreMSBuildSettings settings)
+{
+    if (settings == null)
+        throw new ArgumentNullException(nameof(settings));
+
+    settings.DetailedSummary = false;
+    return settings;
+}
