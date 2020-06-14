@@ -22,10 +22,7 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: dotnet tool install --global Cake.Tool
-        displayName: 'Install Cake tool'
-
-      - script: dotnet cake --target=Build-Test --configuration=$(buildConfiguration)
+      - script: ./build.sh --target=Build-Test --configuration=$(buildConfiguration)
         displayName: "Build & test"
 
   - job: 'build_mac'
@@ -39,10 +36,7 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: dotnet tool install --global Cake.Tool
-        displayName: 'Install Cake tool'
-
-      - script: dotnet cake --target=Build-Test --configuration=$(buildConfiguration)
+      - script: ./build.sh --target=Build-Test --configuration=$(buildConfiguration)
         displayName: "Build & test"
 
   - job: 'build_win'
@@ -56,10 +50,7 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: dotnet tool install --global Cake.Tool
-        displayName: 'Install Cake tool'
-
-      - script: dotnet cake --target=Prepare-Release --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
+      - powershell: .\build.ps1 --target=Prepare-Release --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
         displayName: "Build, test and pack"
 
       - task: PublishTestResults@2
