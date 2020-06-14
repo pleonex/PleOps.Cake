@@ -17,7 +17,7 @@ Task("Create-Artifacts")
     .IsDependentOn("Pack-Apps");
 
 Task("Create-PreviewRelease")
-    .IsDependentOn("Prepare-Release")
+    .IsDependentOn("Create-Artifacts")
     .IsDependentOn("Publish-NuGetTestFeed");
     // Push apps into the Azure DevOps test feed
     // Push docs to preview version
@@ -33,4 +33,4 @@ Task("Serve-Doc")
     .IsDependentOn("Build-ServeDoc");
 
 Task("Default")
-    .IsDependentOn("Prepare-Release");
+    .IsDependentOn("Create-Artifacts");
