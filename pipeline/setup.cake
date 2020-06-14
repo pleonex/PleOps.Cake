@@ -1,4 +1,5 @@
-#tool "nuget:?package=GitVersion.CommandLine&version=5.1.3"
+#module nuget:?package=Cake.DotNetTool.Module&version=0.4.0
+#tool dotnet:?package=GitVersion.Tool&version=5.1.3
 
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
