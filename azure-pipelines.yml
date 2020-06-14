@@ -37,13 +37,6 @@ jobs:
           failTaskOnFailedTests: true
           publishRunAttachments: false
 
-      - task: PublishBuildArtifacts@1
-        displayName: "Publish test"
-        inputs:
-          PathtoPublish: 'test_results/coverage/Cobertura.xml'
-          ArtifactName: 'test'
-          publishLocation: 'Container'
-
       - task: PublishCodeCoverageResults@1
         displayName: "Publish code coverage"
         inputs:
