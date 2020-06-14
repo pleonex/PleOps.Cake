@@ -1,5 +1,7 @@
 #load "setup.cake"
 
+// Cannot upgrade until the following bug is fixed or it won't work on non-Windows
+// https://github.com/cake-build/cake/issues/2216
 #tool nuget:?package=ReportGenerator&version=4.2.15
 
 Task("Test")
