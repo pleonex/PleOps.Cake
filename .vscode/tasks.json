@@ -12,6 +12,13 @@
 				"$msCompile"
 			],
 			"label": "Cake: Run Default"
+		},
+		{
+			"type": "cake",
+			"script": "Build",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "Cake: Run Build"
 		}
 	]
 }
