@@ -10,15 +10,19 @@ Task("Build-Doc")
     .Does<BuildInfo>(info =>
 {
     DocFxMetadata(info.DocFxFile);
-    DocFxBuild(info.DocFxFile);
+
+    var settings = new DocFxBuildSettings {
+        OutputPath = info.ArtifactsDirectory,
+        WarningsAsErrors = info.WarningsAsErrors,
+    };
+    DocFxBuild(info.DocFxFile, settings);
 });
 
-Task("Build-ServeDoc")
-    .IsDependentOn("Build")
+Task("Serve-Doc")
+    .IsDependentOn("Build-Doc")
     .Does<BuildInfo>(info =>
 {
-    DocFxMetadata(info.DocFxFile);
-    DocFxBuild(info.DocFxFile, new DocFxBuildSettings { Serve = true });
+    DocFxServe($"{info.ArtifactsDirectory}/_site");
 });
 
 Task("Deploy-Doc")

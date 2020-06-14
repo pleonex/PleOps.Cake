@@ -27,8 +27,5 @@ Task("Promote-Release")
     // Create GitHub release
     // Create a tag
 
-Task("Serve-Doc")
-    .IsDependentOn("Build-ServeDoc");
-
 Task("Default")
     .IsDependentOn("Create-Artifacts");
