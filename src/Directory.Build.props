@@ -4,7 +4,9 @@
         <Authors>pleonex</Authors>
         <Company>None</Company>
         <Copyright>Copyright (C) 2020 Benito Palacios Sánchez</Copyright>
+    </PropertyGroup>
 
+    <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://dev.azure.com/benito356/NetDevOpsTest</PackageProjectUrl>
         <RepositoryUrl>https://dev.azure.com/benito356/_git/NetDevOpsTest</RepositoryUrl>
