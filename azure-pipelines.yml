@@ -94,7 +94,7 @@ jobs:
           buildType: 'current'
           downloadType: 'single'
           artifactName: 'artifacts'
-          downloadPath: '$(System.ArtifactsDirectory)'
+          downloadPath: '$(Build.ArtifactsDirectory)'
 
       - task: DotNetCoreCLI@2
         displayName: 'Publish in preview feed'
