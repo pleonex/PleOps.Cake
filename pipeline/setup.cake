@@ -38,6 +38,8 @@ public class BuildInfo
 
     public bool WarningsAsErrors { get; set; }
 
+    public int CoverageTarget { get; set; }
+
     public string TestFilter { get; set; }
 
     public string RunSettingsFile { get; set; }
@@ -82,6 +84,7 @@ Setup<BuildInfo>(context =>
         WarningsAsErrors = Argument("warn-as-error", true),
         TestFilter = Argument("testFilter", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
+        CoverageTarget = 100,
         DocFxFile = "./docs/docfx.json",
         RunSettingsFile = "./Tests.runsettings",
     };

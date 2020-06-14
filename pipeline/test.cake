@@ -49,11 +49,17 @@ Task("Test")
 
     // Get final result
     var xml = System.Xml.Linq.XDocument.Load($"{coverageOutput}/Cobertura.xml");
-    var lineRate = xml.Root.Attribute("line-rate").Value;
-    if (lineRate == "1") {
+    var lineRate = double.Parse(xml.Root.Attribute("line-rate").Value) * 100;
+
+    if (lineRate >= info.CoverageTarget) {
         Information("Full coverage!");
     } else {
-        Warning($"Missing coverage: {lineRate}");
+        string message = $"Code coverage is below target: {lineRate} < {info.CoverageTarget}";
+        if (info.WarningsAsErrors) {
+            throw new Exception(message);
+        }
+
+        Warning(message);
     }
 });
 

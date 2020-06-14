@@ -12,7 +12,7 @@ Task("Build")
 
     var warningMode = info.WarningsAsErrors
         ? MSBuildTreatAllWarningsAs.Error
-        : MSBuildTreatAllWarningsAs.Message;
+        : MSBuildTreatAllWarningsAs.Default;
     var buildConfig = new DotNetCoreBuildSettings {
         Configuration = info.Configuration,
         Verbosity = DotNetCoreVerbosity.Minimal,

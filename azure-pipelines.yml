@@ -76,8 +76,12 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - powershell: .\build.ps1 --target="Build-Test" --configuration=$(buildConfiguration)
+      - task: PowerShell@2
         displayName: "Build & test"
+        inputs:
+          pwsh: true
+          filePath: '.\build.ps1'
+          arguments: '--target="Build-Test" --configuration=$(buildConfiguration)'
 
   - job: 'preview_release'
     displayName: 'Create preview release'
