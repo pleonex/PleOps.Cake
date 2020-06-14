@@ -9,7 +9,7 @@ tools/*
 pipeline/tools/*
 
 # Test results
-TestResults/
+test_results/
 
 # Documentation output
 docs/_site

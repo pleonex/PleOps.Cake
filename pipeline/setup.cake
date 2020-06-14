@@ -38,7 +38,9 @@ public class BuildInfo
 
     public bool WarningsAsErrors { get; set; }
 
-    public string Tests { get; set; }
+    public string TestFilter { get; set; }
+
+    public string RunSettingsFile { get; set; }
 
     public string DocFxFile { get; set; }
 
@@ -77,10 +79,11 @@ Setup<BuildInfo>(context =>
     var info = new BuildInfo {
         Configuration = Argument("configuration", "Debug"),
         Platform = Argument("platform", "Any CPU"),
-        WarningsAsErrors = Argument("warn-as-err", true),
-        Tests = Argument("tests", string.Empty),
+        WarningsAsErrors = Argument("warn-as-error", true),
+        TestFilter = Argument("testFilter", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
         DocFxFile = "./docs/docfx.json",
+        RunSettingsFile = "./Tests.runsettings",
     };
 
     SetVersion(info);

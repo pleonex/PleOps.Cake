@@ -2,30 +2,30 @@
 
 #tool nuget:?package=ReportGenerator&version=4.2.15
 
-const string TestResults = "./TestResults";
-const string CoverageResults = TestResults + "/coverage";
-
 Task("Test")
     .Description("Run the tests")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
+    string testOutput = GetTestFolder(info.RunSettingsFile);
+    string coverageOutput = $"{testOutput}/coverage";
+
     // Clean previous test results to not mix them
-    if (DirectoryExists(TestResults)) {
+    if (DirectoryExists(testOutput)) {
         var deleteConfig = new DeleteDirectorySettings { Recursive = true };
-        DeleteDirectory(TestResults, deleteConfig);
+        DeleteDirectory(testOutput, deleteConfig);
     }
 
     var netcoreSettings = new DotNetCoreTestSettings {
         Configuration = info.Configuration,
         NoBuild = true,
-        Settings = "Tests.runsettings",
+        Settings = info.RunSettingsFile,
         Logger = "trx",
         ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
     };
 
-    if (info.Tests != string.Empty) {
-        netcoreSettings.Filter = $"FullyQualifiedName~{info.Tests}";
+    if (!string.IsNullOrWhiteSpace(info.TestFilter)) {
+        netcoreSettings.Filter = $"FullyQualifiedName~{info.TestFilter}";
     }
 
     DotNetCoreTest(info.SolutionFile, netcoreSettings);
@@ -33,12 +33,12 @@ Task("Test")
     // Due to a bug in Azure DevOps we need to delete the *.coverage files.
     // In any case we don't use them, we relay in the Cobertura XML.
     // https://developercommunity.visualstudio.com/content/problem/790648/publish-test-results-overwrites-code-coverage.html
-    DeleteFiles(TestResults + "/**/*.coverage");
+    DeleteFiles($"{testOutput}/**/*.coverage");
 
     // Create the report
     ReportGenerator(
-        new FilePath[] { TestResults + "/**/coverage.cobertura.xml" },
-        CoverageResults,
+        new FilePath[] { $"{testOutput}/**/coverage.cobertura.xml" },
+        coverageOutput,
         new ReportGeneratorSettings {
             ReportTypes = new[] {
                 ReportGeneratorReportType.Cobertura,
@@ -48,7 +48,7 @@ Task("Test")
     );
 
     // Get final result
-    var xml = System.Xml.Linq.XDocument.Load(CoverageResults + "/Cobertura.xml");
+    var xml = System.Xml.Linq.XDocument.Load($"{coverageOutput}/Cobertura.xml");
     var lineRate = xml.Root.Attribute("line-rate").Value;
     if (lineRate == "1") {
         Information("Full coverage!");
@@ -56,3 +56,21 @@ Task("Test")
         Warning($"Missing coverage: {lineRate}");
     }
 });
+
+string GetTestFolder(string runSettingsPath)
+{
+    if (!FileExists(runSettingsPath)) {
+        throw new Exception("Missing runsettings file");
+    }
+
+    // Get the test output folder from the runsettings file
+    var runSettings = System.Xml.Linq.XDocument.Load(runSettingsPath);
+    string path = runSettings.Root
+        .Element("RunConfiguration")
+        ?.Element("ResultsDirectory")?.Value;
+    if (path == null) {
+        throw new Exception("Test output is not defined");
+    }
+
+    return path;
+}

@@ -5,7 +5,7 @@
 #load "release.cake"
 
 Task("Build-Test")
-    .IsDependentOn("Define-Project")
+    .IsDependentOn("Define-Project") // Must be defined by the user
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 

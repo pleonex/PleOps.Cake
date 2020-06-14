@@ -19,6 +19,7 @@ Task("Build")
         MSBuildSettings = new DotNetCoreMSBuildSettings()
             .TreatAllWarningsAs(warningMode)
             .SetVersion(info.Version)
+            // These two settings improve the experience with VS Code
             .HideDetailedSummary()
             .WithProperty("GenerateFullPaths", "true"),
     };
