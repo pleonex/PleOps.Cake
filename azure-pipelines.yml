@@ -1,55 +1,99 @@
 trigger:
-- master
+  - master
 
 pool:
   vmImage: 'windows-latest'
 
 variables:
   buildConfiguration: 'Release'
+  netCoreSdk: '3.1.301'
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
   DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
 
+jobs:
+  - job: 'build_lin'
+    displayName: "[Linux] Build & Test"
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - task: UseDotNet@2
+        displayName: "Get .NET SDK"
+        inputs:
+          packageType: 'sdk'
+          version: '$(netCoreSdk)'
 
-steps:
+      - script: dotnet tool install --global Cake.Tool
+        displayName: 'Install Cake tool'
 
-- task: UseDotNet@2
-  displayName: "Get .NET SDK"
-  inputs:
-    packageType: 'sdk'
-    version: '3.1.301'
+      - script: dotnet cake --target=Build-Test --configuration=$(buildConfiguration)
+        displayName: "Build & test"
 
-- script: dotnet tool install --global Cake.Tool
-  displayName: 'Install Cake tool'
+  - job: 'build_mac'
+    displayName: "[MacOS] Build & Test"
+    pool:
+      vmImage: 'macOs-latest'
+    steps:
+      - task: UseDotNet@2
+        displayName: "Get .NET SDK"
+        inputs:
+          packageType: 'sdk'
+          version: '$(netCoreSdk)'
 
-- script: dotnet cake --target=Prepare-Release --artifacts=$(Build.ArtifactStagingDirectory)
-  displayName: "Build, test and pack"
+      - script: dotnet tool install --global Cake.Tool
+        displayName: 'Install Cake tool'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: '339c91a8-9d6c-4082-8b1a-93c2ae76b637/e3acf8ba-ec70-46f0-b1a5-da1ce3dd5d9f'
+      - script: dotnet cake --target=Build-Test --configuration=$(buildConfiguration)
+        displayName: "Build & test"
 
-- task: PublishTestResults@2
-  displayName: "Publish test results"
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '*.trx'
-    searchFolder: 'TestResults'
-    failTaskOnFailedTests: true
-    publishRunAttachments: false
+  - job: 'build_win'
+    displayName: "[Windows] Build & Test"
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+      - task: UseDotNet@2
+        displayName: "Get .NET SDK"
+        inputs:
+          packageType: 'sdk'
+          version: '$(netCoreSdk)'
 
-- task: PublishCodeCoverageResults@1
-  displayName: "Publish code coverage"
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
-    failIfCoverageEmpty: true
+      - script: dotnet tool install --global Cake.Tool
+        displayName: 'Install Cake tool'
 
-- task: PublishBuildArtifacts@1
-  displayName: "Publish artifacts"
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'artifacts'
-    publishLocation: 'Container'
+      - script: dotnet cake --target=Prepare-Release --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
+        displayName: "Build, test and pack"
+
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        inputs:
+          testResultsFormat: 'VSTest'
+          testResultsFiles: '*.trx'
+          searchFolder: 'TestResults'
+          failTaskOnFailedTests: true
+          publishRunAttachments: false
+
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish code coverage"
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
+          failIfCoverageEmpty: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish artifacts"
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'artifacts'
+          publishLocation: 'Container'
+
+  - job: 'preview_release'
+    displayName: 'Create preview release'
+    pool:
+      vmImage: 'windows-latest'
+    dependsOn: ['build_win', 'build_lin', 'build_mac']
+    steps:
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'push'
+          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          nuGetFeedType: 'internal'
+          publishVstsFeed: '339c91a8-9d6c-4082-8b1a-93c2ae76b637/e3acf8ba-ec70-46f0-b1a5-da1ce3dd5d9f'
