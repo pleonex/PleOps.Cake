@@ -14,7 +14,7 @@ The following target are available for build, test and release.
   self-contained applications.
 
 - `Create-PreviewRelease`: run `Prepare-Release`, push the artifacts into the
-  preview feeds, push the documentation into preview and tag the release.
+  preview feeds and push the documentation into preview.
 
 - `Promote-Release`: repackage the NuGet without the _preview_ suffix, push into
   the release feed, push the documentation and create the GitHub release or
