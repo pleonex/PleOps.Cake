@@ -38,7 +38,7 @@ jobs:
         displayName: "Publish code coverage"
         inputs:
           codeCoverageTool: 'Cobertura'
-          summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
+          summaryFileLocation: 'test_results/coverage/Cobertura.xml'
           failIfCoverageEmpty: true
 
       - task: PublishBuildArtifacts@1
