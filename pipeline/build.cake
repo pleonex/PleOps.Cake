@@ -1,3 +1,5 @@
+#load "setup.cake"
+
 Task("Build")
     .Description("Build the project")
     .Does<BuildInfo>(info =>
@@ -33,7 +35,7 @@ Task("Pack-Libs")
         OutputDirectory = info.ArtifactsDirectory,
         NoBuild = true,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
-            .WithProperty("Version", info.Version),
+            .SetVersion(info.Version),
     };
     foreach (var project in info.LibraryProjects) {
         DotNetCorePack(project, packSettings);
@@ -45,15 +47,38 @@ Task("Pack-Apps")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
-    var publishSettings = new DotNetCorePublishSettings {
-        Configuration = info.Configuration,
-        OutputDirectory = info.ArtifactsDirectory,
-        NoBuild = true,
-        MSBuildSettings = new DotNetCoreMSBuildSettings()
-            .WithProperty("Version", info.Version),
-    };
     foreach (var project in info.ApplicationProjects) {
-        DotNetCorePublish(project, publishSettings);
+        // dotnet publish cannot publish to multiple runtimes yet
+        // https://github.com/dotnet/sdk/issues/6490
+        // We get the RID and run it several time.
+        var projectXml = System.Xml.Linq.XDocument.Load(project).Root;
+        List<string> runtimes = projectXml.Elements("PropertyGroup")
+            .Where(x => x.Element("RuntimeIdentifiers") != null)
+            .SelectMany(x => x.Element("RuntimeIdentifiers")?.Value.Split(";"))
+            .ToList();
+
+        string singleRid = projectXml.Elements("PropertyGroup")
+            .Select(x => x.Element("RuntimeIdentifier")?.Value)
+            .FirstOrDefault();
+        if (singleRid != null && !runtimes.Contains(singleRid)) {
+            runtimes.Add(singleRid);
+        }
+
+        foreach (string runtime in runtimes) {
+            Information("Packing {0} for {1}", project, runtime);
+            var publishSettings = new DotNetCorePublishSettings {
+                Configuration = info.Configuration,
+                OutputDirectory = $"{info.ArtifactsDirectory}/{runtime}",
+                Runtime = runtime,
+                SelfContained = true,
+                PublishSingleFile = true,
+                PublishTrimmed = true,
+                MSBuildSettings = new DotNetCoreMSBuildSettings()
+                    .SetVersion(info.Version),
+            };
+
+            DotNetCorePublish(project, publishSettings);
+        }
     }
 });
 

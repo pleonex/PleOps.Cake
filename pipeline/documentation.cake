@@ -1,3 +1,5 @@
+#load "setup.cake"
+
 #addin nuget:?package=Cake.DocFx&version=0.13.1
 #tool nuget:?package=docfx.console&version=2.48.1
 

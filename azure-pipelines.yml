@@ -22,8 +22,31 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: ./build.sh --target=Build-Test --configuration=$(buildConfiguration)
+      - script: ./build.sh --target=Create-Artifacts --configuration=$(buildConfiguration)
         displayName: "Build & test"
+
+      - task: PublishTestResults@2
+        displayName: "Publish test results"
+        inputs:
+          testResultsFormat: 'VSTest'
+          testResultsFiles: '*.trx'
+          searchFolder: 'TestResults'
+          failTaskOnFailedTests: true
+          publishRunAttachments: false
+
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish code coverage"
+        inputs:
+          codeCoverageTool: 'Cobertura'
+          summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
+          failIfCoverageEmpty: true
+
+      - task: PublishBuildArtifacts@1
+        displayName: "Publish artifacts"
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'artifacts'
+          publishLocation: 'Container'
 
   - job: 'build_mac'
     displayName: "[MacOS] Build & Test"
@@ -50,36 +73,13 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - powershell: .\build.ps1 --target=Prepare-Release --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
+      - powershell: .\build.ps1 --target=Build-Test --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
         displayName: "Build, test and pack"
-
-      - task: PublishTestResults@2
-        displayName: "Publish test results"
-        inputs:
-          testResultsFormat: 'VSTest'
-          testResultsFiles: '*.trx'
-          searchFolder: 'TestResults'
-          failTaskOnFailedTests: true
-          publishRunAttachments: false
-
-      - task: PublishCodeCoverageResults@1
-        displayName: "Publish code coverage"
-        inputs:
-          codeCoverageTool: 'Cobertura'
-          summaryFileLocation: 'TestResults/coverage/Cobertura.xml'
-          failIfCoverageEmpty: true
-
-      - task: PublishBuildArtifacts@1
-        displayName: "Publish artifacts"
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'artifacts'
-          publishLocation: 'Container'
 
   - job: 'preview_release'
     displayName: 'Create preview release'
     pool:
-      vmImage: 'windows-latest'
+      vmImage: 'ubuntu-latest'
     dependsOn: ['build_win', 'build_lin', 'build_mac']
     steps:
       - task: UseDotNet@2

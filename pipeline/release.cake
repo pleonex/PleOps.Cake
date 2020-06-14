@@ -1,3 +1,5 @@
+#load "setup.cake"
+
 #tool "nuget:?package=gitreleasemanager&version=0.9.0"
 #tool "nuget:?package=GitReleaseNotes&version=0.7.1"
 

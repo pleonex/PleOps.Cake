@@ -9,7 +9,7 @@ Task("Build-Test")
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 
-Task("Prepare-Release")
+Task("Create-Artifacts")
     .IsDependentOn("Build-Test")
     // Generate release notes
     // .IsDependentOn("Build-Docs")

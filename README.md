@@ -9,8 +9,8 @@ The following target are available for build, test and release.
 
 - `Build-Test`: build the project and run its tests and quality assurance tools.
 
-- `Prepare-Release`: run `Build-RunTests`, generate the release notes, build the
-  documentation and pack the libraries and executable into NuGet package and
+- `Create-Artifacts`: run `Build-RunTests`, generate the release notes, build
+  the documentation and pack the libraries and executable into NuGet package and
   self-contained applications.
 
 - `Create-PreviewRelease`: run `Prepare-Release`, push the artifacts into the

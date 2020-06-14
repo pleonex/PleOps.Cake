@@ -1,3 +1,5 @@
+#load "setup.cake"
+
 #tool nuget:?package=ReportGenerator&version=4.2.15
 
 const string TestResults = "./TestResults";
