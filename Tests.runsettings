@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RunSettings>
   <RunConfiguration>
-    <!-- Code coverage only work with x64 -->
-    <TargetPlatform>x64</TargetPlatform>
-
     <!-- Put results in root folder rather inside each project-->
     <ResultsDirectory>./TestResults</ResultsDirectory>
   </RunConfiguration>
