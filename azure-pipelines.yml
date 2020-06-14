@@ -22,8 +22,8 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: ./build.sh --target=Create-Artifacts --configuration=$(buildConfiguration)
-        displayName: "Build & test"
+      - script: ./build.sh --target=Create-Artifacts --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
+        displayName: "Build, test and create artifacts"
 
       - task: PublishTestResults@2
         displayName: "Publish test results"
@@ -73,8 +73,8 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - powershell: .\build.ps1 --target=Build-Test --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
-        displayName: "Build, test and pack"
+      - powershell: .\build.ps1 --target="Build-Test" --configuration=$(buildConfiguration)
+        displayName: "Build & test"
 
   - job: 'preview_release'
     displayName: 'Create preview release'

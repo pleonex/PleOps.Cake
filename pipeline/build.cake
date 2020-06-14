@@ -54,7 +54,7 @@ Task("Pack-Apps")
         var projectXml = System.Xml.Linq.XDocument.Load(project).Root;
         List<string> runtimes = projectXml.Elements("PropertyGroup")
             .Where(x => x.Element("RuntimeIdentifiers") != null)
-            .SelectMany(x => x.Element("RuntimeIdentifiers")?.Value.Split(";"))
+            .SelectMany(x => x.Element("RuntimeIdentifiers").Value.Split(";"))
             .ToList();
 
         string singleRid = projectXml.Elements("PropertyGroup")
@@ -76,7 +76,6 @@ Task("Pack-Apps")
                 MSBuildSettings = new DotNetCoreMSBuildSettings()
                     .SetVersion(info.Version),
             };
-
             DotNetCorePublish(project, publishSettings);
         }
     }
