@@ -82,6 +82,12 @@ jobs:
       vmImage: 'windows-latest'
     dependsOn: ['build_win', 'build_lin', 'build_mac']
     steps:
+      - task: UseDotNet@2
+        displayName: "Get .NET SDK"
+        inputs:
+          packageType: 'sdk'
+          version: '$(netCoreSdk)'
+
       - task: DotNetCoreCLI@2
         inputs:
           command: 'push'
