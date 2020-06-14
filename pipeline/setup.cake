@@ -74,7 +74,7 @@ public class BuildInfo
 Setup<BuildInfo>(context =>
 {
     var info = new BuildInfo {
-        Configuration = Argument("configuration", "Release"),
+        Configuration = Argument("configuration", "Debug"),
         Platform = Argument("platform", "Any CPU"),
         WarningsAsErrors = Argument("warn-as-err", true),
         Tests = Argument("tests", string.Empty),
