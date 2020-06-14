@@ -1,3 +1,9 @@
+trigger:
+  branches:
+    include:
+    - develop
+    - refs/pull/*
+
 pool:
   vmImage: 'windows-latest'
 
@@ -78,6 +84,7 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     dependsOn: ['build_win', 'build_lin', 'build_mac']
+    condition: "and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))"
     steps:
       - task: UseDotNet@2
         displayName: "Get .NET SDK"
