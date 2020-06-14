@@ -1,3 +1,9 @@
+trigger:
+  branches:
+    include:
+    - develop
+    - refs/pull/*
+
 pool:
   vmImage: 'windows-latest'
 
@@ -27,7 +33,7 @@ jobs:
         inputs:
           testResultsFormat: 'VSTest'
           testResultsFiles: '*.trx'
-          searchFolder: 'TestResults'
+          searchFolder: 'test_results'
           failTaskOnFailedTests: true
           publishRunAttachments: false
 
@@ -78,6 +84,7 @@ jobs:
     pool:
       vmImage: 'ubuntu-latest'
     dependsOn: ['build_win', 'build_lin', 'build_mac']
+    condition: "and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))"
     steps:
       - task: UseDotNet@2
         displayName: "Get .NET SDK"
@@ -92,11 +99,3 @@ jobs:
           downloadType: 'single'
           artifactName: 'artifacts'
           downloadPath: '$(Build.ArtifactStagingDirectory)'
-
-      - task: DotNetCoreCLI@2
-        displayName: 'Publish in preview feed'
-        inputs:
-          command: 'push'
-          searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-          nuGetFeedType: 'internal'
-          publishVstsFeed: '339c91a8-9d6c-4082-8b1a-93c2ae76b637/e3acf8ba-ec70-46f0-b1a5-da1ce3dd5d9f'
