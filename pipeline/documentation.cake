@@ -1,7 +1,9 @@
 #load "setup.cake"
 
+// Cannot update DocFX until the following bug is fixed:
+// https://github.com/dotnet/docfx/issues/5785
+#tool nuget:?package=docfx.console&version=2.51.0
 #addin nuget:?package=Cake.DocFx&version=0.13.1
-#tool nuget:?package=docfx.console&version=2.48.1
 
 Task("Build-Doc")
     .IsDependentOn("Build")

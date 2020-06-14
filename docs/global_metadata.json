@@ -7,7 +7,7 @@
     "_enableNewTab": true,
     "_gitContribute": {
         "apiSpecFolder": "docs/apidoc",
-        "repo": "https://github.com/pleonex/DevOpsNET",
+        "repo": "https://dev.azure.com/benito356/_git/NetDevOpsTest",
         "branch": "develop"
     }
 }
