@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Description>Cake utilities to implement a DevFlow pipeline in .NET.</Description>
+        <Product>PleOps</Product>
+        <Authors>pleonex</Authors>
+        <Company>None</Company>
+        <Copyright>Copyright (C) 2020 Benito Palacios Sánchez</Copyright>
+
+        <!-- No .NET code to include in the nuget. -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <NoPackageAnalysis>true</NoPackageAnalysis>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://dev.azure.com/benito356/NetDevOpsTest</PackageProjectUrl>
+        <RepositoryUrl>https://dev.azure.com/benito356/_git/NetDevOpsTest</RepositoryUrl>
+        <PackageReleaseNotes>TODO</PackageReleaseNotes>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>netcore;csharp;devops;pipeline;azure-devops</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="*.cake" Pack="true" PackagePath="build" />
+        <None Include="../docs/images/logo_128.png" Pack="true" PackagePath="$(PackageIcon)" />
+    </ItemGroup>
+</Project>
