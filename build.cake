@@ -1,4 +1,5 @@
-#load "pipeline/targets.cake"
+// #load "pipeline/targets.cake"
+#load "nuget:?package=PleOps.Cake"
 
 Task("Define-Project")
     .Description("Fill specific project information")
