@@ -56,6 +56,6 @@ jobs:
       - task: DotNetCoreCLI@2
         inputs:
           command: 'push'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+          searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
           nuGetFeedType: 'internal'
           publishVstsFeed: '339c91a8-9d6c-4082-8b1a-93c2ae76b637/f434f007-6349-4876-9d16-e00ec2460ec0'
