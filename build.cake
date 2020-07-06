@@ -1,14 +1,14 @@
-#load "pipeline/targets.cake"
+#load "src/PleOps.Cake/targets.cake"
 
 Task("Define-Project")
     .Description("Fill specific project information")
     .Does<BuildInfo>(info =>
 {
-    info.AddLibraryProjects("MyLibrary");
-    info.AddApplicationProjects("MyConsole");
-    info.AddTestProjects("MyTests");
+    info.AddLibraryProjects("PleOps.Cake");
 });
 
+Task("Default")
+    .IsDependentOn("Create-Artifacts");
 
 string target = Argument("target", "Default");
 RunTarget(target);
