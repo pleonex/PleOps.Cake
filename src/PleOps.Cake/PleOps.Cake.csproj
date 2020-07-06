@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <Description>Cake utilities to implement a DevFlow pipeline in .NET.</Description>
+
+        <!-- No .NET code to include in the nuget. -->
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <NoPackageAnalysis>true</NoPackageAnalysis>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="*.cake" Pack="true" PackagePath="build" />
+        <None Include="../../icon.png" Pack="true" PackagePath="$(PackageIcon)" />
+    </ItemGroup>
+</Project>

@@ -7,11 +7,3 @@ artifacts/
 tools/*
 !/tools/packages.config
 pipeline/tools/*
-
-# Test results
-test_results/
-
-# Documentation output
-docs/_site
-docs/api
-docs/_site_pdf

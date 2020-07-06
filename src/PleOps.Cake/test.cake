@@ -9,6 +9,11 @@ Task("Test")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
+    if (info.TestProjects.Count == 0) {
+        Information("There aren't test projects.");
+        return;
+    }
+
     string testOutput = GetTestFolder(info.RunSettingsFile);
     string coverageOutput = $"{testOutput}/coverage";
 

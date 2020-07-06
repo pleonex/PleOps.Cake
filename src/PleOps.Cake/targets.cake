@@ -26,6 +26,3 @@ Task("Promote-Release")
     // Push docs as new version
     // Create GitHub release
     // Create a tag
-
-Task("Default")
-    .IsDependentOn("Create-Artifacts");

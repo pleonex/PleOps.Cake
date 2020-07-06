@@ -17,7 +17,9 @@
 			"type": "cake",
 			"script": "Build",
 			"group": "build",
-			"problemMatcher": [],
+			"problemMatcher": [
+				"$msCompile"
+			],
 			"label": "Cake: Run Build"
 		}
 	]
