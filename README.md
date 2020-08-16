@@ -7,15 +7,14 @@ for .NET projects.
 
 The following target are available for build, test and release.
 
-- `Build-Test`: build the project and run its tests and quality assurance tools.
+- `BuildTest`: build the project and run its tests and quality assurance tools.
 
-- `Create-Artifacts`: run `Build-RunTests`, generate the release notes, build
-  the documentation and pack the libraries and executable into NuGet package and
+- `Create-Artifacts`: run `BuildTest`, generate the release notes, build the
+  documentation and pack the libraries and executable into NuGet package and
   self-contained applications.
 
-- `Create-PreviewRelease`: run `Prepare-Release`, push the artifacts into the
+- `Create-PreviewRelease`: take the created artifacts`, push them into the
   preview feeds and push the documentation into preview.
 
-- `Promote-Release`: repackage the NuGet without the _preview_ suffix, push into
-  the release feed, push the documentation and create the GitHub release or
-  create a tag.
+- `Create-OfficialRelease`: take the created artifacts, push them into the
+  release feed, push the documentation and create the GitHub release.

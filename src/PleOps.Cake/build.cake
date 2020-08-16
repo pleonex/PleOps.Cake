@@ -68,16 +68,13 @@ Task("Pack-Apps")
         // Since we are not building in the RID expected path and by default
         // it builds only for the current runtime, we need to rebuild.
         // This makes debugger easier as the path is the same between arch.
-        // In any case, as we are trimming we need to do manual testing on the exe.
+        // We don't force self-contained, we let developer choose in the .csproj
         foreach (string runtime in runtimes) {
             Information("Packing {0} for {1}", project, runtime);
             var publishSettings = new DotNetCorePublishSettings {
                 Configuration = info.Configuration,
                 OutputDirectory = $"{info.ArtifactsDirectory}/{runtime}",
                 Runtime = runtime,
-                SelfContained = true,
-                PublishSingleFile = true,
-                PublishTrimmed = true,
                 MSBuildSettings = new DotNetCoreMSBuildSettings()
                     .SetVersion(info.Version),
             };
