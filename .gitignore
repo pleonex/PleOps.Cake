@@ -4,6 +4,4 @@ bin/
 artifacts/
 
 # Build system
-tools/*
-!/tools/packages.config
-pipeline/tools/*
+tools/
