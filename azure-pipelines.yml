@@ -25,7 +25,12 @@ jobs:
           packageType: 'sdk'
           version: '$(netCoreSdk)'
 
-      - script: ./build.sh --target=Create-Artifacts --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
+      - script: |
+          dotnet tool restore
+          dotnet cake --bootstrap
+        displayName: "Install build tools"
+
+      - script: dotnet cake --target=Create-Artifacts --configuration=$(buildConfiguration) --artifacts=$(Build.ArtifactStagingDirectory)
         displayName: "Build and create artifacts"
 
       - task: PublishBuildArtifacts@1
@@ -42,12 +47,6 @@ jobs:
     dependsOn: ['build_lin']
     condition: "and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))"
     steps:
-      - task: UseDotNet@2
-        displayName: "Get .NET SDK"
-        inputs:
-          packageType: 'sdk'
-          version: '$(netCoreSdk)'
-
       - task: DownloadBuildArtifacts@0
         displayName: 'Get build artifacts'
         inputs:
