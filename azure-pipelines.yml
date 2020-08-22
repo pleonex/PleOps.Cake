@@ -3,10 +3,13 @@ trigger:
     include:
     - develop
     - refs/pull/*
+  tags:
+    include:
+      - v*
 
 variables:
   buildConfiguration: 'Release'
-  netCoreSdk: '3.1.301'
+  netCoreSdk: '3.1.401'
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true'
   DOTNET_CLI_TELEMETRY_OPTOUT: 'true'
 
