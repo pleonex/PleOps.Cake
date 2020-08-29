@@ -9,7 +9,7 @@ Task("BuildTest")
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 
-Task("Create-Artifacts")
+Task("Stage-Artifacts")
     .IsDependentOn("BuildTest")
     .IsDependentOn("Build-Doc")
     .IsDependentOn("Pack-Libs")
@@ -17,12 +17,11 @@ Task("Create-Artifacts")
 
 Task("Create-PreviewRelease")
     // Generate release notes
-    .IsDependentOn("Publish-NuGetTestFeed");
-    // Push apps into the Azure DevOps test feed
-    // Push docs to preview version
+    // Update preview documentation
+    // Push docs
 
 Task("Create-OfficialRelease")
     // Generate release notes
-    .IsDependentOn("Publish-NuGetReleaseFeed");
-    // Push docs as new version
-    // Create GitHub release
+    // Create new version for documentation
+    // Push docs
+    // Create GitHub release with artifacts
