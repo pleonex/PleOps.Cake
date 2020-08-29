@@ -80,6 +80,7 @@ Setup<BuildInfo>(context =>
     var info = new BuildInfo {
         Configuration = Argument("configuration", "Debug"),
         Platform = Argument("platform", "Any CPU"),
+        Version = Argument("version", string.Empty),
         WarningsAsErrors = Argument("warn-as-error", true),
         TestFilter = Argument("testFilter", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
@@ -96,9 +97,12 @@ Setup<BuildInfo>(context =>
 
 void SetVersion(BuildInfo info)
 {
-    // Get the version using the tool GitVersion
-    var version = GitVersion();
-    info.Version = version.SemVer;
+    if (string.IsNullOrEmpty(info.Version)) {
+        // Get the version using the tool GitVersion
+        var version = GitVersion();
+        info.Version = version.SemVer;
+    }
+
     Information("Version: " + info.Version);
 
     // Set the version in the pipeline of Azure Devops
