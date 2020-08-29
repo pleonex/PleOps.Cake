@@ -1,4 +1,5 @@
 #load "setup.cake"
+#tool dotnet:?package=ThirdLicense&version=1.1.0
 
 Task("Build")
     .Description("Build the project")
@@ -70,18 +71,52 @@ Task("Pack-Apps")
         // This makes debugger easier as the path is the same between arch.
         // We don't force self-contained, we let developer choose in the .csproj
         foreach (string runtime in runtimes) {
-            Information("Packing {0} for {1}", project, runtime);
+            string projectName = System.IO.Path.GetFileNameWithoutExtension(project);
+            Information("Packing {0} for {1}", projectName, runtime);
+
+            string outputDir = $"{info.ArtifactsDirectory}/{runtime}/{projectName}";
             var publishSettings = new DotNetCorePublishSettings {
                 Configuration = info.Configuration,
-                OutputDirectory = $"{info.ArtifactsDirectory}/{runtime}",
+                OutputDirectory = outputDir,
                 Runtime = runtime,
                 MSBuildSettings = new DotNetCoreMSBuildSettings()
                     .SetVersion(info.Version),
             };
             DotNetCorePublish(project, publishSettings);
+
+            // Copy license and third-party licences
+            string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
+            CopyIfExists($"{repoDir}/../README.md", $"{outputDir}/README.md");
+            CopyIfExists($"{repoDir}/../LICENSE", $"{outputDir}/LICENSE");
+            GenerateLicense(project, outputDir);
+
+            Zip(
+                $"{info.ArtifactsDirectory}/{runtime}",
+                $"{info.ArtifactsDirectory}/{projectName}_{runtime}_v{info.Version}.zip");
         }
     }
 });
+
+public void GenerateLicense(string projectPath, string outputDir)
+{
+    Information("Generating third-party notice");
+
+    string args = $"--project {projectPath}";
+    args += $" --output {outputDir}/THIRD-PARTY-NOTICES.TXT";
+    int code = StartProcess("tools/thirdlicense", args);
+    if (code != 0) {
+        throw new Exception($"ThirdLicense returned {code}");
+    }
+}
+
+public void CopyIfExists(string file, string output)
+{
+    if (FileExists(file)) {
+        CopyFile(file, output);
+    } else {
+        Warning($"File {file} does not exist");
+    }
+}
 
 public static DotNetCoreMSBuildSettings HideDetailedSummary(this DotNetCoreMSBuildSettings settings)
 {

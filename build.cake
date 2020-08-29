@@ -8,7 +8,7 @@ Task("Define-Project")
 });
 
 Task("Default")
-    .IsDependentOn("Create-Artifacts");
+    .IsDependentOn("Stage-Artifacts");
 
 string target = Argument("target", "Default");
 RunTarget(target);

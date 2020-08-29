@@ -9,11 +9,10 @@ The following target are available for build, test and release.
 
 - `BuildTest`: build the project and run its tests and quality assurance tools.
 
-- `Create-Artifacts`: run `BuildTest`, generate the release notes, build the
-  documentation and pack the libraries and executable into NuGet package and
-  self-contained applications.
+- `Stage-Artifacts`: run `BuildTest`, generate the release notes, build the
+  documentation, pack the libraries in NuGet and stage the executables.
 
-- `Create-PreviewRelease`: take the created artifacts`, push them into the
+- `Create-PreviewRelease`: take the created artifacts, push them into the
   preview feeds and push the documentation into preview.
 
 - `Create-OfficialRelease`: take the created artifacts, push them into the
