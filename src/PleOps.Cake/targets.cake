@@ -15,12 +15,12 @@ Task("Stage-Artifacts")
     .IsDependentOn("Pack-Libs")
     .IsDependentOn("Pack-Apps");
 
-Task("Create-PreviewRelease")
+Task("Create-PreviewRelease");
     // Generate release notes
     // Update preview documentation
     // Push docs
 
-Task("Create-OfficialRelease")
+Task("Create-OfficialRelease");
     // Generate release notes
     // Create new version for documentation
     // Push docs
