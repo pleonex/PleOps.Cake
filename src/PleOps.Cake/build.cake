@@ -88,6 +88,7 @@ Task("Pack-Apps")
             string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
             CopyIfExists($"{repoDir}/../README.md", $"{outputDir}/README.md");
             CopyIfExists($"{repoDir}/../LICENSE", $"{outputDir}/LICENSE");
+            CopyIfExists($"{info.ArtifactsDirectory}/CHANGELOG.md", $"{outputDir}/CHANGELOG.md");
             GenerateLicense(project, outputDir);
 
             Zip(

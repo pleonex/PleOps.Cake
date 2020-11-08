@@ -35,6 +35,12 @@ public class BuildInfo
 
     public string Version { get; set; }
 
+    public BuildType BuildType { get; set; }
+
+    public string WorkMilestone { get; set; }
+
+    public string GitHubToken { get; set; }
+
     public bool WarningsAsErrors { get; set; }
 
     public int CoverageTarget { get; set; }
@@ -75,6 +81,12 @@ public class BuildInfo
     }
 }
 
+public enum BuildType {
+    Development,
+    Preview,
+    Stable,
+}
+
 Setup<BuildInfo>(context =>
 {
     var info = new BuildInfo {
@@ -84,6 +96,8 @@ Setup<BuildInfo>(context =>
         WarningsAsErrors = Argument("warn-as-error", true),
         TestFilter = Argument("testFilter", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
+        GitHubToken = EnvironmentVariable("GITHUB_TOKEN"),
+        WorkMilestone = "vNext",
         CoverageTarget = 100,
         DocFxFile = "./docs/docfx.json",
         RunSettingsFile = "./Tests.runsettings",
@@ -101,9 +115,15 @@ void SetVersion(BuildInfo info)
         // Get the version using the tool GitVersion
         var version = GitVersion();
         info.Version = version.SemVer;
+        info.BuildType = string.IsNullOrEmpty(version.PreReleaseLabel)
+            ? BuildType.Stable
+            : (version.PreReleaseLabel == "preview" ? BuildType.Preview : BuildType.Development);
+    } else {
+        info.BuildType = BuildType.Development;
     }
 
     Information("Version: " + info.Version);
+    Information("Build type: " + info.BuildType);
 
     // Set the version in the pipeline of Azure Devops
     // https://github.com/Microsoft/azure-pipelines-tasks/blob/master/docs/authoring/commands.md

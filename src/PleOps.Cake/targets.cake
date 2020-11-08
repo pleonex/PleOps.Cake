@@ -15,13 +15,14 @@ Task("Stage-Artifacts")
     .IsDependentOn("Pack-Libs")
     .IsDependentOn("Pack-Apps");
 
-Task("Create-PreviewRelease");
-    // Generate release notes
+Task("Create-PreviewRelease")
+    .IsDependentOn("Create-GitHubDraftRelease")
+    .IsDependentOn("Export-GitHubReleaseNotes");
     // Update preview documentation
     // Push docs
 
-Task("Create-OfficialRelease");
-    // Generate release notes
+Task("Create-OfficialRelease")
+    .IsDependentOn("Export-GitHubReleaseNotes")
+    .IsDependentOn("Add-AssetsToGitHubRelease");
     // Create new version for documentation
     // Push docs
-    // Create GitHub release with artifacts
