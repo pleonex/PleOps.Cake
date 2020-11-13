@@ -1,0 +1,81 @@
+name: Build and release
+
+on:
+  # Dev
+  workflow_dispatch:
+  pull_request:
+  push:
+    # Preview
+    branches: [ develop ]
+    # Stable
+    tags: [ "v*" ]
+
+env:
+  NET_SDK: '3.1.404'
+  BUILD_CONFIG: 'Release'
+  PREVIEW_NUGET_FEED: 'https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: action/checkout@v2
+
+      - name: "Setup .NET SDK"
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: $NET_SDK
+
+      - name: "Install build tools"
+        run: |
+          dotnet tool restore
+          dotnet cake --bootstrap
+
+      - name: "Build and stage"
+        run: dotnet cake --target=Stage-Artifacts --configuration=$BUILD_CONFIG
+
+      - name: "Publish artifacts to CI"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Artifacts"
+          path: "./artifacts"
+          retention-days: 2
+
+  # Preview release on push to develop only
+  preview:
+    # TODO: if: github.ref == "refs/heads/develop"
+    needs: "build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download artifacts"
+        uses: actions/download-artifact@v2
+        with:
+          name: "Artifacts"
+          path: "./artifacts"
+
+      - name: "Setup .NET SDK"
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: $NET_SDK
+
+      - name: "Install Azure Artifacts Credential Provider"
+        run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
+
+      - name: "Publish to preview feed"
+        run: dotnet nuget push -s $PREVIEW_NUGET_FEED -k az ./artifacts/**/*.nupkg
+        env:
+          VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint":"$PREVIEW_NUGET_FEED", "username":"", "password":"${{ secrets.NUGET_PREVIEW_TOKEN }}"}]}'
+
+  stable:
+    if: startWith(github.ref, "refs/tags/v")
+    needs: "build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Download artifacts"
+        uses: actions/download-artifact@v2
+        with:
+          name: "Artifacts"
+          path: "./artifacts"
+
+      # TODO: #12 Create stable workflow
