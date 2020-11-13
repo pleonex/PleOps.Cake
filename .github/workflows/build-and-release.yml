@@ -25,7 +25,7 @@ jobs:
       - name: "Setup .NET SDK"
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: $NET_SDK
+          dotnet-version: ${{ env.NET_SDK }}
 
       - name: "Install build tools"
         run: |
@@ -57,7 +57,7 @@ jobs:
       - name: "Setup .NET SDK"
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: $NET_SDK
+          dotnet-version: ${{ env.NET_SDK }}
 
       - name: "Install Azure Artifacts Credential Provider"
         run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
