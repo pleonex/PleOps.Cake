@@ -45,7 +45,7 @@ jobs:
 
   # Preview release on push to develop only
   preview:
-    if: github.ref == "refs/heads/develop"
+    if: github.ref == 'refs/heads/develop'
     needs: "build"
     runs-on: ubuntu-latest
     env:
