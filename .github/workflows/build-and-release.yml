@@ -13,7 +13,6 @@ on:
 env:
   NET_SDK: '3.1.404'
   BUILD_CONFIG: 'Release'
-  PREVIEW_NUGET_FEED: 'https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json'
 
 jobs:
   build:
@@ -46,9 +45,11 @@ jobs:
 
   # Preview release on push to develop only
   preview:
-    # TODO: if: github.ref == "refs/heads/develop"
+    if: github.ref == "refs/heads/develop"
     needs: "build"
     runs-on: ubuntu-latest
+    env:
+      PREVIEW_NUGET_FEED: 'https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json'
     steps:
       - name: "Download artifacts"
         uses: actions/download-artifact@v2
@@ -60,6 +61,9 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.NET_SDK }}
+
+      # TODO: #5 Generate release notes and update draft release
+      # TODO: #14 Generate preview doc and publish to branch
 
       - name: "Install Azure Artifacts Credential Provider"
         run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
@@ -73,6 +77,8 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: "build"
     runs-on: ubuntu-latest
+    env:
+      STABLE_NUGET_FEED: 'TODO'
     steps:
       - name: "Download artifacts"
         uses: actions/download-artifact@v2
@@ -81,3 +87,4 @@ jobs:
           path: "./artifacts"
 
       # TODO: #12 Create stable workflow
+      # TODO: #6 Generate multi-version doc and publish
