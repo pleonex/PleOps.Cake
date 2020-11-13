@@ -68,7 +68,7 @@ jobs:
           VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint":"$PREVIEW_NUGET_FEED", "username":"", "password":"${{ secrets.NUGET_PREVIEW_TOKEN }}"}]}'
 
   stable:
-    if: startWith(github.ref, "refs/tags/v")
+    if: startsWith(github.ref, "refs/tags/v")
     needs: "build"
     runs-on: ubuntu-latest
     steps:
