@@ -21,6 +21,10 @@ Task("Build-Doc")
         WarningsAsErrors = info.WarningsAsErrors,
     };
     DocFxBuild(info.DocFxFile, settings);
+
+    Zip(
+        $"{info.ArtifactsDirectory}/_site",
+        $"{info.ArtifactsDirectory}/docs.zip");
 });
 
 Task("Serve-Doc")
