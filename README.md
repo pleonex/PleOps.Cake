@@ -1,7 +1,15 @@
 # .NET DevOps Pipeline
 
-This project is a playground for a complete implementation of a DevOps pipeline
-for .NET projects.
+![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=develop&event=push)
+
+Full automated build, test, stage and release pipeline for .NET projects based
+on Cake. Check also the
+[template repository](https://github.com/pleonex/template-csharp).
+
+| Release | Package |
+| ------- | ------- |
+| Stable  | TBD     |
+| Preview | TBD     |
 
 ## Build system command
 
