@@ -8,10 +8,10 @@
 
     <PropertyGroup>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://dev.azure.com/benito356/NetDevOpsTest</PackageProjectUrl>
-        <RepositoryUrl>https://dev.azure.com/benito356/_git/PleOps</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/pleonex/PleOps.Cake</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/pleonex/PleOps.Cake</RepositoryUrl>
         <PackageReleaseNotes>TODO</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
-        <PackageTags>netcore;csharp;devops;pipeline;azure-devops</PackageTags>
+        <PackageTags>netcore;csharp;devops;pipeline;github-actions</PackageTags>
     </PropertyGroup>
 </Project>
