@@ -1,5 +1,5 @@
 #module nuget:?package=Cake.DotNetTool.Module&version=0.4.0
-#tool dotnet:?package=GitVersion.Tool&version=5.3.7
+#tool dotnet:?package=GitVersion.Tool&version=5.5.1
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 
@@ -38,6 +38,8 @@ public class BuildInfo
     public BuildType BuildType { get; set; }
 
     public string WorkMilestone { get; set; }
+
+    public string ChangelogFile { get; set; }
 
     public string GitHubToken { get; set; }
 
@@ -98,6 +100,7 @@ Setup<BuildInfo>(context =>
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
         GitHubToken = EnvironmentVariable("GITHUB_TOKEN"),
         WorkMilestone = "vNext",
+        ChangelogFile = Argument("changelog", $"{Argument("artifacts", "artifacts")}/CHANGELOG.md"),
         CoverageTarget = 100,
         DocFxFile = "./docs/docfx.json",
         RunSettingsFile = "./Tests.runsettings",

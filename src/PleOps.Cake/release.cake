@@ -5,12 +5,9 @@
 Task("Create-GitHubDraftRelease")
     .Description("Create a GitHub draft release with release notes")
     .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType == BuildType.Preview)
+    .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
     .Does<BuildInfo>(info =>
 {
-    if (string.IsNullOrEmpty(info.GitHubToken)) {
-        throw new Exception("Missing GitHub token");
-    }
-
     // Create or update draft release
     var createOptions = new GitReleaseManagerCreateSettings {
         Milestone = info.WorkMilestone,
@@ -25,17 +22,30 @@ Task("Create-GitHubDraftRelease")
 Task("Export-GitHubReleaseNotes")
     .Description("Export all the release notes from GitHub into a file")
     .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
+    .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
     .Does<BuildInfo>(info =>
 {
-    if (string.IsNullOrEmpty(info.GitHubToken)) {
-        throw new Exception("Missing GitHub token");
+    if (FileExists(info.ChangelogFile)) {
+        Information("Skipping exporting GitHub release notes as file exists");
+        return;
     }
+
+    string milestone = info.BuildType switch {
+        BuildType.Preview => info.WorkMilestone,
+        BuildType.Stable => $"v{info.Version}",
+        _ => throw new Exception("Unknown build type for milestone"),
+    };
+
+    var exportOptions = new GitReleaseManagerExportSettings {
+        TagName = milestone,
+    };
 
     GitReleaseManagerExport(
         info.GitHubToken,
         "SceneGate",
         "Yarhl",
-        $"{info.ArtifactsDirectory}/CHANGELOG.md");
+        info.ChangelogFile,
+        exportOptions);
 });
 
 Task("Add-AssetsToGitHubRelease")
@@ -47,5 +57,6 @@ Task("Add-AssetsToGitHubRelease")
         throw new Exception("Missing GitHub token");
     }
 
+    // TODO: #15 push assets to GH release
     throw new NotImplementedException();
 });

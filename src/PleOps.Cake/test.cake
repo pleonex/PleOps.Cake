@@ -27,7 +27,7 @@ Task("Test")
         Configuration = info.Configuration,
         NoBuild = true,
         Settings = info.RunSettingsFile,
-        Logger = "trx",
+        Loggers = new[] { "trx" },
         ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
     };
 

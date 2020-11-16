@@ -32,12 +32,20 @@ Task("Pack-Libs")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
+    string changelog = string.Empty;
+    if (FileExists(info.ChangelogFile)) {
+        // Get changelog and sanitize for XML NuSpec
+        changelog = System.IO.File.ReadAllText(info.ChangelogFile);
+        changelog = System.Security.SecurityElement.Escape(changelog);
+    }
+
     var packSettings = new DotNetCorePackSettings {
         Configuration = info.Configuration,
         OutputDirectory = info.ArtifactsDirectory,
         NoBuild = true,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
-            .SetVersion(info.Version),
+            .SetVersion(info.Version)
+            .WithProperty("PackageReleaseNotes", changelog),
     };
     foreach (var project in info.LibraryProjects) {
         DotNetCorePack(project, packSettings);
@@ -88,7 +96,7 @@ Task("Pack-Apps")
             string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
             CopyIfExists($"{repoDir}/../README.md", $"{outputDir}/README.md");
             CopyIfExists($"{repoDir}/../LICENSE", $"{outputDir}/LICENSE");
-            CopyIfExists($"{info.ArtifactsDirectory}/CHANGELOG.md", $"{outputDir}/CHANGELOG.md");
+            CopyIfExists(info.ChangelogFile, $"{outputDir}/CHANGELOG.md");
             GenerateLicense(project, outputDir);
 
             Zip(
