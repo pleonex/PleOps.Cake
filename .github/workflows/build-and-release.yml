@@ -35,7 +35,7 @@ jobs:
           dotnet cake --bootstrap
 
       - name: "Build and stage"
-        run: dotnet cake --target=Stage-Artifacts --configuration=$BUILD_CONFIG --verbosity=diagnostic
+        run: dotnet cake --target=Stage-Artifacts --configuration=${{ env.BUILD_CONFIG }} --verbosity=diagnostic
 
       - name: "Publish artifacts to CI"
         uses: actions/upload-artifact@v2
@@ -71,7 +71,7 @@ jobs:
         run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
 
       - name: "Publish to preview feed"
-        run: dotnet nuget push -s $PREVIEW_NUGET_FEED -k az ./artifacts/**/*.nupkg
+        run: dotnet nuget push -s $PREVIEW_NUGET_FEED -k az --skip-duplicate ./artifacts/**/*.nupkg
         env:
           VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint":"${{ env.PREVIEW_NUGET_FEED }}", "username":"", "password":"${{ secrets.NUGET_PREVIEW_TOKEN }}"}]}'
 
