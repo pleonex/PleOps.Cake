@@ -30,6 +30,7 @@ Task("Export-GitHubReleaseNotes")
         return;
     }
 
+    // Export last milestone to embed in apps and NuGets
     string milestone = info.BuildType switch {
         BuildType.Preview => info.WorkMilestone,
         BuildType.Stable => $"v{info.Version}",
@@ -39,13 +40,20 @@ Task("Export-GitHubReleaseNotes")
     var exportOptions = new GitReleaseManagerExportSettings {
         TagName = milestone,
     };
-
     GitReleaseManagerExport(
         info.GitHubToken,
         "SceneGate",
         "Yarhl",
         info.ChangelogFile,
         exportOptions);
+
+    // Export full changelog for documentation
+    string docsDir = System.IO.Path.GetDirectoryName(info.DocFxFile);
+    GitReleaseManagerExport(
+        info.GitHubToken,
+        "SceneGate",
+        "Yarhl",
+        $"{docsDir}/dev/Changelog.md");
 });
 
 Task("Add-AssetsToGitHubRelease")

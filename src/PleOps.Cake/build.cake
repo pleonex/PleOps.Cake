@@ -7,8 +7,9 @@ Task("Build")
 {
     // Since we are rebuilding, we clean old artifacts
     if (DirectoryExists(info.ArtifactsDirectory)) {
-        var deleteConfig = new DeleteDirectorySettings { Recursive = true };
-        DeleteDirectory(info.ArtifactsDirectory, deleteConfig);
+        CleanDirectory(info.ArtifactsDirectory);
+    } else {
+        CreateDirectory(info.ArtifactsDirectory);
     }
 
     var warningMode = info.WarningsAsErrors

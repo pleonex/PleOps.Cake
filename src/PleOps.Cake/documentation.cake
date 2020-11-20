@@ -4,7 +4,6 @@
 #addin nuget:?package=Cake.DocFx&version=0.13.1
 
 Task("Build-Doc")
-    .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
     if (!FileExists(info.DocFxFile)) {

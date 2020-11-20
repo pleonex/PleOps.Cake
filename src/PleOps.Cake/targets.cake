@@ -11,11 +11,11 @@ Task("BuildTest")
 
 Task("Stage-Artifacts")
     .IsDependentOn("BuildTest")
+    .IsDependentOn("Create-GitHubDraftRelease") // only preview builds
+    .IsDependentOn("Export-GitHubReleaseNotes") // only preview and stable builds
     .IsDependentOn("Build-Doc")
     // Update preview documentation
     // Create new version for stable documentation
-    .IsDependentOn("Create-GitHubDraftRelease") // only preview builds
-    .IsDependentOn("Export-GitHubReleaseNotes") // only preview and stable builds
     .IsDependentOn("Pack-Libs")
     .IsDependentOn("Pack-Apps");
 
