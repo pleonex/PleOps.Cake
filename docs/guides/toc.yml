@@ -1,0 +1,10 @@
+- name: Design specification
+  items:
+    - name: Pipeline workflow
+      href: spec/PipelineWorkflow.md
+    - name: Translation workflow
+      href: spec/TranslationWorkflow.md
+- name: Contributing
+  items:
+    - name: Guidelines
+      href: Contributing.md

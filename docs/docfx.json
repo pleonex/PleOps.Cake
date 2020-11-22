@@ -1,0 +1,55 @@
+{
+    "metadata": [
+      {
+        "src": [
+          {
+            "files": [
+            ],
+            "src": "../src"
+          }
+        ],
+        "dest": "api",
+        "filter": "filter_config.yml",
+        "disableGitFeatures": false,
+        "disableDefaultFilter": false
+      }
+    ],
+    "build": {
+      "content": [
+        {
+          "files": [ "api/**", "dev/**" ]
+        },
+        {
+          "files": [ "toc.yml", "index.md" ]
+        },
+        {
+          "files": [ "guides/**" ],
+          "exclude": [ "**/*.png", "**/*.drawio" ]
+        },
+        {
+          "files": ["README.md", "CONTRIBUTING.md"],
+          "src": "../"
+        }
+      ],
+      "resource": [
+        {
+          "files": [ "images/**", "guides/**/*.png", "guides/**/*.drawio" ]
+        }
+      ],
+      "dest": "_site",
+      "globalMetadataFiles": ["global_metadata.json"],
+      "fileMetadataFiles": [],
+      "template": [
+        "default",
+        "statictoc",
+        "default-widescreen"
+      ],
+      "postProcessors": [],
+      "markdownEngineName": "markdig",
+      "noLangKeyword": false,
+      "keepFileLink": false,
+      "cleanupCacheHistory": false,
+      "disableGitFeatures": false,
+      "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ]
+    }
+}
