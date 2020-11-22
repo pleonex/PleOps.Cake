@@ -21,3 +21,7 @@ The following target are available for build, test and release.
   documentation, pack the libraries in NuGet and stage the executables.
 
 - `Update-DocBranch`: update the documentation repository branch.
+
+## Documentation
+
+Check the documentation for more information.
