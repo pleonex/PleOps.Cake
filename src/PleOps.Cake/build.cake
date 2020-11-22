@@ -7,8 +7,9 @@ Task("Build")
 {
     // Since we are rebuilding, we clean old artifacts
     if (DirectoryExists(info.ArtifactsDirectory)) {
-        var deleteConfig = new DeleteDirectorySettings { Recursive = true };
-        DeleteDirectory(info.ArtifactsDirectory, deleteConfig);
+        CleanDirectory(info.ArtifactsDirectory);
+    } else {
+        CreateDirectory(info.ArtifactsDirectory);
     }
 
     var warningMode = info.WarningsAsErrors
@@ -32,12 +33,20 @@ Task("Pack-Libs")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
+    string changelog = "Check the project site";
+    if (FileExists(info.ChangelogFile)) {
+        // Get changelog and sanitize for XML NuSpec
+        changelog = System.IO.File.ReadAllText(info.ChangelogFile);
+        changelog = System.Security.SecurityElement.Escape(changelog);
+    }
+
     var packSettings = new DotNetCorePackSettings {
         Configuration = info.Configuration,
         OutputDirectory = info.ArtifactsDirectory,
         NoBuild = true,
         MSBuildSettings = new DotNetCoreMSBuildSettings()
-            .SetVersion(info.Version),
+            .SetVersion(info.Version)
+            .WithProperty("PackageReleaseNotes", changelog),
     };
     foreach (var project in info.LibraryProjects) {
         DotNetCorePack(project, packSettings);
@@ -88,6 +97,7 @@ Task("Pack-Apps")
             string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
             CopyIfExists($"{repoDir}/../README.md", $"{outputDir}/README.md");
             CopyIfExists($"{repoDir}/../LICENSE", $"{outputDir}/LICENSE");
+            CopyIfExists(info.ChangelogFile, $"{outputDir}/CHANGELOG.md");
             GenerateLicense(project, outputDir);
 
             Zip(

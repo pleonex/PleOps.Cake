@@ -20,8 +20,4 @@ The following target are available for build, test and release.
 - `Stage-Artifacts`: run `BuildTest`, generate the release notes, build the
   documentation, pack the libraries in NuGet and stage the executables.
 
-- `Create-PreviewRelease`: take the created artifacts, push them into the
-  preview feeds and push the documentation into preview.
-
-- `Create-OfficialRelease`: take the created artifacts, push them into the
-  release feed, push the documentation and create the GitHub release.
+- `Update-DocBranch`: update the documentation repository branch.

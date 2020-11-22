@@ -1,12 +1,9 @@
 #load "setup.cake"
 
-// Cannot update DocFX until the following bug is fixed:
-// https://github.com/dotnet/docfx/issues/5785
-#tool nuget:?package=docfx.console&version=2.51.0
+#tool nuget:?package=docfx.console&version=2.56.5
 #addin nuget:?package=Cake.DocFx&version=0.13.1
 
 Task("Build-Doc")
-    .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
     if (!FileExists(info.DocFxFile)) {
