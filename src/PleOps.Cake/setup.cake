@@ -189,12 +189,15 @@ Task("Show-Info")
         BindingFlags.Instance);
 
     foreach (PropertyInfo property in properties) {
+        object value = property.GetValue(info);
+
         bool ignore = Attribute.IsDefined(property, typeof(LogIgnoreAttribute));
         if (ignore) {
+            bool isEmpty = (value == null) || string.IsNullOrEmpty(value.ToString());
+            Information($"{property.Name} is " + (isEmpty ? "not set" : "set"));
             continue;
         }
 
-        object value = property.GetValue(info);
         if (value is IEnumerable<string> stringList) {
             value = string.Join(", ", stringList);
         }
