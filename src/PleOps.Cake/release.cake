@@ -25,11 +25,6 @@ Task("Export-GitHubReleaseNotes")
     .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
     .Does<BuildInfo>(info =>
 {
-    if (FileExists(info.ChangelogFile)) {
-        Information("Skipping exporting GitHub release notes as file exists");
-        return;
-    }
-
     // Export last milestone to embed in apps and NuGets
     string milestone = info.BuildType switch {
         BuildType.Preview => info.WorkMilestone,
