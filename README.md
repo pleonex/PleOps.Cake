@@ -4,7 +4,8 @@
 
 Full automated build, test, stage and release pipeline for .NET projects based
 on Cake. Check also the
-[template repository](https://github.com/pleonex/template-csharp).
+[template repository](https://github.com/pleonex/template-csharp) to see the
+pipeline in action!
 
 | Release | Package |
 | ------- | ------- |
