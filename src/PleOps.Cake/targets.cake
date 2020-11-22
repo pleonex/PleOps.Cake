@@ -6,6 +6,7 @@
 
 Task("BuildTest")
     .IsDependentOn("Define-Project") // Must be defined by the user
+    .IsDependentOn("Show-Info")
     .IsDependentOn("Build")
     .IsDependentOn("Test");
 

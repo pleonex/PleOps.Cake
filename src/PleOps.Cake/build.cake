@@ -33,7 +33,7 @@ Task("Pack-Libs")
     .IsDependentOn("Build")
     .Does<BuildInfo>(info =>
 {
-    string changelog = string.Empty;
+    string changelog = "Check the project site";
     if (FileExists(info.ChangelogFile)) {
         // Get changelog and sanitize for XML NuSpec
         changelog = System.IO.File.ReadAllText(info.ChangelogFile);

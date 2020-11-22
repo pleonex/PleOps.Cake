@@ -1,7 +1,14 @@
 #module nuget:?package=Cake.DotNetTool.Module&version=0.4.0
+#addin nuget:?package=Cake.Git&version=0.22.0
 #tool dotnet:?package=GitVersion.Tool&version=5.5.1
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using System.Reflection;
+
+[AttributeUsage(AttributeTargets.Property)]
+public sealed class LogIgnoreAttribute : Attribute
+{
+}
 
 public class BuildInfo
 {
@@ -41,7 +48,12 @@ public class BuildInfo
 
     public string ChangelogFile { get; set; }
 
+    [LogIgnore]
     public string GitHubToken { get; set; }
+
+    public string RepositoryOwner { get; set; }
+
+    public string RepositoryName { get; set; }
 
     public bool WarningsAsErrors { get; set; }
 
@@ -108,6 +120,7 @@ Setup<BuildInfo>(context =>
 
     SetVersion(info);
     FindSolution(info);
+    FindRepoInfo(info);
 
     return info;
 });
@@ -125,12 +138,14 @@ void SetVersion(BuildInfo info)
         info.BuildType = BuildType.Development;
     }
 
-    Information("Version: " + info.Version);
-    Information("Build type: " + info.BuildType);
+    Verbose("Version: " + info.Version);
+    Verbose("Build type: " + info.BuildType);
 
     // Set the version in the pipeline of Azure Devops
     // https://github.com/Microsoft/azure-pipelines-tasks/blob/master/docs/authoring/commands.md
-    Information("##vso[build.updatebuildnumber]" + info.Version);
+    if (AzurePipelines.IsRunningOnAzurePipelines) {
+        Information("##vso[build.updatebuildnumber]" + info.Version);
+    }
 }
 
 void FindSolution(BuildInfo info)
@@ -138,8 +153,52 @@ void FindSolution(BuildInfo info)
     var solutions = GetFiles("./src/*.sln");
     if (solutions.Count == 1) {
         info.SolutionFile = solutions.First().FullPath;
-        Information("Solution file: " + info.SolutionFile);
+        Verbose("Found solution: " + info.SolutionFile);
     } else {
-        Error("Couldn't find the solution file.");
+        Verbose("Couldn't find the solution file.");
     }
 }
+
+void FindRepoInfo(BuildInfo info)
+{
+    var branch = GitBranchCurrent(".");
+    var origin = branch.Remotes.FirstOrDefault(b => b.Name == "origin");
+    if (origin == null) {
+        Verbose("Couldn't find origin remote to define repo info");
+        return;
+    }
+
+    string[] remoteParts = origin?.Url.Split("/");
+    info.RepositoryOwner = remoteParts[^2];
+    info.RepositoryName = remoteParts[^1];
+
+    // In SSH format we need to remove from ':'
+    int sshStartPath = info.RepositoryOwner.IndexOf(':');
+    if (sshStartPath != -1) {
+        info.RepositoryOwner = info.RepositoryOwner.Substring(sshStartPath + 1);
+    }
+}
+
+Task("Show-Info")
+    .IsDependentOn("Define-Project") // Must be defined by the user
+    .Does<BuildInfo>(info =>
+{
+    PropertyInfo[] properties = info.GetType().GetProperties(
+        BindingFlags.DeclaredOnly |
+        BindingFlags.Public |
+        BindingFlags.Instance);
+
+    foreach (PropertyInfo property in properties) {
+        bool ignore = Attribute.IsDefined(property, typeof(LogIgnoreAttribute));
+        if (ignore) {
+            continue;
+        }
+
+        object value = property.GetValue(info);
+        if (value is IEnumerable<string> stringList) {
+            value = string.Join(", ", stringList);
+        }
+
+        Information($"{property.Name}: {value}");
+    }
+});

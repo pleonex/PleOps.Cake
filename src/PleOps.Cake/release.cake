@@ -14,8 +14,8 @@ Task("Create-GitHubDraftRelease")
     };
     GitReleaseManagerCreate(
         info.GitHubToken,
-        "SceneGate",
-        "Yarhl",
+        info.RepositoryOwner,
+        info.RepositoryName,
         createOptions);
 });
 
@@ -42,8 +42,8 @@ Task("Export-GitHubReleaseNotes")
     };
     GitReleaseManagerExport(
         info.GitHubToken,
-        "SceneGate",
-        "Yarhl",
+        info.RepositoryOwner,
+        info.RepositoryName,
         info.ChangelogFile,
         exportOptions);
 
@@ -51,8 +51,8 @@ Task("Export-GitHubReleaseNotes")
     string docsDir = System.IO.Path.GetDirectoryName(info.DocFxFile);
     GitReleaseManagerExport(
         info.GitHubToken,
-        "SceneGate",
-        "Yarhl",
+        info.RepositoryOwner,
+        info.RepositoryName,
         $"{docsDir}/dev/Changelog.md");
 });
 
