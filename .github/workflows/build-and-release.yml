@@ -36,6 +36,8 @@ jobs:
 
       - name: "Build and stage"
         run: dotnet cake --target=Stage-Artifacts --configuration=${{ env.BUILD_CONFIG }} --verbosity=diagnostic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Publish artifacts to CI"
         uses: actions/upload-artifact@v2
@@ -64,7 +66,6 @@ jobs:
         with:
           dotnet-version: ${{ env.NET_SDK }}
 
-      # TODO: #5 Generate release notes and update draft release
       # TODO: #14 Generate preview doc and publish to branch
 
       - name: "Install Azure Artifacts Credential Provider"
