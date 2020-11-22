@@ -10,7 +10,6 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/pleonex/PleOps.Cake</PackageProjectUrl>
         <RepositoryUrl>https://github.com/pleonex/PleOps.Cake</RepositoryUrl>
-        <PackageReleaseNotes>TODO</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>netcore;csharp;devops;pipeline;github-actions</PackageTags>
     </PropertyGroup>
