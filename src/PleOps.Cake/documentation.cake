@@ -11,6 +11,11 @@ Task("Build-Doc")
         return;
     }
 
+    string docsDir = System.IO.Path.GetDirectoryName(info.DocFxFile);
+    if (FileExists(info.ChangelogFile) && DirectoryExists($"{docsDir}/dev")) {
+        CopyFile(info.ChangelogFile, $"{docsDir}/dev/Changelog.md");
+    }
+
     DocFxMetadata(info.DocFxFile);
 
     var settings = new DocFxBuildSettings {
@@ -24,13 +29,10 @@ Task("Build-Doc")
         $"{info.ArtifactsDirectory}/docs.zip");
 });
 
-Task("Serve-Doc")
-    .IsDependentOn("Build-Doc")
+Task("Push-Doc")
+    .Description("Push the documentation to GitHub pages")
+    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
     .Does<BuildInfo>(info =>
 {
-    if (!FileExists(info.DocFxFile)) {
-        throw new Exception("There isn't documentation.");
-    }
-
-    DocFxServe($"{info.ArtifactsDirectory}/_site");
+    Warning("NOT IMPLEMENTED --> #14");
 });

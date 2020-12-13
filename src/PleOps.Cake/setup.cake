@@ -46,10 +46,22 @@ public class BuildInfo
 
     public string WorkMilestone { get; set; }
 
+    public string ChangelogNextFile { get; set; }
+
     public string ChangelogFile { get; set; }
 
     [LogIgnore]
     public string GitHubToken { get; set; }
+
+    public string PreviewNuGetFeed { get; set; }
+
+    [LogIgnore]
+    public string PreviewNuGetFeedToken { get; set; }
+
+    public string StableNuGetFeed { get; set; }
+
+    [LogIgnore]
+    public string StableNuGetFeedToken { get; set; }
 
     public string RepositoryOwner { get; set; }
 
@@ -111,8 +123,13 @@ Setup<BuildInfo>(context =>
         TestFilter = Argument("testFilter", string.Empty),
         ArtifactsDirectory = Argument("artifacts", "artifacts"),
         GitHubToken = EnvironmentVariable("GITHUB_TOKEN"),
+        PreviewNuGetFeed = "https://api.nuget.org/v3/index.json",
+        PreviewNuGetFeedToken = EnvironmentVariable("PREVIEW_NUGET_FEED_TOKEN"),
+        StableNuGetFeed = "https://api.nuget.org/v3/index.json",
+        StableNuGetFeedToken = EnvironmentVariable("STABLE_NUGET_FEED_TOKEN"),
         WorkMilestone = "vNext",
-        ChangelogFile = Argument("changelog", $"{Argument("artifacts", "artifacts")}/CHANGELOG.md"),
+        ChangelogNextFile = Argument("changelog-next", "./CHANGELOG.NEXT.md"),
+        ChangelogFile = Argument("changelog", "./CHANGELOG.md"),
         CoverageTarget = 100,
         DocFxFile = "./docs/docfx.json",
         RunSettingsFile = "./Tests.runsettings",

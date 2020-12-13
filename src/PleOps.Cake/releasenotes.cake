@@ -1,5 +1,4 @@
 #load "setup.cake"
-
 #tool "nuget:?package=gitreleasemanager&version=0.11.0"
 
 Task("Create-GitHubDraftRelease")
@@ -39,7 +38,7 @@ Task("Export-GitHubReleaseNotes")
         info.GitHubToken,
         info.RepositoryOwner,
         info.RepositoryName,
-        info.ChangelogFile,
+        info.ChangelogNextFile,
         exportOptions);
 
     // Export full changelog for documentation
@@ -48,18 +47,5 @@ Task("Export-GitHubReleaseNotes")
         info.GitHubToken,
         info.RepositoryOwner,
         info.RepositoryName,
-        $"{docsDir}/dev/Changelog.md");
-});
-
-Task("Add-AssetsToGitHubRelease")
-    .Description("Add assets to the GitHub release")
-    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType == BuildType.Stable)
-    .Does<BuildInfo>(info =>
-{
-    if (string.IsNullOrEmpty(info.GitHubToken)) {
-        throw new Exception("Missing GitHub token");
-    }
-
-    // TODO: #15 push assets to GH release
-    throw new NotImplementedException();
+        info.ChangelogFile);
 });
