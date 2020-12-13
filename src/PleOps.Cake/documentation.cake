@@ -40,8 +40,8 @@ Task("Push-Doc")
     .Does<BuildInfo>(info =>
 {
     // We don't depend on it so it can run as a different stage
-    string docBuild = $"{info.ArtifactsDirectory}/_site";
-    if (!DirectoryExists(docBuild)) {
+    string docBuild = $"{info.ArtifactsDirectory}/docs.zip";
+    if (!FileExists(docBuild)) {
         throw new Exception("Documentation is not build. Run 'Build-Doc' task first.");
     }
 
@@ -75,15 +75,23 @@ Task("Push-Doc")
             ownTree = true;
         }
 
-        Information($"Worktree at: {tree.WorktreeRepository.Info.WorkingDirectory} - Copying files");
-        CopyFiles($"{docBuild}/*", tree.WorktreeRepository.Info.WorkingDirectory);
+        Repository treeRepo = tree.WorktreeRepository;
+        string treePath = treeRepo.Info.WorkingDirectory;
+        Information($"Worktree at: {treePath}");
 
-        if (tree.WorktreeRepository.RetrieveStatus().IsDirty) {
+        // Clean directory so we don't keep old files
+        // Just move temporary the .git file so it's not deleted.
+        CopyFile($"{treePath}/.git", $"{info.ArtifactsDirectory}/tmp/.git");
+        CleanDirectory(treePath);
+        MoveFile($"{info.ArtifactsDirectory}/tmp/.git", $"{treePath}/.git");
+        Unzip(docBuild, treePath);
+
+        if (treeRepo.RetrieveStatus().IsDirty) {
             Information("Stage all");
-            Commands.Stage(tree.WorktreeRepository, "*");
+            Commands.Stage(treeRepo, "*");
 
             Information("Commit");
-            tree.WorktreeRepository.Commit(
+            treeRepo.Commit(
                 $":books: Documentation update for {info.Version}",
                 new Signature(committerName, committerEmail, DateTimeOffset.Now),
                 new Signature(committerName, committerEmail, DateTimeOffset.Now),
@@ -93,7 +101,7 @@ Task("Push-Doc")
             Information("Push");
             var pushSettings = new ProcessSettings {
                 Arguments = "push -u origin gh-pages",
-                WorkingDirectory = tree.WorktreeRepository.Info.WorkingDirectory,
+                WorkingDirectory = treePath,
             };
             int pushResult = StartProcess("git", pushSettings);
             if (pushResult != 0) {
