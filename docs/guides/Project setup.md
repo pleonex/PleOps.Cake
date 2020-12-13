@@ -25,9 +25,13 @@ structure. Then follow this checklist to adapt the template to your project.
 ## Build and release workflows
 
 - [ ] Create the milestone `vNext`.
-- [ ] Update `build.cake` to add the name of the projects in the `src` folder.
 - [ ] Update `launch.json` with the path of the console application (if any).
-- [ ] Update the variable `PREVIEW_NUGET_FEED` with the NuGet feed in Azure
-      DevOps to use for preview releases
+- [ ] Update `build.cake` to add the name of the projects in the `src` folder.
+- [ ] Update `build.cake` with the stable and preview NuGet feeds.
+- [ ] Update in the workflow, the variable `PREVIEW_NUGET_FEED` with the NuGet
+      feed in Azure DevOps to use for preview releases or remove the step if
+      using a different NuGet feed.
 - [ ] Add a new secret `NUGET_PREVIEW_TOKEN` with the personal access token for
       the preview NuGet feed.
+- [ ] Add a new secret `STABLE_NUGET_FEED_TOKEN` with the API key for the stable
+      NuGet feed.
