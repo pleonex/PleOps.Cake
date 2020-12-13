@@ -36,7 +36,7 @@ Task("Build-Doc")
 
 Task("Push-Doc")
     .Description("Push the documentation to GitHub pages")
-    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
+    // .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
     .Does<BuildInfo>(info =>
 {
     // We don't depend on it so it can run as a different stage
