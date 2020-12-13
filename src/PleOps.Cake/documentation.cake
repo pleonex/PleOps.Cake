@@ -84,7 +84,7 @@ Task("Push-Doc")
 
             Information("Commit");
             tree.WorktreeRepository.Commit(
-                $"Documentation update for {info.Version}",
+                $":books: Documentation update for {info.Version}",
                 new Signature(committerName, committerEmail, DateTimeOffset.Now),
                 new Signature(committerName, committerEmail, DateTimeOffset.Now),
                 new CommitOptions());
