@@ -54,10 +54,10 @@ Task("Push-Doc")
         bool ownTree = false;
         Worktree tree = null;
         if (repo.Worktrees.Any(w => w.Name == pushWorktreeName)) {
-            Information("Re-using worktree");
+            Information("Re-use worktree");
             tree = repo.Worktrees[pushWorktreeName];
         } else {
-            Information("Creating worktree");
+            Information("Create worktree");
 
             // libgit2sharp does not clean the refs and it complains if you run it again later
             string refPath = $"{repo.Info.Path}/refs/heads/{pushWorktreeName}";
@@ -78,19 +78,34 @@ Task("Push-Doc")
         Information($"Worktree at: {tree.WorktreeRepository.Info.WorkingDirectory} - Copying files");
         CopyFiles($"{docBuild}/*", tree.WorktreeRepository.Info.WorkingDirectory);
 
-        Information("Staging and committing all");
-        Commands.Stage(tree.WorktreeRepository, "*");
-        tree.WorktreeRepository.Commit(
-            $"Documentation update for {info.Version}",
-            new Signature(committerName, committerEmail, DateTimeOffset.Now),
-            new Signature(committerName, committerEmail, DateTimeOffset.Now),
-            new CommitOptions());
+        if (tree.WorktreeRepository.RetrieveStatus().IsDirty) {
+            Information("Stage all");
+            Commands.Stage(tree.WorktreeRepository, "*");
 
-        Information("Pushing");
-        tree.WorktreeRepository.Network.Push(tree.WorktreeRepository.Head);
+            Information("Commit");
+            tree.WorktreeRepository.Commit(
+                $"Documentation update for {info.Version}",
+                new Signature(committerName, committerEmail, DateTimeOffset.Now),
+                new Signature(committerName, committerEmail, DateTimeOffset.Now),
+                new CommitOptions());
+
+            // It seems it doesn't support SSH so we run the command manually
+            Information("Push");
+            var pushSettings = new ProcessSettings {
+                Arguments = "push -u origin gh-pages",
+                WorkingDirectory = tree.WorktreeRepository.Info.WorkingDirectory,
+            };
+            int pushResult = StartProcess("git", pushSettings);
+            if (pushResult != 0) {
+                Error("Error pushing");
+            }
+        } else {
+            Information("No changes detected, no new commits done");
+        }
+
 
         if (ownTree) {
-            Information("Pruning worktree");
+            Information("Prune worktree");
             repo.Worktrees.Prune(tree);
         }
     }
