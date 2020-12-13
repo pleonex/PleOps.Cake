@@ -1,3 +1,5 @@
+- name: Project setup
+  href: Project setup.md
 - name: Design specification
   items:
     - name: Pipeline workflow
