@@ -34,9 +34,9 @@ Task("Pack-Libs")
     .Does<BuildInfo>(info =>
 {
     string changelog = "Check the project site";
-    if (FileExists(info.ChangelogFile)) {
+    if (FileExists(info.ChangelogNextFile)) {
         // Get changelog and sanitize for XML NuSpec
-        changelog = System.IO.File.ReadAllText(info.ChangelogFile);
+        changelog = System.IO.File.ReadAllText(info.ChangelogNextFile);
         changelog = System.Security.SecurityElement.Escape(changelog);
     }
 
@@ -59,31 +59,15 @@ Task("Pack-Apps")
     .Does<BuildInfo>(info =>
 {
     foreach (var project in info.ApplicationProjects) {
-        // dotnet publish cannot publish to multiple runtimes yet
-        // https://github.com/dotnet/sdk/issues/6490
-        // We get the RID and run it several time.
-        var projectXml = System.Xml.Linq.XDocument.Load(project).Root;
-        List<string> runtimes = projectXml.Elements("PropertyGroup")
-            .Where(x => x.Element("RuntimeIdentifiers") != null)
-            .SelectMany(x => x.Element("RuntimeIdentifiers").Value.Split(';'))
-            .ToList();
-
-        string singleRid = projectXml.Elements("PropertyGroup")
-            .Select(x => x.Element("RuntimeIdentifier")?.Value)
-            .FirstOrDefault();
-        if (singleRid != null && !runtimes.Contains(singleRid)) {
-            runtimes.Add(singleRid);
-        }
-
-        // Since we are not building in the RID expected path and by default
-        // it builds only for the current runtime, we need to rebuild.
-        // This makes debugger easier as the path is the same between arch.
-        // We don't force self-contained, we let developer choose in the .csproj
-        foreach (string runtime in runtimes) {
+        foreach (string runtime in GetRuntimes(project)) {
             string projectName = System.IO.Path.GetFileNameWithoutExtension(project);
             Information("Packing {0} for {1}", projectName, runtime);
 
-            string outputDir = $"{info.ArtifactsDirectory}/{runtime}/{projectName}";
+            // Since we are not building in the RID expected path and by default
+            // it builds only for the current runtime, we need to rebuild.
+            // This makes debugger easier as the path is the same between arch.
+            // We don't force self-contained, we let developer choose in the .csproj
+            string outputDir = $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}";
             var publishSettings = new DotNetCorePublishSettings {
                 Configuration = info.Configuration,
                 OutputDirectory = outputDir,
@@ -93,7 +77,7 @@ Task("Pack-Apps")
             };
             DotNetCorePublish(project, publishSettings);
 
-            // Copy license and third-party licences
+            // Copy license and third-party licence note
             string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
             CopyIfExists($"{repoDir}/../README.md", $"{outputDir}/README.md");
             CopyIfExists($"{repoDir}/../LICENSE", $"{outputDir}/LICENSE");
@@ -101,11 +85,68 @@ Task("Pack-Apps")
             GenerateLicense(project, outputDir);
 
             Zip(
-                $"{info.ArtifactsDirectory}/{runtime}",
+                $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}",
                 $"{info.ArtifactsDirectory}/{projectName}_{runtime}_v{info.Version}.zip");
         }
     }
 });
+
+Task("Push-NuGets")
+    .Description("Push the NuGet packages to the preview or stable feeds")
+    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
+    .Does<BuildInfo>(info =>
+{
+    string feed = (info.BuildType == BuildType.Stable) ? info.StableNuGetFeed : info.PreviewNuGetFeed;
+    string token = (info.BuildType == BuildType.Stable) ? info.StableNuGetFeedToken : info.PreviewNuGetFeedToken;
+    var settings = new DotNetCoreNuGetPushSettings
+    {
+        Source = feed,
+        ApiKey = token,
+        SkipDuplicate = true,
+    };
+    DotNetCoreNuGetPush($"{info.ArtifactsDirectory}/*.nupkg", settings);
+});
+
+Task("Push-Apps")
+    .Description("Push the applications to the GitHub release")
+    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType == BuildType.Stable)
+    .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
+    .Does<BuildInfo>(info =>
+{
+    string tag = $"v{info.Version}";
+    foreach (var project in info.ApplicationProjects) {
+        foreach (string runtime in GetRuntimes(project)) {
+            string projectName = System.IO.Path.GetFileNameWithoutExtension(project);
+            GitReleaseManagerAddAssets(
+                info.GitHubToken,
+                info.RepositoryOwner,
+                info.RepositoryName,
+                tag,
+                $"{info.ArtifactsDirectory}/{projectName}_{runtime}_v{info.Version}.zip");
+        }
+    }
+});
+
+public IEnumerable<string> GetRuntimes(string projectPath)
+{
+    // dotnet publish cannot publish to multiple runtimes yet
+    // https://github.com/dotnet/sdk/issues/6490
+    // We get the RID and run it several time.
+    var projectXml = System.Xml.Linq.XDocument.Load(projectPath).Root;
+    List<string> runtimes = projectXml.Elements("PropertyGroup")
+        .Where(x => x.Element("RuntimeIdentifiers") != null)
+        .SelectMany(x => x.Element("RuntimeIdentifiers").Value.Split(';'))
+        .ToList();
+
+    string singleRid = projectXml.Elements("PropertyGroup")
+        .Select(x => x.Element("RuntimeIdentifier")?.Value)
+        .FirstOrDefault();
+    if (singleRid != null && !runtimes.Contains(singleRid)) {
+        runtimes.Add(singleRid);
+    }
+
+    return runtimes;
+}
 
 public void GenerateLicense(string projectPath, string outputDir)
 {
