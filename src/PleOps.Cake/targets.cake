@@ -20,7 +20,8 @@ Task("Stage-Artifacts")
     .IsDependentOn("BuildTest")
     .IsDependentOn("Build-Doc")
     .IsDependentOn("Pack-Libs")
-    .IsDependentOn("Pack-Apps");
+    .IsDependentOn("Pack-Apps")
+    .IsDependentOn("Push-Doc");     // only preview and stable builds;
 
 Task("Push-Artifacts")
     .IsDependentOn("Define-Project") // Must be defined by the user
