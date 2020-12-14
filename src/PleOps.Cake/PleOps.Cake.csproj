@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Description>Cake utilities to implement a DevFlow pipeline in .NET.</Description>
+        <Description>Cake tasks for trunk-development workflows with .NET projects.</Description>
 
         <!-- No .NET code to include in the nuget. -->
         <IncludeBuildOutput>false</IncludeBuildOutput>

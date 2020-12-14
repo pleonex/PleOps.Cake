@@ -27,4 +27,5 @@ Task("Push-Artifacts")
     .IsDependentOn("Show-Info")
     .IsDependentOn("Push-NuGets")   // only preview and stable builds
     .IsDependentOn("Push-Apps")     // only stable builds
-    .IsDependentOn("Push-Doc");     // only preview and stable builds
+    .IsDependentOn("Push-Doc")      // only preview and stable builds
+    .IsDependentOn("Close-GitHubMilestone");    // only stable builds

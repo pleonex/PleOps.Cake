@@ -46,6 +46,8 @@ public class BuildInfo
 
     public string WorkMilestone { get; set; }
 
+    public string FutureMilestone { get; set; }
+
     public string ChangelogNextFile { get; set; }
 
     public string ChangelogFile { get; set; }
@@ -128,6 +130,7 @@ Setup<BuildInfo>(context =>
         StableNuGetFeed = "https://api.nuget.org/v3/index.json",
         StableNuGetFeedToken = EnvironmentVariable("STABLE_NUGET_FEED_TOKEN"),
         WorkMilestone = "vNext",
+        FutureMilestone = "Future",
         ChangelogNextFile = Argument("changelog-next", "./CHANGELOG.NEXT.md"),
         ChangelogFile = Argument("changelog", "./CHANGELOG.md"),
         CoverageTarget = 100,

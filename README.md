@@ -8,10 +8,10 @@ on Cake. Check also the
 pipeline in action!
 
 <!-- prettier-ignore -->
-| Release | Provider              | Package                                                          |
-| ------- | --------------------- | ---------------------------------------------------------------- |
-| Stable  | nuget.org             | ![Stable](https://img.shields.io/nuget/v/PleOps.Cake?style=flat) |
-| Preview | Azure public artifact | ![Preview](https://feeds.dev.azure.com/benito356/339c91a8-9d6c-4082-8b1a-93c2ae76b637/_apis/public/Packaging/Feeds/f434f007-6349-4876-9d16-e00ec2460ec0/Packages/ed658fe0-1126-4ed5-9488-601f02d8756b/Badge) |
+| Release | Package                                                           |
+| ------- | ----------------------------------------------------------------- |
+| Stable  | [![Nuget](https://img.shields.io/nuget/v/PleOps.Cake?label=nuget.org&logo=nuget)](https://www.nuget.org/packages/PleOps.Cake) |
+| Preview | [Azure Artifacts](https://dev.azure.com/benito356/NetDevOpsTest/_packaging?_a=feed&feed=PleOps) |
 
 ## Requirements
 
