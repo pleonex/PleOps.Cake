@@ -27,7 +27,7 @@
           "exclude": [ "**/*.png", "**/*.drawio" ]
         },
         {
-          "files": ["README.md", "CONTRIBUTING.md"],
+          "files": ["CONTRIBUTING.md"],
           "src": "../"
         }
       ],
