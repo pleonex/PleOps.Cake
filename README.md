@@ -35,4 +35,7 @@ The following target are available for build, test and release.
 
 ## Documentation
 
-Check the documentation for more information.
+Check the [documentation](https://www.pleonex.dev/PleOps.Cake/) for more
+information. For reference, this is the general build and release pipeline.
+
+![release diagram](./docs/guides/spec/release_automation.png)
