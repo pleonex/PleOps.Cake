@@ -1,6 +1,6 @@
 #load "setup.cake"
 
-#tool nuget:?package=docfx.console&version=2.56.5
+#tool nuget:?package=docfx.console&version=2.56.6
 #addin nuget:?package=Cake.DocFx&version=0.13.1
 #addin nuget:?package=Cake.Git&version=0.22.0
 
