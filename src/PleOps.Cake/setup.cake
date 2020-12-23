@@ -90,21 +90,24 @@ public class BuildInfo
     public void AddLibraryProjects(params string[] names)
     {
         foreach (var name in names) {
-            libraries.Add($"./src/{name}/{name}.csproj");
+            string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
+            libraries.Add(path);
         }
     }
 
     public void AddApplicationProjects(params string[] names)
     {
         foreach (var name in names) {
-            consoles.Add($"./src/{name}/{name}.csproj");
+            string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
+            consoles.Add(path);
         }
     }
 
     public void AddTestProjects(params string[] names)
     {
         foreach (var name in names) {
-            tests.Add($"./src/{name}/{name}.csproj");
+            string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
+            tests.Add(path);
         }
     }
 }
