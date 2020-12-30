@@ -138,7 +138,7 @@ Setup<BuildInfo>(context =>
         ChangelogFile = Argument("changelog", "./CHANGELOG.md"),
         CoverageTarget = 100,
         DocFxFile = "./docs/docfx.json",
-        RunSettingsFile = "./Tests.runsettings",
+        RunSettingsFile = FindTestSettings(),
     };
 
     SetVersion(info);
@@ -200,6 +200,23 @@ void FindRepoInfo(BuildInfo info)
     if (sshStartPath != -1) {
         info.RepositoryOwner = info.RepositoryOwner.Substring(sshStartPath + 1);
     }
+}
+
+string FindTestSettings()
+{
+    var possiblePaths = new string[] {
+        "./Tests.runsettings",
+        "./src/Tests.runsettings",
+    };
+
+    foreach (string path in possiblePaths) {
+        if (FileExists(path)) {
+            return path;
+        }
+    }
+
+    Verbose("Couldn't find the test setting file");
+    return string.Empty;
 }
 
 Task("Show-Info")
