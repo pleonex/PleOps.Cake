@@ -1,6 +1,4 @@
-# .NET DevOps Pipeline
-
-![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=develop&event=push)
+# PleOps.Cake pipeline [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://choosealicense.com/licenses/mit/) ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=develop&event=push)
 
 Full automated build, test, stage and release pipeline for .NET projects based
 on Cake. Check also the
@@ -35,7 +33,34 @@ The following target are available for build, test and release.
 
 ## Documentation
 
+Feel free to ask any question in the
+[project Discussion site!](https://github.com/pleonex/PleOps.Cake/discussions)
+
 Check the [documentation](https://www.pleonex.dev/PleOps.Cake/) for more
 information. For reference, this is the general build and release pipeline.
 
 ![release diagram](./docs/guides/spec/release_automation.png)
+
+## Build
+
+The project requires to build .NET 5.0 SDK and .NET Core 3.1 runtime. If you
+open the project with VS Code and you did install the
+[VS Code Remote Containers](https://code.visualstudio.com/docs/remote/containers)
+extension, you can have an already pre-configured development environment with
+Docker or Podman.
+
+To build, test and generate artifacts run:
+
+```sh
+# Only required the first time
+dotnet tool restore
+
+# Default target is Stage-Artifacts
+dotnet cake
+```
+
+To just build and test quickly, run:
+
+```sh
+dotnet cake --target=BuildTest
+```

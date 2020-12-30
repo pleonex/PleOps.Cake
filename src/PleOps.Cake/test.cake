@@ -14,7 +14,7 @@ Task("Test")
         return;
     }
 
-    string testOutput = GetTestFolder(info.RunSettingsFile);
+    string testOutput = GetTestFolder(info);
     string coverageOutput = $"{testOutput}/coverage";
 
     // Clean previous test results to not mix them
@@ -25,11 +25,15 @@ Task("Test")
 
     var netcoreSettings = new DotNetCoreTestSettings {
         Configuration = info.Configuration,
+        ResultsDirectory = testOutput,
         NoBuild = true,
-        Settings = info.RunSettingsFile,
         Loggers = new[] { "trx" },
         ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
     };
+
+    if (!string.IsNullOrWhiteSpace(info.RunSettingsFile)) {
+        netcoreSettings.Settings = info.RunSettingsFile;
+    }
 
     if (!string.IsNullOrWhiteSpace(info.TestFilter)) {
         netcoreSettings.Filter = $"FullyQualifiedName~{info.TestFilter}";
@@ -42,11 +46,21 @@ Task("Test")
     // https://developercommunity.visualstudio.com/content/problem/790648/publish-test-results-overwrites-code-coverage.html
     DeleteFiles($"{testOutput}/**/*.coverage");
 
+    // Do not always fail if there isn't coverage files
+    Func<int, bool> reportExitHandler = (int code) => {
+        if (code != 0) {
+            Warning("The code coverage tool returned an error");
+        }
+
+        return code == 0 || !info.WarningsAsErrors;
+    };
+
     // Create the report
     ReportGenerator(
         new FilePath[] { $"{testOutput}/**/coverage.cobertura.xml" },
         coverageOutput,
         new ReportGeneratorSettings {
+            HandleExitCode = reportExitHandler,
             ReportTypes = new[] {
                 ReportGeneratorReportType.Cobertura,
                 ReportGeneratorReportType.Html
@@ -55,11 +69,17 @@ Task("Test")
     );
 
     // Get final result
-    var xml = System.Xml.Linq.XDocument.Load($"{coverageOutput}/Cobertura.xml");
+    string coverageFile = $"{coverageOutput}/Cobertura.xml";
+    if (!FileExists(coverageFile)) {
+        Warning("Coverage file doesn't exist");
+        return;
+    }
+
+    var xml = System.Xml.Linq.XDocument.Load(coverageFile);
     var lineRate = double.Parse(xml.Root.Attribute("line-rate").Value) * 100;
 
     if (lineRate >= info.CoverageTarget) {
-        Information("Full coverage!");
+        Information($"Valid coverage! {lineRate} >= {info.CoverageTarget}");
     } else {
         string message = $"Code coverage is below target: {lineRate} < {info.CoverageTarget}";
         if (info.WarningsAsErrors) {
@@ -70,20 +90,25 @@ Task("Test")
     }
 });
 
-string GetTestFolder(string runSettingsPath)
+string GetTestFolder(BuildInfo info)
 {
-    if (!FileExists(runSettingsPath)) {
-        throw new Exception("Missing runsettings file");
+    if (!FileExists(info.RunSettingsFile)) {
+        Warning("Missing runsettings file");
+        return $"{info.ArtifactsDirectory}/test_results";
     }
 
     // Get the test output folder from the runsettings file
-    var runSettings = System.Xml.Linq.XDocument.Load(runSettingsPath);
+    var runSettings = System.Xml.Linq.XDocument.Load(info.RunSettingsFile);
     string path = runSettings.Root
         .Element("RunConfiguration")
         ?.Element("ResultsDirectory")?.Value;
     if (path == null) {
-        throw new Exception("Test output is not defined");
+        Verbose("Test output is not defined in runsettings file");
+        return $"{info.ArtifactsDirectory}/test_results";
     }
 
-    return path;
+    // Paths are relative to the settings file
+    string settingPath = System.IO.Path.GetDirectoryName(info.RunSettingsFile);
+    settingPath = System.IO.Path.GetFullPath(settingPath);
+    return System.IO.Path.GetFullPath(path, settingPath);
 }
