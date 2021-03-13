@@ -1,8 +1,8 @@
 #load "setup.cake"
 
-#tool nuget:?package=docfx.console&version=2.56.6
+#tool nuget:?package=docfx.console&version=2.56.7
 #addin nuget:?package=Cake.DocFx&version=0.13.1
-#addin nuget:?package=Cake.Git&version=0.22.0
+#addin nuget:?package=Cake.Git&version=1.0.1
 
 using System.Linq;
 using LibGit2Sharp;
