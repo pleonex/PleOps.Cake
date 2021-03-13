@@ -1,6 +1,6 @@
 #load "setup.cake"
 #tool "nuget:?package=gitreleasemanager&version=0.11.0"
-#addin nuget:?package=Octokit&version=0.48.0
+#addin nuget:?package=Octokit&version=0.50.0
 
 using System.Linq;
 
