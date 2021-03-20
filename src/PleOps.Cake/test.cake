@@ -3,6 +3,7 @@
 // Cannot upgrade until the following bug is fixed or it won't work on non-Windows
 // https://github.com/cake-build/cake/issues/2216
 #tool nuget:?package=ReportGenerator&version=4.2.15
+using System.Globalization;
 
 Task("Test")
     .Description("Run the tests")
@@ -76,7 +77,7 @@ Task("Test")
     }
 
     var xml = System.Xml.Linq.XDocument.Load(coverageFile);
-    var lineRate = double.Parse(xml.Root.Attribute("line-rate").Value) * 100;
+    var lineRate = double.Parse(xml.Root.Attribute("line-rate").Value, CultureInfo.InvariantCulture) * 100;
 
     if (lineRate >= info.CoverageTarget) {
         Information($"Valid coverage! {lineRate} >= {info.CoverageTarget}");
