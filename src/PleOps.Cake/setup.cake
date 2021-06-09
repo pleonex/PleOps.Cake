@@ -1,8 +1,5 @@
 #addin nuget:?package=Cake.Git&version=1.0.1
-
-// For some reason version 5.6.10 fails with GitWorktree pushing the docs
-#tool dotnet:?package=GitVersion.Tool&version=5.6.6
-
+#tool dotnet:?package=GitVersion.Tool&version=5.6.10
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Reflection;
