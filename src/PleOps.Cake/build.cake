@@ -3,6 +3,8 @@
 
 Task("Build")
     .Description("Build the project")
+    .IsDependentOn("Define-Project") // Must be defined by the user
+    .IsDependentOn("Show-Info")
     .Does<BuildInfo>(info =>
 {
     // Since we are rebuilding, we clean old artifacts
