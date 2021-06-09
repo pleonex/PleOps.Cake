@@ -1,6 +1,6 @@
 #load "setup.cake"
 
-#tool nuget:?package=docfx.console&version=2.58.0
+#tool nuget:?package=docfx.console&version=2.56.7
 #addin nuget:?package=Cake.DocFx&version=1.0.0
 #addin nuget:?package=Cake.Git&version=1.0.1
 
@@ -36,7 +36,7 @@ Task("Build-Doc")
 
 Task("Push-Doc")
     .Description("Push the documentation to GitHub pages")
-    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
+    // .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
     .Does<BuildInfo>(info =>
 {
     // We don't depend on it so it can run as a different stage
