@@ -68,7 +68,7 @@ Task("Push-Doc")
 
             CreateDirectory($"{info.ArtifactsDirectory}/tmp");
             tree = repo.Worktrees.Add(
-                "gh-pages",
+                "origin/gh-pages",
                 pushWorktreeName,
                 $"{info.ArtifactsDirectory}/tmp/gh-pages",
                 false); // no lock since it's not a portable media
