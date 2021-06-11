@@ -65,17 +65,24 @@ Task("Pack-Apps")
             string projectName = System.IO.Path.GetFileNameWithoutExtension(project);
             Information("Packing {0} for {1}", projectName, runtime);
 
+            // We don't use the property "OutputDirectory" because it removes the last
+            // directory separator and the MSBuild convention from the default publish dir
+            // is to provide the path WITH the directory separator. We pass the value
+            // by property and we must ensure the folder exists.
+            string outputDir = $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}";
+            outputDir = System.IO.Path.GetFullPath(outputDir);
+            CreateDirectory(outputDir);
+
             // Since we are not building in the RID expected path and by default
             // it builds only for the current runtime, we need to rebuild.
             // This makes debugger easier as the path is the same between arch.
             // We don't force self-contained, we let developer choose in the .csproj
-            string outputDir = $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}/";
             var publishSettings = new DotNetCorePublishSettings {
                 Configuration = info.Configuration,
-                OutputDirectory = outputDir,
                 Runtime = runtime,
                 MSBuildSettings = new DotNetCoreMSBuildSettings()
-                    .SetVersion(info.Version),
+                    .SetVersion(info.Version)
+                    .WithProperty("PublishDir", $"{outputDir}/"),
             };
             DotNetCorePublish(project, publishSettings);
 
