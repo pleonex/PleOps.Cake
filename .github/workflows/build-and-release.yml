@@ -6,7 +6,7 @@ on:
   pull_request:
   push:
     # Preview
-    branches: [ develop ]
+    branches: [ main ]
     # Stable
     tags: [ "v*" ]
   release:
@@ -52,11 +52,11 @@ jobs:
             ./artifacts/*.snupkg
           retention-days: 2
 
-  # Preview release on push to develop only
+  # Preview release on push to main only
   # Stable release on version tag push only
   push_artifacts:
     name: "Push artifacts"
-    if: github.ref == 'refs/heads/develop' || startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     needs: "build"
     runs-on: ubuntu-latest
     env:
