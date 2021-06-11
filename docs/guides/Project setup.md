@@ -96,9 +96,11 @@ In general follow these steps to take and adapt the files from the
     path to launch your applications (if any).
 
 13. Make sure there is a `gh-pages` branch. You can create a new one with the
-    following commands:
+    following commands (**make sure you don't have pending changes to commit**):
 
     ```sh
     git checkout --orphan gh-pages
-    git commit --allow-empty ":sparkles: Initial doc branch"
+    git reset * .*
+    git commit --allow-empty -m ":sparkles: Initial doc branch"
+    git checkout -b main
     ```

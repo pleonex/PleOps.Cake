@@ -69,7 +69,7 @@ Task("Pack-Apps")
             // it builds only for the current runtime, we need to rebuild.
             // This makes debugger easier as the path is the same between arch.
             // We don't force self-contained, we let developer choose in the .csproj
-            string outputDir = $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}";
+            string outputDir = $"{info.ArtifactsDirectory}/tmp/{runtime}/{projectName}/";
             var publishSettings = new DotNetCorePublishSettings {
                 Configuration = info.Configuration,
                 OutputDirectory = outputDir,
