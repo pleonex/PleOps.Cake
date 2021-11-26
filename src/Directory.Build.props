@@ -12,5 +12,6 @@
         <RepositoryUrl>https://github.com/pleonex/PleOps.Cake</RepositoryUrl>
         <PackageIcon>icon.png</PackageIcon>
         <PackageTags>netcore;csharp;devops;pipeline;github-actions</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 </Project>

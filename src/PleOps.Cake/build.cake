@@ -1,5 +1,5 @@
 #load "setup.cake"
-#tool dotnet:?package=ThirdLicense&version=1.1.0
+#tool dotnet:?package=ThirdLicense&version=1.2.0
 
 Task("Build")
     .Description("Build the project")

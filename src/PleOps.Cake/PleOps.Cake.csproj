@@ -13,5 +13,6 @@
     <ItemGroup>
         <None Include="*.cake" Pack="true" PackagePath="build" />
         <None Include="../../docs/images/logo_128.png" Pack="true" PackagePath="$(PackageIcon)" Visible="false" />
+        <None Include="../../README.md" Pack="true" PackagePath="$(PackageReadmeFile)"/>
     </ItemGroup>
 </Project>

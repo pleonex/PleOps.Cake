@@ -15,8 +15,8 @@ pipeline in action!
 
 ## Requirements
 
-- .NET 5.0 SDK
-- .NET Core 3.1 runtime
+- .NET 6.0 SDK
+- [Linux and MacOS only] Mono 6 (for DocFX)
 
 ## Build system command
 
