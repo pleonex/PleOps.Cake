@@ -46,21 +46,29 @@ Task("Push-Doc")
     }
 
     // TODO: [#6] Implement multi-version documentation
-    string pushWorktreeName = "push-gh-pages";
+    string worktreeName = "push-gh-pages";
+    string tempBranchName = $"gh-pages-{DateTimeOffset.Now.ToUnixTimeSeconds()}";
     string committerName = "PleOps.Cake Bot";
     string committerEmail = "ci@pleops.cake";
 
     using (Repository repo = new Repository(GitFindRootFromPath(".").FullPath)) {
+        // Create temporary branch for changes
+        // LibGit2Sharp seems to have a bug where it creates the worktree branch
+        // at the current HEAD (main branch), instead at the given reference.
+        // We create our own branch from the correct place and checkout there.
+        var tempBranch = repo.CreateBranch(tempBranchName, "origin/gh-pages");
+
         bool ownTree = false;
         Worktree tree = null;
-        if (repo.Worktrees.Any(w => w.Name == pushWorktreeName)) {
+        if (repo.Worktrees.Any(w => w.Name == worktreeName)) {
             Information("Re-use worktree");
-            tree = repo.Worktrees[pushWorktreeName];
+            tree = repo.Worktrees[worktreeName];
+            Commands.Checkout(tree.WorktreeRepository, tempBranch);
         } else {
             Information("Create worktree");
 
             // libgit2sharp does not clean the refs and it complains if you run it again later
-            string refPath = $"{repo.Info.Path}/refs/heads/{pushWorktreeName}";
+            string refPath = $"{repo.Info.Path}/refs/heads/{worktreeName}";
             if (FileExists(refPath)) {
                 Information("Deleting old ref");
                 DeleteFile(refPath);
@@ -68,8 +76,8 @@ Task("Push-Doc")
 
             CreateDirectory($"{info.ArtifactsDirectory}/tmp");
             tree = repo.Worktrees.Add(
-                "origin/gh-pages",
-                pushWorktreeName,
+                tempBranchName,
+                worktreeName,
                 $"{info.ArtifactsDirectory}/tmp/gh-pages",
                 false); // no lock since it's not a portable media
             ownTree = true;
@@ -77,7 +85,7 @@ Task("Push-Doc")
 
         Repository treeRepo = tree.WorktreeRepository;
         string treePath = treeRepo.Info.WorkingDirectory;
-        Information($"Worktree at: {treePath}");
+        Information($"Worktree at: {treePath} ({treeRepo.Head.FriendlyName})");
 
         // Clean directory so we don't keep old files
         // Just move temporary the .git file so it's not deleted.
@@ -99,8 +107,9 @@ Task("Push-Doc")
 
             // It seems it doesn't support SSH so we run the command manually
             Information("Push");
+            Console.ReadLine();
             var pushSettings = new ProcessSettings {
-                Arguments = "push -u origin gh-pages",
+                Arguments = $"push origin {pushWorktreeName}",
                 WorkingDirectory = treePath,
             };
             int pushResult = StartProcess("git", pushSettings);
@@ -111,10 +120,11 @@ Task("Push-Doc")
             Information("No changes detected, no new commits done");
         }
 
-
+        repo.Branches.Remove(tempBranchName);
         if (ownTree) {
             Information("Prune worktree");
             repo.Worktrees.Prune(tree);
+            repo.Branches.Remove(worktreeName);
         }
     }
 });
