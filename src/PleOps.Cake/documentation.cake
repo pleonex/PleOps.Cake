@@ -47,23 +47,15 @@ Task("Push-Doc")
 
     // TODO: [#6] Implement multi-version documentation
     string worktreeName = "push-gh-pages";
-    string tempBranchName = $"gh-pages-{DateTimeOffset.Now.ToUnixTimeSeconds()}";
     string committerName = "PleOps.Cake Bot";
     string committerEmail = "ci@pleops.cake";
 
     using (Repository repo = new Repository(GitFindRootFromPath(".").FullPath)) {
-        // Create temporary branch for changes
-        // LibGit2Sharp seems to have a bug where it creates the worktree branch
-        // at the current HEAD (main branch), instead at the given reference.
-        // We create our own branch from the correct place and checkout there.
-        var tempBranch = repo.CreateBranch(tempBranchName, "origin/gh-pages");
-
         bool ownTree = false;
         Worktree tree = null;
         if (repo.Worktrees.Any(w => w.Name == worktreeName)) {
             Information("Re-use worktree");
             tree = repo.Worktrees[worktreeName];
-            Commands.Checkout(tree.WorktreeRepository, tempBranch);
         } else {
             Information("Create worktree");
 
@@ -76,7 +68,6 @@ Task("Push-Doc")
 
             CreateDirectory($"{info.ArtifactsDirectory}/tmp");
             tree = repo.Worktrees.Add(
-                tempBranchName,
                 worktreeName,
                 $"{info.ArtifactsDirectory}/tmp/gh-pages",
                 false); // no lock since it's not a portable media
@@ -85,7 +76,30 @@ Task("Push-Doc")
 
         Repository treeRepo = tree.WorktreeRepository;
         string treePath = treeRepo.Info.WorkingDirectory;
-        Information($"Worktree at: {treePath} ({treeRepo.Head.FriendlyName})");
+        Information($"Worktree at: {treePath}");
+
+        // LibGit2Sharp seems to have a bug where it creates the worktree branch
+        // at the current HEAD (main branch), instead at the given reference.
+        // So we do the checkout with a pull ourselves.
+        var checkoutSettings = new ProcessSettings {
+            Arguments = "checkout gh-pages",
+            WorkingDirectory = treePath,
+        };
+        int checkoutResult = StartProcess("git", checkoutSettings);
+        if (checkoutResult != 0) {
+            Error("Error creating gh-pages branch");
+        }
+
+        var pullSettings = new ProcessSettings {
+            Arguments = "pull --ff-only origin gh-pages",
+            WorkingDirectory = treePath,
+        };
+        int pullResult = StartProcess("git", pullSettings);
+        if (pullResult != 0) {
+            Error("Error pulling");
+        }
+
+        Information($"Current branch: {treeRepo.Head.FriendlyName}");
 
         // Clean directory so we don't keep old files
         // Just move temporary the .git file so it's not deleted.
@@ -107,9 +121,8 @@ Task("Push-Doc")
 
             // It seems it doesn't support SSH so we run the command manually
             Information("Push");
-            Console.ReadLine();
             var pushSettings = new ProcessSettings {
-                Arguments = $"push origin {pushWorktreeName}",
+                Arguments = "push -u origin gh-pages",
                 WorkingDirectory = treePath,
             };
             int pushResult = StartProcess("git", pushSettings);
@@ -120,7 +133,6 @@ Task("Push-Doc")
             Information("No changes detected, no new commits done");
         }
 
-        repo.Branches.Remove(tempBranchName);
         if (ownTree) {
             Information("Prune worktree");
             repo.Worktrees.Prune(tree);
