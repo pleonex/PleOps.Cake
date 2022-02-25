@@ -17,17 +17,17 @@ Task("Build")
     var warningMode = info.WarningsAsErrors
         ? MSBuildTreatAllWarningsAs.Error
         : MSBuildTreatAllWarningsAs.Default;
-    var buildConfig = new DotNetCoreBuildSettings {
+    var buildConfig = new DotNetBuildSettings {
         Configuration = info.Configuration,
-        Verbosity = DotNetCoreVerbosity.Minimal,
-        MSBuildSettings = new DotNetCoreMSBuildSettings()
+        Verbosity = DotNetVerbosity.Minimal,
+        MSBuildSettings = new DotNetMSBuildSettings()
             .TreatAllWarningsAs(warningMode)
             .SetVersion(info.Version)
             // These two settings improve the experience with VS Code
             .HideDetailedSummary()
             .WithProperty("GenerateFullPaths", "true"),
     };
-    DotNetCoreBuild(info.SolutionFile, buildConfig);
+    DotNetBuild(info.SolutionFile, buildConfig);
 });
 
 Task("Pack-Libs")
@@ -42,16 +42,16 @@ Task("Pack-Libs")
         changelog = System.Security.SecurityElement.Escape(changelog);
     }
 
-    var packSettings = new DotNetCorePackSettings {
+    var packSettings = new DotNetPackSettings {
         Configuration = info.Configuration,
         OutputDirectory = info.ArtifactsDirectory,
         NoBuild = true,
-        MSBuildSettings = new DotNetCoreMSBuildSettings()
+        MSBuildSettings = new DotNetMSBuildSettings()
             .SetVersion(info.Version)
             .WithProperty("PackageReleaseNotes", changelog),
     };
     foreach (var project in info.LibraryProjects) {
-        DotNetCorePack(project, packSettings);
+        DotNetPack(project, packSettings);
     }
 });
 
@@ -77,14 +77,14 @@ Task("Pack-Apps")
             // it builds only for the current runtime, we need to rebuild.
             // This makes debugger easier as the path is the same between arch.
             // We don't force self-contained, we let developer choose in the .csproj
-            var publishSettings = new DotNetCorePublishSettings {
+            var publishSettings = new DotNetPublishSettings {
                 Configuration = info.Configuration,
                 Runtime = runtime,
-                MSBuildSettings = new DotNetCoreMSBuildSettings()
+                MSBuildSettings = new DotNetMSBuildSettings()
                     .SetVersion(info.Version)
                     .WithProperty("PublishDir", $"{outputDir}/"),
             };
-            DotNetCorePublish(project, publishSettings);
+            DotNetPublish(project, publishSettings);
 
             // Copy license and third-party licence note
             string repoDir = System.IO.Path.GetDirectoryName(info.SolutionFile);
@@ -107,13 +107,13 @@ Task("Push-NuGets")
 {
     string feed = (info.BuildType == BuildType.Stable) ? info.StableNuGetFeed : info.PreviewNuGetFeed;
     string token = (info.BuildType == BuildType.Stable) ? info.StableNuGetFeedToken : info.PreviewNuGetFeedToken;
-    var settings = new DotNetCoreNuGetPushSettings
+    var settings = new DotNetNuGetPushSettings
     {
         Source = feed,
         ApiKey = token,
         SkipDuplicate = true,
     };
-    DotNetCoreNuGetPush($"{info.ArtifactsDirectory}/*.nupkg", settings);
+    DotNetNuGetPush($"{info.ArtifactsDirectory}/*.nupkg", settings);
 });
 
 Task("Push-Apps")
@@ -178,7 +178,7 @@ public void CopyIfExists(string file, string output)
     }
 }
 
-public static DotNetCoreMSBuildSettings HideDetailedSummary(this DotNetCoreMSBuildSettings settings)
+public static DotNetMSBuildSettings HideDetailedSummary(this DotNetMSBuildSettings settings)
 {
     if (settings == null)
         throw new ArgumentNullException(nameof(settings));

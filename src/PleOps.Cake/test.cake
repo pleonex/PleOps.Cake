@@ -1,8 +1,6 @@
 #load "setup.cake"
 
-// Cannot upgrade until the following bug is fixed or it won't work on non-Windows
-// https://github.com/cake-build/cake/issues/2216
-#tool nuget:?package=ReportGenerator&version=4.2.15
+#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.0.4
 using System.Globalization;
 
 Task("Test")
@@ -24,7 +22,7 @@ Task("Test")
         DeleteDirectory(testOutput, deleteConfig);
     }
 
-    var netcoreSettings = new DotNetCoreTestSettings {
+    var netcoreSettings = new DotNetTestSettings {
         Configuration = info.Configuration,
         ResultsDirectory = testOutput,
         NoBuild = true,
@@ -40,7 +38,7 @@ Task("Test")
         netcoreSettings.Filter = $"FullyQualifiedName~{info.TestFilter}";
     }
 
-    DotNetCoreTest(info.SolutionFile, netcoreSettings);
+    DotNetTest(info.SolutionFile, netcoreSettings);
 
     // Due to a bug in Azure DevOps we need to delete the *.coverage files.
     // In any case we don't use them, we relay in the Cobertura XML.
