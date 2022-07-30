@@ -1,5 +1,5 @@
 #addin nuget:?package=Cake.Git&version=2.0.0
-#tool dotnet:?package=GitVersion.Tool&version=5.8.2
+#tool dotnet:?package=GitVersion.Tool&version=5.10.2
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Reflection;
