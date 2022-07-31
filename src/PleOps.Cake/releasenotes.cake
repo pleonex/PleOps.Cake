@@ -23,7 +23,6 @@ Task("Create-GitHubDraftRelease")
 
 Task("Export-GitHubReleaseNotes")
     .Description("Export all the release notes from GitHub into a file")
-    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
     .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
     .Does<BuildInfo>(info =>
 {
