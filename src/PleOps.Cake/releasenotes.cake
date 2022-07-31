@@ -23,12 +23,14 @@ Task("Create-GitHubDraftRelease")
 
 Task("Export-GitHubReleaseNotes")
     .Description("Export all the release notes from GitHub into a file")
+    .WithCriteria<BuildInfo>((ctxt, info) => info.BuildType != BuildType.Development)
     .WithCriteria<BuildInfo>((ctxt, info) => !string.IsNullOrEmpty(info.GitHubToken))
     .Does<BuildInfo>(info =>
 {
+    // Cannot build for dev builds because GitReleaseManager will fail if there
+    // isn't any PR / issue on a milestone closed.
     // Export last milestone to embed in apps and NuGets
     string milestone = info.BuildType switch {
-        BuildType.Development => info.WorkMilestone,
         BuildType.Preview => info.WorkMilestone,
         BuildType.Stable => $"v{info.Version}",
         _ => throw new Exception("Unknown build type for milestone"),
