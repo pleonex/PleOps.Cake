@@ -4,6 +4,8 @@
         <Authors>pleonex</Authors>
         <Company>None</Company>
         <Copyright>Copyright (C) 2020 Benito Palacios Sánchez</Copyright>
+
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
 
     <PropertyGroup>

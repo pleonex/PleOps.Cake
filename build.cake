@@ -5,6 +5,8 @@ Task("Define-Project")
     .Does<BuildInfo>(info =>
 {
     info.AddLibraryProjects("PleOps.Cake");
+    info.AddTestProjects("PleOps.Cake.TestExample");
+
     info.PreviewNuGetFeed = "https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json";
 });
 

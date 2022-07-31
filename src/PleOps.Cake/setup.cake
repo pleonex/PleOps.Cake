@@ -1,5 +1,7 @@
 #addin nuget:?package=Cake.Git&version=2.0.0
-#tool dotnet:?package=GitVersion.Tool&version=5.10.2
+#tool dotnet:?package=GitVersion.Tool&version=5.10.2 // Can't upgrade until Debian 11 provides libc >= 2.33
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Reflection;
@@ -90,7 +92,7 @@ public class BuildInfo
     {
         foreach (var name in names) {
             string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
-            libraries.Add(path);
+            libraries.Add(System.IO.Path.GetFullPath(path));
         }
     }
 
@@ -98,7 +100,7 @@ public class BuildInfo
     {
         foreach (var name in names) {
             string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
-            consoles.Add(path);
+            consoles.Add(System.IO.Path.GetFullPath(path));
         }
     }
 
@@ -106,7 +108,7 @@ public class BuildInfo
     {
         foreach (var name in names) {
             string path = System.IO.File.Exists(name) ? name : $"./src/{name}/{name}.csproj";
-            tests.Add(path);
+            tests.Add(System.IO.Path.GetFullPath(path));
         }
     }
 }

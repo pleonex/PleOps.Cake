@@ -14,7 +14,7 @@ Task("Generate-ReleaseNotes")
     .IsDependentOn("Define-Project") // Must be defined by the user
     .IsDependentOn("Show-Info")
     .IsDependentOn("Create-GitHubDraftRelease")     // only preview builds
-    .IsDependentOn("Export-GitHubReleaseNotes");    // only preview and stable builds
+    .IsDependentOn("Export-GitHubReleaseNotes");
 
 Task("Stage-Artifacts")
     .IsDependentOn("BuildTest")

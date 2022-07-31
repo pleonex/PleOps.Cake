@@ -40,6 +40,8 @@ Task("Pack-Libs")
         // Get changelog and sanitize for XML NuSpec
         changelog = System.IO.File.ReadAllText(info.ChangelogNextFile);
         changelog = System.Security.SecurityElement.Escape(changelog);
+    } else {
+        Information($"Changelog for next version does not exist: {info.ChangelogNextFile}");
     }
 
     var packSettings = new DotNetPackSettings {
