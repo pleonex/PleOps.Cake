@@ -28,6 +28,7 @@ Task("Export-GitHubReleaseNotes")
 {
     // Export last milestone to embed in apps and NuGets
     string milestone = info.BuildType switch {
+        BuildType.Development => info.WorkMilestone,
         BuildType.Preview => info.WorkMilestone,
         BuildType.Stable => $"v{info.Version}",
         _ => throw new Exception("Unknown build type for milestone"),
