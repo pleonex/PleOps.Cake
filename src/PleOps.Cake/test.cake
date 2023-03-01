@@ -1,7 +1,5 @@
 #load "setup.cake"
-
-// Can't upgrade until Debian 11 provides libc >= 2.33
-#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.0.3
+#tool dotnet:?package=dotnet-reportgenerator-globaltool&version=5.1.18
 using System.Globalization;
 
 Task("Test")

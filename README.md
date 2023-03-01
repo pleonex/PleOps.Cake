@@ -31,6 +31,31 @@ The following target are available for build, test and release.
 - `Push-Artifacts`: push the libraries, applications and documentation to the
   preview or stable feed.
 
+## Preview versions
+
+To use a preview version, add a `nuget.config` file in the same directory as
+`build.cake` with the following content:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is only needed if you use preview versions of PleOps.Cake build system -->
+<configuration>
+  <packageSources>
+    <clear/>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" />
+    <add key="PleOps-Preview" value="https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json" />
+  </packageSources>
+  <packageSourceMapping>
+    <packageSource key="nuget.org">
+      <package pattern="*" />
+    </packageSource>
+    <packageSource key="PleOps-Preview">
+      <package pattern="PleOps.Cake" />
+    </packageSource>
+  </packageSourceMapping>
+</configuration>
+```
+
 ## Documentation
 
 Feel free to ask any question in the
