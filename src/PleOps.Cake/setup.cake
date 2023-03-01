@@ -1,5 +1,5 @@
-#addin nuget:?package=Cake.Git&version=2.0.0
-#tool dotnet:?package=GitVersion.Tool&version=5.10.2 // Can't upgrade until Debian 11 provides libc >= 2.33
+#addin nuget:?package=Cake.Git&version=3.0.0
+#tool dotnet:?package=GitVersion.Tool&version=5.12.0
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
