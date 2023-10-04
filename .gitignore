@@ -6,6 +6,7 @@ CHANGELOG.md
 CHANGELOG.NEXT.md
 
 # Build system
+.vs/
 tools/
 
 # Documentation output
