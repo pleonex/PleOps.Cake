@@ -11,4 +11,14 @@ public static class DotnetTasks
     public const string RestoreTaskName = ModuleName + ".Restore";
 
     public const string BuildTaskName = ModuleName + ".Build";
+
+    public const string TestTaskName = ModuleName + ".Tests";
+
+    public const string StageLibsTaskName = ModuleName + ".StageLibraries";
+
+    public const string StageAppsTaskName = ModuleName + ".StageApplications";
+
+    public const string DeployPreviewPreview = ModuleName + ".DeployPreview";
+
+    public const string DeployStable = ModuleName + ".DeployStable";
 }
