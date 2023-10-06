@@ -1,7 +1,15 @@
 {
   "profiles": {
-    "Build": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "Default": {
       "commandName": "Project"
+    },
+    "CustomTask": {
+      "commandName": "Project",
+      "commandLineArgs": "--target=CustomTask"
     }
   }
 }

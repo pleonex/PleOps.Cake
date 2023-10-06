@@ -53,7 +53,6 @@ public sealed class DefaultTask : FrostingTask
 {
 }
 
-[TaskName("CustomTask")]
 public sealed class CustomTask : FrostingTask<MyCustomContext>
 {
     public override void Run(MyCustomContext context)

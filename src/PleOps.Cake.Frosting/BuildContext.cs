@@ -133,10 +133,15 @@ public class BuildContext : FrostingContext
 
     private void PrintObject(object obj, int indentation = 0)
     {
-        PropertyInfo[] properties = obj.GetType().GetProperties(
-            BindingFlags.DeclaredOnly |
+        IEnumerable<PropertyInfo> properties = obj.GetType().GetProperties(
             BindingFlags.Public |
             BindingFlags.Instance);
+
+        // Ignore properties defined in cake assemblies
+        if (indentation == 0) {
+            properties = properties.Where(
+                p => p.DeclaringType?.IsAssignableTo(typeof(BuildContext)) ?? false);
+        }
 
         foreach (PropertyInfo property in properties) {
             object? value = property.GetValue(obj);
