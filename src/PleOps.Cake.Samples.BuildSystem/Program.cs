@@ -41,6 +41,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
         context.IfArgIsPresent("custom-setting", x => context.CustomSetting = x);
 
         // HERE you can force values non-overridables.
+        context.CSharpContext.Configuration = "Samples";
         context.CustomSetting = "ForcedValue";
         context.WarningsAsErrors = false;
 
@@ -58,6 +59,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 [IsDependentOn(typeof(CleanArtifactsTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.TestTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.StageLibrariesTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.StageApplicationsTask))]
 [IsDependentOn(typeof(IssuesTask))]

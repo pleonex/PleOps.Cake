@@ -25,6 +25,9 @@ public class CSharpBuildContext
 
         ToolingVerbosity = DotNetVerbosity.Minimal;
         SolutionPath = FindSolution();
+
+        string expectedTestConfigPath = "./src/Tests.runsettings";
+        TestConfigPath = File.Exists(expectedTestConfigPath) ? expectedTestConfigPath : string.Empty;
     }
 
     public string Configuration { get; set; }
@@ -36,6 +39,8 @@ public class CSharpBuildContext
     public int CoverageTarget { get; set; }
 
     public string TestFilter { get; set; }
+
+    public string TestConfigPath { get; set; }
 
     public string NugetConfigPath { get; set; }
 

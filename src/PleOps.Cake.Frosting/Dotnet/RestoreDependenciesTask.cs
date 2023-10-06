@@ -23,8 +23,16 @@ public class RestoreDependenciesTask : FrostingTask<BuildContext>
             context.DotNetClean(context.CSharpContext.SolutionPath, cleanSettings);
         }
 
+        var warningMode = context.WarningsAsErrors
+            ? MSBuildTreatAllWarningsAs.Error
+            : MSBuildTreatAllWarningsAs.Default;
+
         context.Log.Information("Restoring .NET project dependencies");
         var dotnetSettings = new DotNetRestoreSettings {
+            MSBuildSettings = new DotNetMSBuildSettings()
+                .SetConfiguration(context.CSharpContext.Configuration)
+                .WithProperty("Platform", context.CSharpContext.Platform)
+                .TreatAllWarningsAs(warningMode),
             Verbosity = context.CSharpContext.ToolingVerbosity,
         };
 

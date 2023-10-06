@@ -19,6 +19,12 @@
       "commands": [
         "thirdlicense"
       ]
+    },
+    "dotnet-reportgenerator-globaltool": {
+      "version": "5.1.26",
+      "commands": [
+        "reportgenerator"
+      ]
     }
   }
 }
