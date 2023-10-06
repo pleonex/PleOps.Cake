@@ -1,50 +1,35 @@
 ﻿using System.Reflection;
 using Cake.Core;
-using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.Issues.Recipe;
 using PleOps.Cake.Frosting;
+using PleOps.Cake.Frosting.Common;
 
 return new CakeHost()
     .AddAssembly(typeof(BuildContext).Assembly)
     .AddAssembly(Assembly.GetAssembly(typeof(IssuesTask)))
-    .UseContext<MyCustomContext>()
+    .UseContext<BuildContext>()
     .UseLifetime<BuildLifetime>()
     .Run(args);
 
-public sealed class MyCustomContext : BuildContext
+public sealed class BuildLifetime : FrostingLifetime<BuildContext>
 {
-    public MyCustomContext(ICakeContext context)
-        : base(context)
+    public override void Setup(BuildContext context, ISetupContext info)
     {
-        CustomSetting = "DefaultValue";
-    }
-
-    public string CustomSetting { get; set; }
-}
-
-public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
-{
-    public override void Setup(MyCustomContext context, ISetupContext info)
-    {
-        // HERE: you can set default values overridable by command-line
-        context.CustomSetting = "LifetimeValue";
-
-        // Fill context from command line arguments.
-        context.ReadArguments();
-        context.IfArgIsPresent("custom-setting", x => context.CustomSetting = x);
-
-        // Set the projects version from GitVersion tool.
+        // HERE you can set default values overridable by command-line
         context.SetGitVersion();
 
-        // HERE: you can force values non-overridables.
-        context.CustomSetting = "ForcedValue";
+        // Update build parameters from command line arguments.
+        context.ReadArguments();
+
+        // HERE you can force values non-overridables.
+        context.WarningsAsErrors = false;
 
         // Print the build info to use.
         context.Print();
     }
 
-    public override void Teardown(MyCustomContext context, ITeardownContext info)
+    public override void Teardown(BuildContext context, ITeardownContext info)
     {
     }
 }
@@ -54,15 +39,8 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 [IsDependentOn(typeof(CleanArtifactsTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.StageLibrariesTask))]
 [IsDependentOn(typeof(IssuesTask))]
 public sealed class DefaultTask : FrostingTask
 {
-}
-
-public sealed class CustomTask : FrostingTask<MyCustomContext>
-{
-    public override void Run(MyCustomContext context)
-    {
-        context.Log.Information("Custom setting: {0}", context.CustomSetting);
-    }
 }

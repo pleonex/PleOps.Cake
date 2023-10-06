@@ -1,4 +1,4 @@
-﻿namespace PleOps.Cake.Frosting;
+﻿namespace PleOps.Cake.Frosting.Common;
 
 using global::Cake.Common.IO;
 using global::Cake.Core.Diagnostics;

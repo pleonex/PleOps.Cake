@@ -13,4 +13,9 @@ public class CakeIssuesContext
     public IIssuesParameters Parameters { get; }
 
     public IIssuesState State { get; }
+
+    public void ReadArguments(BuildContext context)
+    {
+        Parameters.OutputDirectory = Path.Combine(context.ArtifactsPath, "reports");
+    }
 }

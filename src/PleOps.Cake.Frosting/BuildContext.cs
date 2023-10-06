@@ -81,6 +81,7 @@ public class BuildContext : FrostingContext, IIssuesContext
         IfArgIsPresent("changelog-next", x => ChangelogNextFile = x);
         IfArgIsPresent("changelog", x => ChangelogFile = x);
 
+        IssuesContext.ReadArguments(this);
         CSharpContext.ReadArguments(this);
         DocFxContext.ReadArguments(this);
         GitHubReleaseContext.ReadArguments(this);
