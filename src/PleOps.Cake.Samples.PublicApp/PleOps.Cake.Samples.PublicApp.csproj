@@ -7,6 +7,8 @@
     <Nullable>enable</Nullable>
 
     <IsPublishable>true</IsPublishable>
+
+    <Configurations>Debug;Release;Build</Configurations>
   </PropertyGroup>
 
 </Project>

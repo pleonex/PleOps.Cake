@@ -1,10 +1,13 @@
-﻿using Cake.Core;
+﻿using System.Reflection;
+using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
+using Cake.Frosting.Issues.Recipe;
 using PleOps.Cake.Frosting;
 
 return new CakeHost()
     .AddAssembly(typeof(BuildContext).Assembly)
+    .AddAssembly(Assembly.GetAssembly(typeof(IssuesTask)))
     .UseContext<MyCustomContext>()
     .UseLifetime<BuildLifetime>()
     .Run(args);
@@ -48,7 +51,10 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 
 
 [TaskName("Default")]
+[IsDependentOn(typeof(CleanArtifactsTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
+[IsDependentOn(typeof(IssuesTask))]
 public sealed class DefaultTask : FrostingTask
 {
 }

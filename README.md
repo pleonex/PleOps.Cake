@@ -5,6 +5,13 @@ on Cake. Check also the
 [template repository](https://github.com/pleonex/template-csharp) to see the
 pipeline in action!
 
+Tech stack:
+
+- Projects: C# / .NET
+- Documentation: DocFX, GitHub page
+- CI: GitHub Actions
+- Release publication: NuGet feeds, GitHub
+
 <!-- prettier-ignore -->
 | Release | Package                                                           |
 | ------- | ----------------------------------------------------------------- |

@@ -14,7 +14,7 @@ public class CSharpBuildContext
         CoverageTarget = 100;
         TestFilter = string.Empty;
 
-        NugetConfigPath = "nuget.config";
+        NugetConfigPath = string.Empty;
         NugetPackageOutputPath = string.Empty;
         PreviewNuGetFeed = "https://api.nuget.org/v3/index.json";
         StableNuGetFeed = "https://api.nuget.org/v3/index.json";

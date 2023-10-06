@@ -9,11 +9,12 @@ using global::Cake.Common.Tools.GitVersion;
 using global::Cake.Core;
 using global::Cake.Core.Diagnostics;
 using global::Cake.Frosting;
+using global::Cake.Frosting.Issues.Recipe;
 using PleOps.Cake.Frosting.DocFx;
 using PleOps.Cake.Frosting.Dotnet;
 using PleOps.Cake.Frosting.GitHubRelease;
 
-public class BuildContext : FrostingContext
+public class BuildContext : FrostingContext, IIssuesContext
 {
     public BuildContext(ICakeContext context)
         : base(context)
@@ -30,6 +31,8 @@ public class BuildContext : FrostingContext
         CSharpContext = new CSharpBuildContext();
         DocFxContext = new DocFxBuildContext();
         GitHubReleaseContext = new GitHubReleaseBuildContext();
+
+        IssuesContext = new CakeIssuesContext(this);
     }
 
     public string Version { get; set; }
@@ -53,6 +56,13 @@ public class BuildContext : FrostingContext
     public DocFxBuildContext DocFxContext { get; set; }
 
     public GitHubReleaseBuildContext GitHubReleaseContext { get; set; }
+
+    [LogIgnore]
+    public CakeIssuesContext IssuesContext { get; }
+
+    IIssuesParameters IIssuesContext.Parameters => IssuesContext.Parameters;
+
+    IIssuesState IIssuesContext.State => IssuesContext.State;
 
     public void IfArgIsPresent(string argName, Action<string> setter)
     {

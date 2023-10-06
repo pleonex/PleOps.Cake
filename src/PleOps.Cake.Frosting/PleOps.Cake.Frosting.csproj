@@ -6,10 +6,13 @@
     <Nullable>enable</Nullable>
 
     <IsPackable>true</IsPackable>
+
+    <Configurations>Debug;Release;Build</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cake.Frosting" />
+    <PackageReference Include="Cake.Frosting.Issues.Recipe" />
   </ItemGroup>
 
   <ItemGroup>
