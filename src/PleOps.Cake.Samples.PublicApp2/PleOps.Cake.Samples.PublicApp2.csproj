@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+    <RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
     <SelfContained>false</SelfContained>
 
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,5 +12,6 @@
 
     <IsPublishable>true</IsPublishable>
   </PropertyGroup>
+
 
 </Project>

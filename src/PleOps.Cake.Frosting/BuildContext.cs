@@ -1,5 +1,6 @@
 ﻿namespace PleOps.Cake.Frosting;
 
+using System.Collections;
 using System.IO;
 using System.Reflection;
 using System.Text.Json;
@@ -171,7 +172,16 @@ public class BuildContext : FrostingContext, IIssuesContext
             string spaces = new string(' ', indentation);
             if (value is not null and not ValueType and not string) {
                 Log.Information($"{spaces}{property.Name}:");
-                PrintObject(value, indentation + 2);
+
+                if (value is IEnumerable list) {
+                    int i = 0;
+                    foreach (object subValue in list) {
+                        Log.Information($"{spaces}- [{i++}]");
+                        PrintObject(subValue, indentation + 2);
+                    }
+                } else {
+                    PrintObject(value, indentation + 2);
+                }
             } else {
                 Log.Information($"{spaces}{property.Name}: '{value}'");
             }

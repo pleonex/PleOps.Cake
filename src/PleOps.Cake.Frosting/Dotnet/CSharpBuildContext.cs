@@ -1,6 +1,7 @@
 ﻿namespace PleOps.Cake.Frosting.Dotnet;
 
 using System;
+using System.Collections.ObjectModel;
 using global::Cake.Common.Tools.DotNet;
 using global::Cake.Core.Diagnostics;
 
@@ -8,8 +9,9 @@ public class CSharpBuildContext
 {
     public CSharpBuildContext()
     {
-        Platform = "Any CPU";
         Configuration = "Debug";
+        Platform = "Any CPU";
+        ApplicationProjects = new();
 
         CoverageTarget = 100;
         TestFilter = string.Empty;
@@ -25,9 +27,9 @@ public class CSharpBuildContext
         SolutionPath = FindSolution();
     }
 
-    public string Platform { get; set; }
-
     public string Configuration { get; set; }
+
+    public string Platform { get; set; }
 
     public string SolutionPath { get; set; }
 
@@ -38,6 +40,8 @@ public class CSharpBuildContext
     public string NugetConfigPath { get; set; }
 
     public string NugetPackageOutputPath { get; set; }
+
+    public Collection<ProjectPublicationInfo> ApplicationProjects { get; }
 
     public string PreviewNuGetFeed { get; set; }
 
