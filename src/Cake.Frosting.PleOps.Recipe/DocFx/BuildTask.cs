@@ -23,8 +23,10 @@ using System.Text;
 using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
+using Cake.Frosting.PleOps.Recipe.Common;
 
 [TaskName(DocFxTasks.BuildTaskName)]
+[IsDependentOn(typeof(RestoreToolsTask))]
 public class BuildTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)

@@ -27,8 +27,10 @@ using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Common.Tools.DotNet.Publish;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
+using Cake.Frosting.PleOps.Recipe.Common;
 
 [TaskName(DotnetTasks.BundleAppsTaskName)]
+[IsDependentOn(typeof(RestoreToolsTask))]
 public class BundleApplicationsTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)

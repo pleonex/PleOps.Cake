@@ -34,7 +34,6 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
     public override void Setup(BuildContext context, ISetupContext info)
     {
         // HERE you can set default values overridable by command-line
-        context.SetGitVersion();
 
         // Update build parameters from command line arguments.
         context.ReadArguments();
@@ -53,12 +52,14 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
 
 
 [TaskName("Default")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask))]
 public sealed class DefaultTask : FrostingTask
 {
 }
 
 [TaskName("CI-Build")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
@@ -69,6 +70,7 @@ public sealed class CIBuildTask : FrostingTask
 }
 
 [TaskName("CI-Deploy")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.UploadReleaseBinariesTask))]
 public sealed class CIDeployTask : FrostingTask

@@ -46,7 +46,6 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
     public override void Setup(MyCustomContext context, ISetupContext info)
     {
         // HERE you can set default values overridable by command-line
-        context.SetGitVersion();
         context.CustomSetting = "LifetimeValue";
         context.CSharpContext.ApplicationProjects.Add(new ProjectPublicationInfo(
             "./src/Cake.Frosting.PleOps.Samples.PublicApp", new[] { "win-x64" }));
@@ -72,6 +71,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 }
 
 [TaskName("Default")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
@@ -82,6 +82,7 @@ public sealed class DefaultTask : FrostingTask
 }
 
 [TaskName("BuildTest")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.TestTask))]
 public sealed class BuildTestTask : FrostingTask

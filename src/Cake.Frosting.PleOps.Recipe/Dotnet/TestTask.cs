@@ -28,9 +28,11 @@ using Cake.Common.Tools.DotNet.Test;
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
+using Cake.Frosting.PleOps.Recipe.Common;
 
 [TaskName(DotnetTasks.TestTaskName)]
 [IsDependentOn(typeof(BuildTask))]
+[IsDependentOn(typeof(RestoreToolsTask))]
 public class TestTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)

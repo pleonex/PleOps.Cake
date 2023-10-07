@@ -107,60 +107,7 @@ public class BuildContext : FrostingContext, IIssuesContext
         GitHubReleaseContext.ReadArguments(this);
     }
 
-    /// <summary>
-    /// Set the project's version from the tool "GitVersion".
-    /// </summary>
-    /// <remarks>
-    /// It requires the dotnet tool: GitVersion.Tool. Make sure to install it
-    /// via 'dotnet tool install GitVersion.Tool' or using InstallTool().
-    /// </remarks>
-    public void SetGitVersion()
-    {
-        // Use Cake GitVersion from the dotnet tool manifest
-        // https://github.com/cake-build/cake/issues/3209
-        GitVersion GetGitVersion()
-        {
-            int retcode = this.StartProcess(
-                "dotnet",
-                new Cake.Core.IO.ProcessSettings {
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    Silent = true,
-                    Arguments = "gitversion /nofetch"
-                },
-                out IEnumerable<string> output);
-            if (retcode != 0) {
-                throw new Exception($"GitVersion returned {retcode}");
-            }
-
-            string allOutput = string.Join(string.Empty, output);
-            return JsonSerializer.Deserialize<GitVersion>(allOutput)
-                ?? throw new FormatException($"Invalid GitVersion output:\n{allOutput}");
-        }
-
-        // Get the version using the tool GitVersion
-        GitVersion version = GetGitVersion();
-
-        Version = version.SemVer;
-
-        if (string.IsNullOrEmpty(version.PreReleaseLabel)) {
-            BuildKind = BuildKind.Stable;
-        } else if (version.PreReleaseLabel == "preview") {
-            BuildKind = BuildKind.Preview;
-        } else {
-            BuildKind = BuildKind.Development;
-        }
-
-        // Set the version in the pipeline of Azure Devops
-        if (this.AzurePipelines().IsRunningOnAzurePipelines) {
-            this.AzurePipelines().Commands.UpdateBuildNumber(Version);
-        }
-    }
-
-    public void Print()
-    {
-        PrintObject(this, 0);
-    }
+    public void Print() => PrintObject(this, 0);
 
     private void PrintObject(object obj, int indentation = 0)
     {

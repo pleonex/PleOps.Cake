@@ -31,9 +31,6 @@ jobs:
         with:
           dotnet-version: ${{ env.NET_SDK }}
 
-      - name: "Install build tools"
-        run: dotnet tool restore
-
       - name: "Build, test and bundle"
         run: dotnet run --project build/orchestrator -- --target=CI-Build --configuration=Release
         env:
@@ -72,9 +69,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.NET_SDK }}
-
-      - name: "Install build tools"
-        run: dotnet tool restore
 
       # Weird way to authenticate in Azure DevOps Artifacts
       # Then, we need to setup VSS_NUGET_EXTERNAL_FEED_ENDPOINTS
