@@ -19,58 +19,79 @@
 // SOFTWARE.
 using System.Reflection;
 using Cake.Core;
+using Cake.Core.Diagnostics;
 using Cake.Frosting;
-using Cake.Frosting.PleOps.Recipe;
+using Cake.Frosting.PleOps.Recipe.Dotnet;
 
 return new CakeHost()
     .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.BuildContext).Assembly)
     .AddAssembly(Assembly.GetAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask)))
-    .UseContext<BuildContext>()
+    .UseContext<MyCustomContext>()
     .UseLifetime<BuildLifetime>()
     .Run(args);
 
-public sealed class BuildLifetime : FrostingLifetime<BuildContext>
+public sealed class MyCustomContext : Cake.Frosting.PleOps.Recipe.BuildContext
 {
-    public override void Setup(BuildContext context, ISetupContext info)
+    public MyCustomContext(ICakeContext context)
+        : base(context)
+    {
+        CustomSetting = "DefaultValue";
+    }
+
+    public string CustomSetting { get; set; }
+}
+
+public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
+{
+    public override void Setup(MyCustomContext context, ISetupContext info)
     {
         // HERE you can set default values overridable by command-line
         context.SetGitVersion();
+        context.CustomSetting = "LifetimeValue";
+        context.CSharpContext.ApplicationProjects.Add(new ProjectPublicationInfo(
+            "./src/Cake.Frosting.PleOps.Samples.PublicApp", new[] { "win-x64" }));
+        context.CSharpContext.ApplicationProjects.Add(new ProjectPublicationInfo(
+            "./src/Cake.Frosting.PleOps.Samples.PublicApp2", new[] { "linux-x64", "osx-x64" }, "net7.0", "CustomApp"));
 
         // Update build parameters from command line arguments.
         context.ReadArguments();
+        context.IfArgIsPresent("custom-setting", x => context.CustomSetting = x);
 
         // HERE you can force values non-overridables.
+        context.CSharpContext.Configuration = "Samples";
+        context.CustomSetting = "ForcedValue";
         context.WarningsAsErrors = false;
 
         // Print the build info to use.
         context.Print();
     }
 
-    public override void Teardown(BuildContext context, ITeardownContext info)
+    public override void Teardown(MyCustomContext context, ITeardownContext info)
     {
     }
 }
 
-
 [TaskName("Default")]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask))]
-public sealed class DefaultTask : FrostingTask
-{
-}
-
-[TaskName("CI-Build")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.Issues.Recipe.IssuesTask))]
-public sealed class CIBuildTask : FrostingTask
+public sealed class DefaultTask : FrostingTask
 {
 }
 
-[TaskName("CI-Deploy")]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask))]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.UploadReleaseBinariesTask))]
-public sealed class CIDeployTask : FrostingTask
+[TaskName("BuildTest")]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask))]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.TestTask))]
+public sealed class BuildTestTask : FrostingTask
 {
+}
+
+public sealed class CustomTask : FrostingTask<MyCustomContext>
+{
+    public override void Run(MyCustomContext context)
+    {
+        context.Log.Information("Custom setting: {0}", context.CustomSetting);
+    }
 }

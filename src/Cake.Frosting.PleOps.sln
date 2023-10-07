@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.TestLibrary", "Cake.Frosting.PleOps.Samples.TestLibrary\Cake.Frosting.PleOps.Samples.TestLibrary.csproj", "{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Recipe", "Cake.Frosting.PleOps.Recipe\Cake.Frosting.PleOps.Recipe.csproj", "{91897437-1ED0-4220-8F38-A0FF58D42D64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DC733E37-34C4-4F52-B980-BDF902295D09}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\.github\workflows\build-and-release.yml = ..\.github\workflows\build-and-release.yml
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		..\.config\dotnet-tools.json = ..\.config\dotnet-tools.json
+		..\GitReleaseManager.yaml = ..\GitReleaseManager.yaml
+		..\GitVersion.yml = ..\GitVersion.yml
+		..\README.md = ..\README.md
+		Tests.runsettings = Tests.runsettings
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BuildSystem", "..\build\orchestrator\BuildSystem.csproj", "{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.PublicApp", "Cake.Frosting.PleOps.Samples.PublicApp\Cake.Frosting.PleOps.Samples.PublicApp.csproj", "{5B34B7D9-AE02-4685-8ED9-291B478D3498}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.InternalApp", "Cake.Frosting.PleOps.Samples.InternalApp\Cake.Frosting.PleOps.Samples.InternalApp.csproj", "{0BE987AA-F113-419C-BE3C-A897AC3C60E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.PublicLibrary", "Cake.Frosting.PleOps.Samples.PublicLibrary\Cake.Frosting.PleOps.Samples.PublicLibrary.csproj", "{D3B654C0-4F29-4766-BED4-D58DB51F3B93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.PublicApp2", "Cake.Frosting.PleOps.Samples.PublicApp2\Cake.Frosting.PleOps.Samples.PublicApp2.csproj", "{845BD769-236B-4AA0-8403-24A921CFC16C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cake.Frosting.PleOps.Samples.BuildSystem", "Cake.Frosting.PleOps.Samples.BuildSystem\Cake.Frosting.PleOps.Samples.BuildSystem.csproj", "{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Build|Any CPU = Build|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Samples|Any CPU = Samples|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}.Build|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}.Samples|Any CPU.ActiveCfg = Samples|Any CPU
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC}.Samples|Any CPU.Build.0 = Samples|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Build|Any CPU.ActiveCfg = Build|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Build|Any CPU.Build.0 = Build|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91897437-1ED0-4220-8F38-A0FF58D42D64}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}.Build|Any CPU.ActiveCfg = Build|Any CPU
+		{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}.Build|Any CPU.Build.0 = Build|Any CPU
+		{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B483559-0C82-46A7-ADCA-DC5B1396F4C4}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498}.Build|Any CPU.ActiveCfg = Build|Any CPU
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498}.Samples|Any CPU.Build.0 = Debug|Any CPU
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9}.Build|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9}.Samples|Any CPU.Build.0 = Debug|Any CPU
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93}.Build|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93}.Samples|Any CPU.Build.0 = Debug|Any CPU
+		{845BD769-236B-4AA0-8403-24A921CFC16C}.Build|Any CPU.ActiveCfg = Debug|Any CPU
+		{845BD769-236B-4AA0-8403-24A921CFC16C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{845BD769-236B-4AA0-8403-24A921CFC16C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{845BD769-236B-4AA0-8403-24A921CFC16C}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+		{845BD769-236B-4AA0-8403-24A921CFC16C}.Samples|Any CPU.Build.0 = Debug|Any CPU
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}.Build|Any CPU.ActiveCfg = Build|Any CPU
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}.Build|Any CPU.Build.0 = Build|Any CPU
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3}.Samples|Any CPU.ActiveCfg = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BD2A6233-1307-4F49-88FB-DD9B796DDEEC} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+		{5B34B7D9-AE02-4685-8ED9-291B478D3498} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+		{0BE987AA-F113-419C-BE3C-A897AC3C60E9} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+		{D3B654C0-4F29-4766-BED4-D58DB51F3B93} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+		{845BD769-236B-4AA0-8403-24A921CFC16C} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+		{B83BF21B-0720-4DC3-AB3E-A008BCC53CB3} = {3FAC1DC9-C6F7-4DDA-A9A0-ED92CF76932D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {10A4F85A-55D0-4389-9559-FA3251900F95}
+	EndGlobalSection
+EndGlobal

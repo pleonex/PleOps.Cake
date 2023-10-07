@@ -195,7 +195,7 @@ dotnet_style_allow_multiple_blank_lines_experimental = true:silent
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
 
 # Special rules for test projects
-[PleOps.Cake.TestExample/*.cs]
+[src/Cake.Frosting.PleOps.Samples*/*.cs]
 dotnet_diagnostic.CS1591.severity = none # Disable documentation
 dotnet_diagnostic.CA1001.severity = none # No need to implement IDisposable in test classes with cleanup.
 dotnet_diagnostic.CA1034.severity = none # Public types in test classes for testing implementations
