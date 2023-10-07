@@ -47,9 +47,9 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
     {
         // HERE you can set default values overridable by command-line
         context.CustomSetting = "LifetimeValue";
-        context.CSharpContext.ApplicationProjects.Add(new ProjectPublicationInfo(
+        context.DotNetContext.ApplicationProjects.Add(new ProjectPublicationInfo(
             "./src/Cake.Frosting.PleOps.Samples.PublicApp", new[] { "win-x64" }));
-        context.CSharpContext.ApplicationProjects.Add(new ProjectPublicationInfo(
+        context.DotNetContext.ApplicationProjects.Add(new ProjectPublicationInfo(
             "./src/Cake.Frosting.PleOps.Samples.PublicApp2", new[] { "linux-x64", "osx-x64" }, "net7.0", "CustomApp"));
 
         // Update build parameters from command line arguments.
@@ -57,7 +57,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
         context.IfArgIsPresent("custom-setting", x => context.CustomSetting = x);
 
         // HERE you can force values non-overridables.
-        context.CSharpContext.Configuration = "Samples";
+        context.DotNetContext.Configuration = "Samples";
         context.CustomSetting = "ForcedValue";
         context.WarningsAsErrors = false;
 

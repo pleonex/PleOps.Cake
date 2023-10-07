@@ -35,7 +35,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {
-        foreach (var project in context.CSharpContext.ApplicationProjects) {
+        foreach (var project in context.DotNetContext.ApplicationProjects) {
             if (project.Runtimes.Length == 0) {
                 throw new Exception($"At least one runtime must be specified for {project.ProjectPath}");
             }
@@ -68,7 +68,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         // This makes debugger easier as the path is the same between arch.
         // We don't force self-contained, we let developer choose in the .csproj
         var publishSettings = new DotNetPublishSettings {
-            Configuration = context.CSharpContext.Configuration,
+            Configuration = context.DotNetContext.Configuration,
             Runtime = runtime,
             Framework = string.IsNullOrEmpty(project.Framework) ? null : project.Framework,
             MSBuildSettings = new DotNetMSBuildSettings()

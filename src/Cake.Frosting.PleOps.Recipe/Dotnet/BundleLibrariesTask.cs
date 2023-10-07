@@ -43,13 +43,13 @@ public class BundleLibrariesTask : FrostingTask<BuildContext>
         }
 
         var packSettings = new DotNetPackSettings {
-            Configuration = context.CSharpContext.Configuration,
+            Configuration = context.DotNetContext.Configuration,
             OutputDirectory = context.ArtifactsPath,
             NoBuild = true,
             MSBuildSettings = new DotNetMSBuildSettings()
                 .SetVersion(context.Version)
                 .WithProperty("PackageReleaseNotes", changelog),
         };
-        context.DotNetPack(context.CSharpContext.SolutionPath, packSettings);
+        context.DotNetPack(context.DotNetContext.SolutionPath, packSettings);
     }
 }

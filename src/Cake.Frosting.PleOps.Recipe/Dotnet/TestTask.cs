@@ -52,24 +52,24 @@ public class TestTask : FrostingTask<BuildContext>
         context.CleanDirectory(testOutput);
 
         var netcoreSettings = new DotNetTestSettings {
-            Configuration = context.CSharpContext.Configuration,
+            Configuration = context.DotNetContext.Configuration,
             ResultsDirectory = testOutput,
             NoBuild = true,
             Loggers = new[] { "trx" },
             ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
             MSBuildSettings = new DotNetMSBuildSettings()
-                .WithProperty("Platform", context.CSharpContext.Platform)
+                .WithProperty("Platform", context.DotNetContext.Platform)
         };
 
-        if (!string.IsNullOrWhiteSpace(context.CSharpContext.TestConfigPath)) {
-            netcoreSettings.Settings = context.CSharpContext.TestConfigPath;
+        if (!string.IsNullOrWhiteSpace(context.DotNetContext.TestConfigPath)) {
+            netcoreSettings.Settings = context.DotNetContext.TestConfigPath;
         }
 
-        if (!string.IsNullOrWhiteSpace(context.CSharpContext.TestFilter)) {
-            netcoreSettings.Filter = $"FullyQualifiedName~{context.CSharpContext.TestFilter}";
+        if (!string.IsNullOrWhiteSpace(context.DotNetContext.TestFilter)) {
+            netcoreSettings.Filter = $"FullyQualifiedName~{context.DotNetContext.TestFilter}";
         }
 
-        context.DotNetTest(context.CSharpContext.SolutionPath, netcoreSettings);
+        context.DotNetTest(context.DotNetContext.SolutionPath, netcoreSettings);
     }
 
     private void RunCodeCoverage(BuildContext context, string testOutput)
@@ -104,10 +104,10 @@ public class TestTask : FrostingTask<BuildContext>
 
         double lineRate = double.Parse(xmlLineRate, CultureInfo.InvariantCulture) * 100;
 
-        if (lineRate >= context.CSharpContext.CoverageTarget) {
-            context.Log.Information($"Valid coverage! {lineRate} >= {context.CSharpContext.CoverageTarget}");
+        if (lineRate >= context.DotNetContext.CoverageTarget) {
+            context.Log.Information($"Valid coverage! {lineRate} >= {context.DotNetContext.CoverageTarget}");
         } else {
-            string message = $"Code coverage is below target: {lineRate} < {context.CSharpContext.CoverageTarget}";
+            string message = $"Code coverage is below target: {lineRate} < {context.DotNetContext.CoverageTarget}";
             if (context.WarningsAsErrors) {
                 throw new Exception(message);
             }

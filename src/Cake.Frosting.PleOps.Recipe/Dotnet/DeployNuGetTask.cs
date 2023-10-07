@@ -32,12 +32,12 @@ public class DeployNuGetTask : FrostingTask<BuildContext>
     public override void Run(BuildContext context)
     {
         string feed = (context.BuildKind == BuildKind.Stable)
-            ? context.CSharpContext.StableNuGetFeed
-            : context.CSharpContext.PreviewNuGetFeed;
+            ? context.DotNetContext.StableNuGetFeed
+            : context.DotNetContext.PreviewNuGetFeed;
 
         string token = (context.BuildKind == BuildKind.Stable)
-            ? context.CSharpContext.StableNuGetFeedToken
-            : context.CSharpContext.PreviewNuGetFeedToken;
+            ? context.DotNetContext.StableNuGetFeedToken
+            : context.DotNetContext.PreviewNuGetFeedToken;
 
         var settings = new DotNetNuGetPushSettings {
             Source = feed,

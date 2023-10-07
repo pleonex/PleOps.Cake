@@ -34,12 +34,12 @@ public class RestoreDependenciesTask : FrostingTask<BuildContext>
         if (!context.IsIncrementalBuild) {
             context.Log.Information("Cleaning .NET projects for selected configuration and platform");
             var cleanSettings = new DotNetCleanSettings {
-                Verbosity = context.CSharpContext.ToolingVerbosity,
-                Configuration = context.CSharpContext.Configuration,
+                Verbosity = context.DotNetContext.ToolingVerbosity,
+                Configuration = context.DotNetContext.Configuration,
                 MSBuildSettings = new DotNetMSBuildSettings()
-                    .WithProperty("Platform", context.CSharpContext.Platform),
+                    .WithProperty("Platform", context.DotNetContext.Platform),
             };
-            context.DotNetClean(context.CSharpContext.SolutionPath, cleanSettings);
+            context.DotNetClean(context.DotNetContext.SolutionPath, cleanSettings);
         }
 
         var warningMode = context.WarningsAsErrors
@@ -49,16 +49,16 @@ public class RestoreDependenciesTask : FrostingTask<BuildContext>
         context.Log.Information("Restoring .NET project dependencies");
         var dotnetSettings = new DotNetRestoreSettings {
             MSBuildSettings = new DotNetMSBuildSettings()
-                .SetConfiguration(context.CSharpContext.Configuration)
-                .WithProperty("Platform", context.CSharpContext.Platform)
+                .SetConfiguration(context.DotNetContext.Configuration)
+                .WithProperty("Platform", context.DotNetContext.Platform)
                 .TreatAllWarningsAs(warningMode),
-            Verbosity = context.CSharpContext.ToolingVerbosity,
+            Verbosity = context.DotNetContext.ToolingVerbosity,
         };
 
-        if (!string.IsNullOrEmpty(context.CSharpContext.NugetConfigPath)) {
-            dotnetSettings.ConfigFile = context.CSharpContext.NugetConfigPath;
+        if (!string.IsNullOrEmpty(context.DotNetContext.NugetConfigPath)) {
+            dotnetSettings.ConfigFile = context.DotNetContext.NugetConfigPath;
         }
 
-        context.DotNetRestore(context.CSharpContext.SolutionPath, dotnetSettings);
+        context.DotNetRestore(context.DotNetContext.SolutionPath, dotnetSettings);
     }
 }

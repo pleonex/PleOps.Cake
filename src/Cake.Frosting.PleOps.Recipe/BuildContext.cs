@@ -48,7 +48,7 @@ public class BuildContext : FrostingContext, IIssuesContext
         ChangelogNextFile = Path.GetFullPath("./CHANGELOG.NEXT.md");
         ChangelogFile = Path.GetFullPath("./CHANGELOG.md");
 
-        CSharpContext = new CSharpBuildContext();
+        DotNetContext = new DotNetBuildContext();
         DocFxContext = new DocFxBuildContext();
         GitHubReleaseContext = new GitHubReleaseBuildContext();
 
@@ -71,7 +71,7 @@ public class BuildContext : FrostingContext, IIssuesContext
 
     public string ChangelogFile { get; set; }
 
-    public CSharpBuildContext CSharpContext { get; set; }
+    public DotNetBuildContext DotNetContext { get; set; }
 
     public DocFxBuildContext DocFxContext { get; set; }
 
@@ -102,7 +102,7 @@ public class BuildContext : FrostingContext, IIssuesContext
         IfArgIsPresent("changelog", x => ChangelogFile = x);
 
         IssuesContext.ReadArguments(this);
-        CSharpContext.ReadArguments(this);
+        DotNetContext.ReadArguments(this);
         DocFxContext.ReadArguments(this);
         GitHubReleaseContext.ReadArguments(this);
     }

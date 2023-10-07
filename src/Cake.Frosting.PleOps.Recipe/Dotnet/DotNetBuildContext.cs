@@ -24,9 +24,9 @@ using System.Collections.ObjectModel;
 using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 
-public class CSharpBuildContext
+public class DotNetBuildContext
 {
-    public CSharpBuildContext()
+    public DotNetBuildContext()
     {
         Configuration = "Debug";
         Platform = "Any CPU";

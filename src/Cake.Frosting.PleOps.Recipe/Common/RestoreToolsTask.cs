@@ -32,8 +32,8 @@ public class RestoreToolsTask : FrostingTask<BuildContext>
         var argBuilder = new StringBuilder()
             .Append(" tool").Append(" restore");
 
-        if (File.Exists(context.CSharpContext.NugetConfigPath)) {
-            _ = argBuilder.AppendFormat(" --configfile \"{0}\"", context.CSharpContext.NugetConfigPath);
+        if (File.Exists(context.DotNetContext.NugetConfigPath)) {
+            _ = argBuilder.AppendFormat(" --configfile \"{0}\"", context.DotNetContext.NugetConfigPath);
         }
 
         int retcode = context.StartProcess(
