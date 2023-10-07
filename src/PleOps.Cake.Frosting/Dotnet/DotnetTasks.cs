@@ -20,9 +20,7 @@ public static class DotnetTasks
 
     public const string BundleAppsTaskName = ModuleName + ".BundleApplications";
 
-    public const string DeployLibsTaskName = ModuleName + ".DeployLibraries";
-
-    public const string DeployAppsTaskName = ModuleName + ".DeployApplications";
+    public const string DeployNuGetTaskName = ModuleName + ".DeployNuGet";
 
     [TaskName(ModuleName + ".PrepareProjectBundles")]
     [IsDependentOn(typeof(RestoreDependenciesTask))]
@@ -34,7 +32,9 @@ public static class DotnetTasks
     {
     }
 
-    public const string DeployPreviewPreview = ModuleName + ".DeployPreview";
-
-    public const string DeployStable = ModuleName + ".DeployStable";
+    [TaskName(ModuleName + ".DeployProject")]
+    [IsDependentOn(typeof(DeployNuGetTask))]
+    public class DeployProjectTask : FrostingTask
+    {
+    }
 }

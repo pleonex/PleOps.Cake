@@ -4,6 +4,7 @@ using global::Cake.Common.IO;
 using global::Cake.Core.Diagnostics;
 using global::Cake.Frosting;
 
+[TaskName(nameof(Common) + ".CleanArtifacts")]
 public class CleanArtifactsTask : FrostingTask<BuildContext>
 {
     public override bool ShouldRun(BuildContext context) =>

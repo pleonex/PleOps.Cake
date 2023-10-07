@@ -19,8 +19,8 @@ public static class DocFxTasks
 
     public const string BundleTaskName = ModuleName + ".Bundle";
 
-    // TODO: Attach to CI
-    public const string DeployPreview = ModuleName + ".DeployPreview";
+    // No need.
+    public const string DeployPreview = "";
 
     // No need. Way simpler via GitHub action.
     public const string DeployStable = "";
@@ -29,12 +29,6 @@ public static class DocFxTasks
     [IsDependentOn(typeof(BuildTask))]
     [IsDependentOn(typeof(BundleTask))]
     public class PrepareProjectBundlesTask : FrostingTask
-    {
-    }
-
-    [TaskName(ModuleName + "DeployProjectStaging")]
-    //[IsDependentOn(typeof(DeployLibrariesTask))]
-    public class DeployProjectStagingTask : FrostingTask
     {
     }
 }

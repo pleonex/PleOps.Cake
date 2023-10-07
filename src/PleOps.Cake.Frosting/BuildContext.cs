@@ -89,7 +89,7 @@ public class BuildContext : FrostingContext, IIssuesContext
     }
 
     /// <summary>
-    /// 
+    /// Set the project's version from the tool "GitVersion".
     /// </summary>
     /// <remarks>
     /// It requires the dotnet tool: GitVersion.Tool. Make sure to install it
