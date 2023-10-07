@@ -40,6 +40,8 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.StageLibrariesTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.DocFx.BuildTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.DocFx.StageTask))]
 [IsDependentOn(typeof(IssuesTask))]
 public sealed class DefaultTask : FrostingTask
 {

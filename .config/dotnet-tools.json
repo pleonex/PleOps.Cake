@@ -25,6 +25,12 @@
       "commands": [
         "reportgenerator"
       ]
+    },
+    "docfx": {
+      "version": "2.71.0",
+      "commands": [
+        "docfx"
+      ]
     }
   }
 }
