@@ -37,12 +37,16 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
 
 [TaskName("Default")]
 [IsDependentOn(typeof(CleanArtifactsTask))]
-[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
-[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
-[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.StageLibrariesTask))]
-[IsDependentOn(typeof(PleOps.Cake.Frosting.DocFx.BuildTask))]
-[IsDependentOn(typeof(PleOps.Cake.Frosting.DocFx.StageTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(IssuesTask))]
 public sealed class DefaultTask : FrostingTask
+{
+}
+
+[TaskName("BuildTest")]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.RestoreDependenciesTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.BuildTask))]
+public sealed class BuildTestTask : FrostingTask
 {
 }

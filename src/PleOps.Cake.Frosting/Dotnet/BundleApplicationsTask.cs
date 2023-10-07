@@ -9,8 +9,8 @@ using global::Cake.Common.Tools.DotNet.Publish;
 using global::Cake.Core.Diagnostics;
 using global::Cake.Frosting;
 
-[TaskName(DotnetTasks.StageAppsTaskName)]
-public class StageApplicationsTask : FrostingTask<BuildContext>
+[TaskName(DotnetTasks.BundleAppsTaskName)]
+public class BundleApplicationsTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using global::Cake.Common.IO;
 using global::Cake.Frosting;
 
-[TaskName(DocFxTasks.StageTaskName)]
+[TaskName(DocFxTasks.BundleTaskName)]
 [IsDependentOn(typeof(BuildTask))]
-public class StageTask : FrostingTask<BuildContext>
+public class BundleTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {

@@ -1,5 +1,7 @@
 ﻿namespace PleOps.Cake.Frosting.Dotnet;
 
+using global::Cake.Frosting;
+
 public static class DotnetTasks
 {
     private const string ModuleName = "PleOps.Cake.DotNet";
@@ -14,9 +16,23 @@ public static class DotnetTasks
 
     public const string TestTaskName = ModuleName + ".Tests";
 
-    public const string StageLibsTaskName = ModuleName + ".StageLibraries";
+    public const string BundleLibsTaskName = ModuleName + ".BundleLibraries";
 
-    public const string StageAppsTaskName = ModuleName + ".StageApplications";
+    public const string BundleAppsTaskName = ModuleName + ".BundleApplications";
+
+    public const string DeployLibsTaskName = ModuleName + ".DeployLibraries";
+
+    public const string DeployAppsTaskName = ModuleName + ".DeployApplications";
+
+    [TaskName(ModuleName + ".PrepareProjectBundles")]
+    [IsDependentOn(typeof(RestoreDependenciesTask))]
+    [IsDependentOn(typeof(BuildTask))]
+    [IsDependentOn(typeof(TestTask))]
+    [IsDependentOn(typeof(BundleLibrariesTask))]
+    [IsDependentOn(typeof(BundleApplicationsTask))]
+    public class PrepareProjectBundlesTask : FrostingTask
+    {
+    }
 
     public const string DeployPreviewPreview = ModuleName + ".DeployPreview";
 

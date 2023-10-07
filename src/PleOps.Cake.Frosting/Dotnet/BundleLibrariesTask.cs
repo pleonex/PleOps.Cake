@@ -6,8 +6,8 @@ using global::Cake.Common.Tools.DotNet.Pack;
 using global::Cake.Core.Diagnostics;
 using global::Cake.Frosting;
 
-[TaskName(DotnetTasks.StageLibsTaskName)]
-public class StageLibrariesTask : FrostingTask<BuildContext>
+[TaskName(DotnetTasks.BundleLibsTaskName)]
+public class BundleLibrariesTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {

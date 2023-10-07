@@ -1,5 +1,7 @@
 ﻿namespace PleOps.Cake.Frosting.DocFx;
 
+using global::Cake.Frosting;
+
 public static class DocFxTasks
 {
     private const string ModuleName = "PleOps.Cake.DocFx";
@@ -15,11 +17,24 @@ public static class DocFxTasks
     // No need. Linting happens while building
     public const string TestTaskName = "";
 
-    public const string StageTaskName = ModuleName + ".Stage";
+    public const string BundleTaskName = ModuleName + ".Bundle";
 
     // TODO: Attach to CI
     public const string DeployPreview = ModuleName + ".DeployPreview";
 
     // No need. Way simpler via GitHub action.
     public const string DeployStable = "";
+
+    [TaskName(ModuleName + "PrepareProjectBundles")]
+    [IsDependentOn(typeof(BuildTask))]
+    [IsDependentOn(typeof(BundleTask))]
+    public class PrepareProjectBundlesTask : FrostingTask
+    {
+    }
+
+    [TaskName(ModuleName + "DeployProjectStaging")]
+    //[IsDependentOn(typeof(DeployLibrariesTask))]
+    public class DeployProjectStagingTask : FrostingTask
+    {
+    }
 }
