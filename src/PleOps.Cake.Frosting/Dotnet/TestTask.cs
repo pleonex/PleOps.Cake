@@ -19,7 +19,12 @@ public class TestTask : FrostingTask<BuildContext>
     {
         string testOutput = Path.Combine(context.TemporaryPath, "tests_result");
         RunTests(context, testOutput);
-        RunCodeCoverage(context, testOutput);
+
+        if (Directory.GetFiles(testOutput, "*", SearchOption.AllDirectories).Length > 0) {
+            RunCodeCoverage(context, testOutput);
+        } else {
+            context.Log.Warning("dotnet couldn't find any test project");
+        }
     }
 
     private void RunTests(BuildContext context, string testOutput)
