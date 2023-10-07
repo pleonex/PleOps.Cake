@@ -52,6 +52,7 @@ public sealed class CIBuildTask : FrostingTask
 
 [TaskName("CI-Deploy")]
 [IsDependentOn(typeof(PleOps.Cake.Frosting.Dotnet.DotnetTasks.DeployProjectTask))]
+[IsDependentOn(typeof(PleOps.Cake.Frosting.GitHubRelease.UploadReleaseBinariesTask))]
 public sealed class CIDeployTask : FrostingTask
 {
 }
