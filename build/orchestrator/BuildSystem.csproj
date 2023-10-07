@@ -3,7 +3,6 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <RunWorkingDirectory>$(MSBuildProjectDirectory)/../..</RunWorkingDirectory>
-    <Configurations>Debug;Release;Build</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
