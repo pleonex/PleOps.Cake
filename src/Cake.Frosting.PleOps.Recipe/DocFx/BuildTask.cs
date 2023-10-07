@@ -24,6 +24,8 @@ using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Common;
+using Cake.Issues;
+using Cake.Issues.DocFx;
 
 [TaskName(DocFxTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
@@ -45,14 +47,27 @@ public class BuildTask : FrostingTask<BuildContext>
             File.Copy(context.ChangelogFile, context.DocFxContext.ChangelogDocPath, true);
         }
 
+        string logPath = Path.Combine(context.TemporaryPath, "docfx_log.txt");
+        if (File.Exists(logPath)) {
+            File.Delete(logPath);
+        }
+
         string outputDocs = Path.Combine(context.TemporaryPath, "docfx");
         string docfxArgs = new StringBuilder()
             .AppendFormat(" \"{0}\"", context.DocFxContext.DocFxFile)
+            .AppendFormat(" --log \"{0}\"", logPath)
             .AppendFormat(" --logLevel {0}", context.DocFxContext.ToolingVerbosity)
             .AppendFormat(" {0}", context.WarningsAsErrors ? "--warningsAsErrors" : string.Empty)
             .AppendFormat(" --output \"{0}\"", outputDocs)
             .ToString();
 
         context.DotNetTool("docfx" + docfxArgs);
+
+        // Parse the log file
+        string docsDir = Path.GetFullPath(Path.GetDirectoryName(context.DocFxContext.DocFxFile)!);
+        var issues = context.ReadIssues(
+            context.DocFxIssuesFromFilePath(logPath, docsDir),
+            context.IssuesContext.State.RepositoryRootDirectory);
+        context.IssuesContext.State.AddIssues(issues);
     }
 }

@@ -18,5 +18,6 @@
   <ItemGroup>
     <PackageReference Include="Cake.Frosting" />
     <PackageReference Include="Cake.Frosting.Issues.Recipe" />
+    <PackageReference Include="Cake.Issues.DocFx" />
   </ItemGroup>
 </Project>
