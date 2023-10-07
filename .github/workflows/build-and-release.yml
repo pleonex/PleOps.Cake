@@ -35,7 +35,7 @@ jobs:
         run: dotnet tool restore
 
       - name: "Build, test and bundle"
-        run: dotnet cake --target=CI-Build --configuration=Release
+        run: dotnet run --project build/orchestrator -- --target=CI-Build --configuration=Release
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
 
@@ -82,7 +82,7 @@ jobs:
         run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
 
       - name: "Deploy artifacts"
-        run: dotnet cake --target=CI-Deploy --verbosity=diagnostic
+        run: dotnet run --project build/orchestrator -- --target=CI-Deploy --verbosity=diagnostic
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           STABLE_NUGET_FEED_TOKEN: ${{ secrets.STABLE_NUGET_FEED_TOKEN }}
