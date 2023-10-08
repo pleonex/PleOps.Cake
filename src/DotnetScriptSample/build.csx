@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Benito Palacios Sánchez
+// Copyright (c) 2023 Benito Palacios Sánchez
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -17,6 +17,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#r "nuget: Cake.Frosting.PleOps.Recipe, 0.9.0-frosting.22"
+using System.Reflection;
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
@@ -27,9 +29,10 @@ return new CakeHost()
 #if CAKE_ISSUES
     .AddAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask).Assembly)
 #endif
+    .AddAssembly(Assembly.GetExecutingAssembly())
     .UseContext<MyCustomContext>()
     .UseLifetime<BuildLifetime>()
-    .Run(args);
+    .Run(Args);
 
 public sealed class MyCustomContext : Cake.Frosting.PleOps.Recipe.BuildContext
 {
@@ -77,7 +80,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 [TaskName("Default")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHub.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
 #if CAKE_ISSUES
