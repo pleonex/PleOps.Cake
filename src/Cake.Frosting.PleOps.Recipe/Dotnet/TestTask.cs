@@ -30,11 +30,15 @@ using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Common;
 
+/// <summary>
+/// Run the tests of the .NET projects from the solution level.
+/// </summary>
 [TaskName(DotnetTasks.TestTaskName)]
 [IsDependentOn(typeof(BuildTask))]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class TestTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         string testOutput = Path.Combine(context.TemporaryPath, "tests_result");
@@ -47,7 +51,7 @@ public class TestTask : FrostingTask<BuildContext>
         }
     }
 
-    private void RunTests(BuildContext context, string testOutput)
+    private static void RunTests(BuildContext context, string testOutput)
     {
         context.CleanDirectory(testOutput);
 
@@ -72,18 +76,9 @@ public class TestTask : FrostingTask<BuildContext>
         context.DotNetTest(context.DotNetContext.SolutionPath, netcoreSettings);
     }
 
-    private void RunCodeCoverage(BuildContext context, string testOutput)
+    private static void RunCodeCoverage(BuildContext context, string testOutput)
     {
         string coverageOutput = Path.Combine(context.ArtifactsPath, "code_coverage");
-
-        // Do not always fail if there isn't coverage files
-        Func<int, bool> reportExitHandler = (int code) => {
-            if (code != 0) {
-                context.Log.Warning("The code coverage tool returned an error");
-            }
-
-            return code == 0 || !context.WarningsAsErrors;
-        };
 
         StringBuilder argBuilder = new StringBuilder()
             .Append(" -reports:\"").Append(testOutput).Append("/**/coverage.cobertura.xml\"")

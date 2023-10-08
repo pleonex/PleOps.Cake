@@ -25,10 +25,14 @@ using Cake.Common.Tools.DotNet.Pack;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
-[TaskName(DotnetTasks.BundleLibsTaskName)]
+/// <summary>
+/// Task to bundle projects as NuGet packages.
+/// </summary>
+[TaskName(DotnetTasks.BundleNuGetsTaskName)]
 [IsDependentOn(typeof(BuildTask))]
-public class BundleLibrariesTask : FrostingTask<BuildContext>
+public class BundleNuGetsTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         string changelog = "Check the project site";
@@ -52,10 +56,10 @@ public class BundleLibrariesTask : FrostingTask<BuildContext>
         };
         context.DotNetPack(context.DotNetContext.SolutionPath, packSettings);
 
-        context.DeliveriesContext.NuGetLibraries.Clear();
+        context.DeliveriesContext.NuGetPackages.Clear();
         if (Directory.Exists(context.DeliveriesContext.NuGetArtifactsPath)) {
             foreach (string nuget in Directory.EnumerateFiles(context.DeliveriesContext.NuGetArtifactsPath, "*.nupkg")) {
-                context.DeliveriesContext.NuGetLibraries.Add(nuget);
+                context.DeliveriesContext.NuGetPackages.Add(nuget);
             }
         }
     }

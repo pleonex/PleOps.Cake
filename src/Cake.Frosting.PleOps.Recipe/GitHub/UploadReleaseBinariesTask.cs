@@ -22,13 +22,22 @@ namespace Cake.Frosting.PleOps.Recipe.GitHub;
 using Cake.Common.Tools.GitReleaseManager;
 using Cake.Frosting;
 
+/// <summary>
+/// Task to upload delivery binaries to the current GitHub release.
+/// </summary>
+/// <remarks>
+/// The GitHub release should have as a tag "v{Version}".
+/// This action only runs for stable builds if the GitHub token is present.
+/// </remarks>
 [TaskName(nameof(GitHub) + ".UploadReleaseBinaries")]
 public class UploadReleaseBinariesTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override bool ShouldRun(BuildContext context) =>
         (context.BuildKind == BuildKind.Stable) &&
         !string.IsNullOrEmpty(context.GitHubContext.GitHubToken);
 
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         string tagName = $"v{context.Version}";

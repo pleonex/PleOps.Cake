@@ -29,10 +29,14 @@ using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Common;
 
+/// <summary>
+/// Task to publish and bundle .NET applications.
+/// </summary>
 [TaskName(DotnetTasks.BundleAppsTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class BundleApplicationsTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         foreach (var project in context.DotNetContext.ApplicationProjects) {

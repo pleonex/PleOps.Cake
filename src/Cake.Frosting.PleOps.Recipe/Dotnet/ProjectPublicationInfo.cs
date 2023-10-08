@@ -19,6 +19,13 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe.Dotnet;
 
+/// <summary>
+/// Information about the parameters to publish a .NET project.
+/// </summary>
+/// <param name="ProjectPath">Path to the .csproj file.</param>
+/// <param name="Runtimes">List of runtimes to publish the project.</param>
+/// <param name="Framework">Framework to publish the project or default if null.</param>
+/// <param name="ProjectName">Output project name or default if null.</param>
 public record ProjectPublicationInfo(
     string ProjectPath,
     string[] Runtimes,

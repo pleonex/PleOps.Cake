@@ -36,8 +36,15 @@ using Cake.Frosting.Issues.Recipe;
 
 public class BuildContext : FrostingContext, IIssuesContext
 #endif
+
+/// <summary>
+/// Build context information to share across tasks.
+/// </summary>
 public class BuildContext : FrostingContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BuildContext"/> class.
+    /// </summary>
     public BuildContext(ICakeContext context)
         : base(context)
     {
@@ -61,30 +68,80 @@ public class BuildContext : FrostingContext
 #endif
     }
 
+    /// <summary>
+    /// Gets or sets the build version.
+    /// </summary>
+    /// <remarks>
+    /// GitVersion can set it.
+    /// </remarks>
+    [LogIgnore]
     public string Version { get; set; }
 
+    /// <summary>
+    /// Gets or sets the kind of build to perform.
+    /// </summary>
+    /// <remarks>
+    /// GitVersion can set it.
+    /// </remarks>
     public BuildKind BuildKind { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to do an incremental build and
+    /// skip cleaning existing artifacts and dependencies.
+    /// </summary>
     public bool IsIncrementalBuild { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to directory to write the artifacts.
+    /// </summary>
     public string ArtifactsPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets a path to the build temporary directory.
+    /// </summary>
     public string TemporaryPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the project repository root.
+    /// </summary>
+    /// <remarks>
+    /// Automatically obtained via command-line Git.
+    /// </remarks>
     public string RepositoryRootPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether to fail on warnings reported.
+    /// </summary>
     public bool WarningsAsErrors { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the next release changelog file.
+    /// </summary>
     public string ChangelogNextFile { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the full changelog file.
+    /// </summary>
     public string ChangelogFile { get; set; }
 
+    /// <summary>
+    /// Gets or sets the build context for .NET projects.
+    /// </summary>
     public DotNetBuildContext DotNetContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the build context for DocFX projects.
+    /// </summary>
     public DocFxBuildContext DocFxContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the build context for GitHub interactions.
+    /// </summary>
     public GitHubBuildContext GitHubContext { get; set; }
 
+    /// <summary>
+    /// Gets or sets the build context for the project's deliveries.
+    /// </summary>
     public DeliveriesContext DeliveriesContext { get; set; }
 
 #if CAKE_ISSUES
@@ -96,6 +153,11 @@ public class BuildContext : FrostingContext
     IIssuesState IIssuesContext.State => IssuesContext.State;
 #endif
 
+    /// <summary>
+    /// Run the setter if the argument name is present.
+    /// </summary>
+    /// <param name="argName">Argument name.</param>
+    /// <param name="setter">Setter to run.</param>
     public void IfArgIsPresent(string argName, Action<string> setter)
     {
         if (Arguments.HasArgument(argName)) {
@@ -103,6 +165,9 @@ public class BuildContext : FrostingContext
         }
     }
 
+    /// <summary>
+    /// Initialize the build context with command-line arguments if present.
+    /// </summary>
     public void ReadArguments()
     {
         IfArgIsPresent("artifacts", x => ArtifactsPath = Path.GetFullPath(x));
@@ -123,6 +188,9 @@ public class BuildContext : FrostingContext
 #endif
     }
 
+    /// <summary>
+    /// Log the non-sensitive information of the build context.
+    /// </summary>
     public void Print() => PrintObject(this, 0);
 
     private void PrintObject(object obj, int indentation = 0)
@@ -139,11 +207,12 @@ public class BuildContext : FrostingContext
 
         foreach (PropertyInfo property in properties) {
             object? value = property.GetValue(obj);
+            string spaces = new string(' ', indentation);
 
             bool ignore = Attribute.IsDefined(property, typeof(LogIgnoreAttribute));
             if (ignore) {
                 bool isEmpty = (value == null) || string.IsNullOrEmpty(value.ToString());
-                Log.Information($"{property.Name} is " + (isEmpty ? "not set" : "set"));
+                Log.Information($"{spaces}{property.Name} is " + (isEmpty ? "not set" : "set"));
                 continue;
             }
 
@@ -151,7 +220,6 @@ public class BuildContext : FrostingContext
                 value = string.Join(", ", stringList);
             }
 
-            string spaces = new string(' ', indentation);
             if (value is not null and not ValueType and not string) {
                 Log.Information($"{spaces}{property.Name}:");
 

@@ -24,10 +24,14 @@ using Cake.Common.Tools.DotNet.Build;
 using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Frosting;
 
+/// <summary>
+/// Build the .NET projects.
+/// </summary>
 [TaskName(DotnetTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreDependenciesTask))]
 public class BuildTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
 #if CAKE_ISSUES

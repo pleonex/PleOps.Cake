@@ -23,12 +23,17 @@ using Cake.Common.IO;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
+/// <summary>
+/// Task to clean the artifact and temporary folders if it's not an incremental build.
+/// </summary>
 [TaskName(nameof(Common) + ".CleanArtifacts")]
 public class CleanArtifactsTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override bool ShouldRun(BuildContext context) =>
         !context.IsIncrementalBuild;
 
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         context.Log.Information("Removing artifacts directory");

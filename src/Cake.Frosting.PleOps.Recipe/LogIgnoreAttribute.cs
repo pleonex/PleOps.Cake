@@ -21,6 +21,9 @@ namespace Cake.Frosting.PleOps.Recipe;
 
 using System;
 
+/// <summary>
+/// Attributes for properties that prevents displaying its content in logs.
+/// </summary>
 [AttributeUsage(AttributeTargets.Property)]
 public sealed class LogIgnoreAttribute : Attribute
 {

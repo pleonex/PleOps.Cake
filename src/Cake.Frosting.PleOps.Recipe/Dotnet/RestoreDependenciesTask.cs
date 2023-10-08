@@ -26,9 +26,13 @@ using Cake.Common.Tools.DotNet.Restore;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
+/// <summary>
+/// Restore dependencies of .NET projects.
+/// </summary>
 [TaskName(DotnetTasks.RestoreTaskName)]
 public class RestoreDependenciesTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         if (!context.IsIncrementalBuild) {
@@ -42,7 +46,7 @@ public class RestoreDependenciesTask : FrostingTask<BuildContext>
             context.DotNetClean(context.DotNetContext.SolutionPath, cleanSettings);
         }
 
-        var warningMode = context.WarningsAsErrors
+        MSBuildTreatAllWarningsAs warningMode = context.WarningsAsErrors
             ? MSBuildTreatAllWarningsAs.Error
             : MSBuildTreatAllWarningsAs.Default;
 

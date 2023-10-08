@@ -24,8 +24,14 @@ using System.Collections.ObjectModel;
 using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 
+/// <summary>
+/// Build context information for .NET projects.
+/// </summary>
 public class DotNetBuildContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DotNetBuildContext"/> class.
+    /// </summary>
     public DotNetBuildContext()
     {
         Configuration = "Debug";
@@ -36,7 +42,6 @@ public class DotNetBuildContext
         TestFilter = string.Empty;
 
         NugetConfigPath = string.Empty;
-        NugetPackageOutputPath = string.Empty;
         PreviewNuGetFeed = "https://api.nuget.org/v3/index.json";
         StableNuGetFeed = "https://api.nuget.org/v3/index.json";
         PreviewNuGetFeedToken = string.Empty;
@@ -49,36 +54,84 @@ public class DotNetBuildContext
         TestConfigPath = File.Exists(expectedTestConfigPath) ? expectedTestConfigPath : string.Empty;
     }
 
+    /// <summary>
+    /// Gets or sets the solution configuration to build.
+    /// </summary>
     public string Configuration { get; set; }
 
+    /// <summary>
+    /// Gets or sets the solution platform to build.
+    /// </summary>
     public string Platform { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the solution file.
+    /// </summary>
+    /// <remarks>
+    /// It tries to auto-detect from the 'src' folder.
+    /// </remarks>
     public string SolutionPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the target for the code coverage.
+    /// </summary>
     public int CoverageTarget { get; set; }
 
+    /// <summary>
+    /// Gets or sets the optional filter to run selective tests.
+    /// </summary>
     public string TestFilter { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the test configuration runsettings file.
+    /// </summary>
     public string TestConfigPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the optional nuget configuration file.
+    /// </summary>
     public string NugetConfigPath { get; set; }
 
-    public string NugetPackageOutputPath { get; set; }
-
+    /// <summary>
+    /// Gets the collection of projects to bundle.
+    /// </summary>
     public Collection<ProjectPublicationInfo> ApplicationProjects { get; }
 
+    /// <summary>
+    /// Gets or sets the URL to the NuGet feed to deploy preview versions.
+    /// </summary>
     public string PreviewNuGetFeed { get; set; }
 
+    /// <summary>
+    /// Gets or sets the token to deploy in the preview NuGet feed.
+    /// </summary>
     [LogIgnore]
     public string PreviewNuGetFeedToken { get; set; }
 
+    /// <summary>
+    /// Gets or sets the URL to the NuGet feed to deploy stable versions.
+    /// </summary>
     public string StableNuGetFeed { get; set; }
 
+    /// <summary>
+    /// Gets or sets the token to deploy in the stable NuGet feed.
+    /// </summary>
     [LogIgnore]
     public string StableNuGetFeedToken { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tooling verbosity.
+    /// </summary>
+    /// <remarks>
+    /// Set from the current Cake verbosity.
+    /// </remarks>
     public DotNetVerbosity ToolingVerbosity { get; set; }
 
+    /// <summary>
+    /// Initializes the information from the command-line arguments.
+    /// </summary>
+    /// <param name="context">Cake context.</param>
+    /// <exception cref="NotSupportedException">Invalid verbosity.</exception>
     public void ReadArguments(BuildContext context)
     {
         // From Cake script verbosity "--verbosity X" flag

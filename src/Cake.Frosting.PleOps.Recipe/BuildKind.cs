@@ -19,9 +19,23 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe;
 
+/// <summary>
+/// Kind of build running.
+/// </summary>
 public enum BuildKind
 {
+    /// <summary>
+    /// Development build: local or from a pull request.
+    /// </summary>
     Development,
+
+    /// <summary>
+    /// Preview / Staging build.
+    /// </summary>
     Preview,
+
+    /// <summary>
+    /// Stable / Production build.
+    /// </summary>
     Stable,
 }

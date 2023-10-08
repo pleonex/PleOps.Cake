@@ -24,13 +24,18 @@ using Cake.Common.Tools.GitReleaseManager.Export;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
+/// <summary>
+/// Exports the release notes from the GitHub releases.
+/// </summary>
 [TaskName(nameof(GitHub) + ".ExportReleaseNotes")]
 public class ExportReleaseNotesTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override bool ShouldRun(BuildContext context) =>
         (context.BuildKind is BuildKind.Preview or BuildKind.Stable)
         && !string.IsNullOrEmpty(context.GitHubContext.GitHubToken);
 
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         // Export last release to embed in apps and libraries (if exists)

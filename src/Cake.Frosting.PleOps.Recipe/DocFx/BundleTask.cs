@@ -23,10 +23,14 @@ using System.Linq;
 using Cake.Common.IO;
 using Cake.Frosting;
 
+/// <summary>
+/// Task to bundle the DocFx documentation in a zip file.
+/// </summary>
 [TaskName(DocFxTasks.BundleTaskName)]
 [IsDependentOn(typeof(BuildTask))]
 public class BundleTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         context.Zip(

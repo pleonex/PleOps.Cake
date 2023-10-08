@@ -21,8 +21,14 @@ namespace Cake.Frosting.PleOps.Recipe.DocFx;
 
 using Cake.Core.Diagnostics;
 
+/// <summary>
+/// Build context for DocFx documentation projects.
+/// </summary>
 public class DocFxBuildContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DocFxBuildContext"/> class.
+    /// </summary>
     public DocFxBuildContext()
     {
         DocFxFile = Path.GetFullPath("./docs/docfx.json");
@@ -30,12 +36,26 @@ public class DocFxBuildContext
         ToolingVerbosity = "Info";
     }
 
+    /// <summary>
+    /// Gets or setse the path to the docfx.json file.
+    /// </summary>
     public string DocFxFile { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to put the changelog file in the documentation.
+    /// </summary>
     public string ChangelogDocPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the tooling verbosity.
+    /// </summary>
     public string ToolingVerbosity { get; set; }
 
+    /// <summary>
+    /// Initializes the information from the build context.
+    /// </summary>
+    /// <param name="context">Cake context.</param>
+    /// <exception cref="NotSupportedException">Invalid cake verbosity.</exception>
     public void ReadArguments(BuildContext context)
     {
         // From Cake script verbosity "--verbosity X" flag

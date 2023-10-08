@@ -22,11 +22,17 @@ namespace Cake.Frosting.PleOps.Recipe;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
+/// <summary>
+/// Build contexts with the project deliveries.
+/// </summary>
 public class DeliveriesContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeliveriesContext"/> class.
+    /// </summary>
     public DeliveriesContext()
     {
-        NuGetLibraries = new Collection<string>();
+        NuGetPackages = new Collection<string>();
         BinaryFiles = new Collection<string>();
 
         DocumentationPath = "build/artifacts/docs";
@@ -34,22 +40,48 @@ public class DeliveriesContext
         NuGetArtifactsPath = "build/artifacts/nuget";
     }
 
+    /// <summary>
+    /// Gets or sets the path to the directory with NuGet artifacts.
+    /// </summary>
     public string NuGetArtifactsPath { get; set; }
 
-    public Collection<string> NuGetLibraries { get; set; }
+    /// <summary>
+    /// Gets or sets the collection of the project's NuGet packages.
+    /// </summary>
+    public Collection<string> NuGetPackages { get; set; }
 
+    /// <summary>
+    /// Get or sets the collection of binary delivery files.
+    /// </summary>
     public Collection<string> BinaryFiles { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the directory containing the documentation folder.
+    /// </summary>
     public string DocumentationPath { get; set; }
 
+    /// <summary>
+    /// Gets or sets the path to the JSON file with the information of the deliveries.
+    /// </summary>
     public string DeliveryInfoPath { get; private set; }
 
+    /// <summary>
+    /// Serializes this class into JSON and store it in the provided path.
+    /// </summary>
     public void Save()
     {
         string json = JsonSerializer.Serialize(this);
         File.WriteAllText(DeliveryInfoPath, json);
     }
 
+    /// <summary>
+    /// Initializes this class from the build context and information of disk.
+    /// </summary>
+    /// <param name="context">Build context.</param>
+    /// <exception cref="FormatException">Invalid JSON file on disk.</exception>
+    /// <remarks>
+    /// If the artifacts.json file exists, it will load the information from there.
+    /// </remarks>
     public void Initialize(BuildContext context)
     {
         DeliveryInfoPath = Path.Combine(context.ArtifactsPath, "artifacts.json");
@@ -61,7 +93,7 @@ public class DeliveriesContext
 
             DocumentationPath = actual.DocumentationPath;
             NuGetArtifactsPath = actual.NuGetArtifactsPath;
-            NuGetLibraries = actual.NuGetLibraries;
+            NuGetPackages = actual.NuGetPackages;
             BinaryFiles = actual.BinaryFiles;
         } else {
             DocumentationPath = Path.Combine(context.ArtifactsPath, "docs");

@@ -21,8 +21,14 @@ namespace Cake.Frosting.PleOps.Recipe.GitHub;
 
 using Cake.Core;
 
+/// <summary>
+/// Build context for GitHub interactions.
+/// </summary>
 public class GitHubBuildContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GitHubBuildContext"/> class.
+    /// </summary>
     public GitHubBuildContext()
     {
         GitHubToken = string.Empty;
@@ -30,13 +36,34 @@ public class GitHubBuildContext
         RepositoryName = string.Empty;
     }
 
+    /// <summary>
+    /// Gets or sets the owner of the repository.
+    /// </summary>
+    /// <remarks>
+    /// This information is filled via 'GITHUB_REPOSITORY' environment variable
+    /// set by GitHub action.
+    /// </remarks>
     public string RepositoryOwner { get; set; }
 
+    /// <summary>
+    /// Gets or sets the name of the repository.
+    /// </summary>
+    /// <remarks>
+    /// This information is filled via 'GITHUB_REPOSITORY' environment variable
+    /// set by GitHub action.
+    /// </remarks>
     public string RepositoryName { get; set; }
 
+    /// <summary>
+    /// Gets or sets the token for GitHub.
+    /// </summary>
     [LogIgnore]
     public string GitHubToken { get; set; }
 
+    /// <summary>
+    /// Initializes from environment variables.
+    /// </summary>
+    /// <param name="context">Cake context extensions.</param>
     public void ReadArguments(BuildContext context)
     {
         GitHubToken = context.Environment.GetEnvironmentVariable("GITHUB_TOKEN");

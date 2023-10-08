@@ -21,29 +21,41 @@ namespace Cake.Frosting.PleOps.Recipe.DocFx;
 
 using Cake.Frosting;
 
+/// <summary>
+/// Tasks to work with DocFx projects.
+/// </summary>
 public static class DocFxTasks
 {
     private const string ModuleName = nameof(DocFx);
 
     // In dotnet manifest via dotnet tools with the rest of tools
-    public const string InstallSdkTaskName = "";
+    internal const string InstallSdkTaskName = "";
 
     // Themes if any would be restore via git submodules.
-    public const string RestoreTaskName = "";
+    internal const string RestoreTaskName = "";
 
+    /// <summary>
+    /// Gets the name of the build task.
+    /// </summary>
     public const string BuildTaskName = ModuleName + ".Build";
 
     // No need. Linting happens while building
-    public const string TestTaskName = "";
+    internal const string TestTaskName = "";
 
+    /// <summary>
+    /// Gets the name of the bundle task.
+    /// </summary>
     public const string BundleTaskName = ModuleName + ".Bundle";
 
     // No need.
-    public const string DeployPreview = "";
+    internal const string DeployPreview = "";
 
     // No need. Way simpler via GitHub action.
-    public const string DeployStable = "";
+    internal const string DeployStable = "";
 
+    /// <summary>
+    /// Run tasks to build, test and bundle projects.
+    /// </summary>
     [TaskName(ModuleName + "PrepareProjectBundles")]
     [IsDependentOn(typeof(BuildTask))]
     [IsDependentOn(typeof(BundleTask))]

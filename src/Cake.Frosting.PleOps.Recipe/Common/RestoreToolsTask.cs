@@ -24,9 +24,13 @@ using System.Text;
 using Cake.Common;
 using Cake.Core.IO;
 
+/// <summary>
+/// Task to restore or update .NET tools available in the manifest.
+/// </summary>
 [TaskName(nameof(Common) + ".RestoreTools")]
 public class RestoreToolsTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         var argBuilder = new StringBuilder()

@@ -30,10 +30,14 @@ using Cake.Issues;
 using Cake.Issues.DocFx;
 #endif
 
+/// <summary>
+/// Task to build the DocFx documentation.
+/// </summary>
 [TaskName(DocFxTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class BuildTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         if (!File.Exists(context.DocFxContext.DocFxFile)) {

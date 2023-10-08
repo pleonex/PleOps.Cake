@@ -21,36 +21,68 @@ namespace Cake.Frosting.PleOps.Recipe.Dotnet;
 
 using Cake.Frosting;
 
+/// <summary>
+/// Tasks to work with .NET projects.
+/// </summary>
 public static class DotnetTasks
 {
     private const string ModuleName = nameof(Dotnet);
 
-    // The build orchestrator (Cake) requires the .NET SDK as well.
-    // It's assummed is already installed and running.
-    public const string InstallSdkTaskName = "";
+    /// <summary>
+    /// Gets the name of the install SDK task.
+    /// </summary>
+    /// <remarks>
+    /// The build orchestrator requires the .NET SDK as well as is a .NET project.
+    /// It's assummed is already installed and running.
+    /// </remarks>
+    internal const string InstallSdkTaskName = "";
 
+    /// <summary>
+    /// Gets the name of the restore dependencies task.
+    /// </summary>
     public const string RestoreTaskName = ModuleName + ".Restore";
 
+    /// <summary>
+    /// Gets the name of the build task.
+    /// </summary>
     public const string BuildTaskName = ModuleName + ".Build";
 
+    /// <summary>
+    /// Gets the name of the test task.
+    /// </summary>
     public const string TestTaskName = ModuleName + ".Tests";
 
-    public const string BundleLibsTaskName = ModuleName + ".BundleLibraries";
+    /// <summary>
+    /// Gets the name of the bundle NuGets task.
+    /// </summary>
+    public const string BundleNuGetsTaskName = ModuleName + ".BundleNuGets";
 
+    /// <summary>
+    /// Gets the name of the bundle applications task.
+    /// </summary>
     public const string BundleAppsTaskName = ModuleName + ".BundleApplications";
 
+    /// <summary>
+    /// Gets the name of the deploy NuGet task.
+    /// </summary>
     public const string DeployNuGetTaskName = ModuleName + ".DeployNuGet";
 
+    /// <summary>
+    /// Run tasks to build, test and bundle projects.
+    /// </summary>
     [TaskName(ModuleName + ".PrepareProjectBundles")]
     [IsDependentOn(typeof(RestoreDependenciesTask))]
     [IsDependentOn(typeof(BuildTask))]
     [IsDependentOn(typeof(TestTask))]
-    [IsDependentOn(typeof(BundleLibrariesTask))]
+    [IsDependentOn(typeof(BundleNuGetsTask))]
     [IsDependentOn(typeof(BundleApplicationsTask))]
     public class PrepareProjectBundlesTask : FrostingTask
     {
     }
 
+    /// <summary>
+    /// Run tasks to deploy the deliveries.
+    /// </summary>
     [TaskName(ModuleName + ".DeployProject")]
     [IsDependentOn(typeof(DeployNuGetTask))]
     public class DeployProjectTask : FrostingTask

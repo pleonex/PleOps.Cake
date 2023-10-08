@@ -24,12 +24,17 @@ using Cake.Common.Tools.DotNet.NuGet.Push;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
+/// <summary>
+/// Tasks to deploy NuGet packages to the preview or stable feed.
+/// </summary>
 [TaskName(DotnetTasks.DeployNuGetTaskName)]
 public class DeployNuGetTask : FrostingTask<BuildContext>
 {
+    /// <inheritdoc />
     public override bool ShouldRun(BuildContext context) =>
         context.BuildKind != BuildKind.Development;
 
+    /// <inheritdoc />
     public override void Run(BuildContext context)
     {
         string feed = (context.BuildKind == BuildKind.Stable)
@@ -46,7 +51,7 @@ public class DeployNuGetTask : FrostingTask<BuildContext>
             SkipDuplicate = true,
         };
 
-        foreach (string package in context.DeliveriesContext.NuGetLibraries) {
+        foreach (string package in context.DeliveriesContext.NuGetPackages) {
             context.Log.Information("Pushing NuGet: {0}", package);
             context.DotNetNuGetPush(package, settings);
         }
