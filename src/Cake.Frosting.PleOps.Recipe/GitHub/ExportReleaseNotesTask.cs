@@ -19,8 +19,8 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe.GitHub;
 
-using Cake.Common.Tools.GitReleaseManager;
-using Cake.Common.Tools.GitReleaseManager.Export;
+using System.Text;
+using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
@@ -32,30 +32,42 @@ public class ExportReleaseNotesTask : FrostingTask<BuildContext>
 {
     /// <inheritdoc />
     public override bool ShouldRun(BuildContext context) =>
-        (context.BuildKind is BuildKind.Preview or BuildKind.Stable)
-        && !string.IsNullOrEmpty(context.GitHubContext.GitHubToken);
+        !string.IsNullOrEmpty(context.GitHubContext.GitHubToken) &&
+        !string.IsNullOrEmpty(context.GitHubContext.RepositoryOwner) &&
+        !string.IsNullOrEmpty(context.GitHubContext.RepositoryName);
 
     /// <inheritdoc />
     public override void Run(BuildContext context)
     {
+        var argBuilder = new StringBuilder();
+
         // Export last release to embed in apps and libraries (if exists)
         try {
             string tagName = $"v{context.Version}";
-            context.GitReleaseManagerExport(
-                context.GitHubContext.GitHubToken,
-                context.GitHubContext.RepositoryOwner,
-                context.GitHubContext.RepositoryName,
-                context.ChangelogNextFile,
-                new GitReleaseManagerExportSettings { TagName = tagName });
-        } catch (Exception e) {
-            context.Log.Warning("Cannot extract latest release notes:\n{0}", e.ToString());
+            _ = argBuilder.Append("export ")
+                .AppendFormat(" --tagName {0}", tagName)
+                .AppendFormat(" --token {0}", context.GitHubContext.GitHubToken)
+                .AppendFormat(" --owner {0}", context.GitHubContext.RepositoryOwner)
+                .AppendFormat(" --repository {0}", context.GitHubContext.RepositoryName)
+                .AppendFormat(" --fileOutputPath \"{0}\"", context.ChangelogNextFile);
+
+            context.DotNetTool("dotnet-gitreleasemanager " + argBuilder.ToString());
+        } catch (Exception ex) {
+            context.Log.Warning("Cannot extract latest release notes:\n{0}", ex.ToString());
         }
 
         // Export full changelog for documentation
-        context.GitReleaseManagerExport(
-            context.GitHubContext.GitHubToken,
-            context.GitHubContext.RepositoryOwner,
-            context.GitHubContext.RepositoryName,
-            context.ChangelogFile);
+        try {
+            _ = argBuilder.Clear()
+                .Append("export ")
+                .AppendFormat(" --token {0}", context.GitHubContext.GitHubToken)
+                .AppendFormat(" --owner {0}", context.GitHubContext.RepositoryOwner)
+                .AppendFormat(" --repository {0}", context.GitHubContext.RepositoryName)
+                .AppendFormat(" --fileOutputPath \"{0}\"", context.ChangelogFile);
+
+            context.DotNetTool("dotnet-gitreleasemanager " + argBuilder.ToString());
+        } catch (Exception ex) {
+            context.Log.Warning("Cannot extract release notes:\n{0}", ex.ToString());
+        }
     }
 }

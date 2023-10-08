@@ -5,7 +5,10 @@
     },
     "CI-Build": {
       "commandName": "Project",
-      "commandLineArgs": "--target=CI-Build --configuration=Release"
+      "commandLineArgs": "--target=CI-Build --configuration=Release",
+      "environmentVariables": {
+        "GITHUB_REPOSITORY": "pleonex/PleOps.Cake"
+      }
     }
   }
 }
