@@ -24,8 +24,11 @@ using Cake.Common.Tools.DotNet;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Common;
+
+#if CAKE_ISSUES
 using Cake.Issues;
 using Cake.Issues.DocFx;
+#endif
 
 [TaskName(DocFxTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
@@ -63,11 +66,13 @@ public class BuildTask : FrostingTask<BuildContext>
 
         context.DotNetTool("docfx" + docfxArgs);
 
+#if CAKE_ISSUES
         // Parse the log file
         string docsDir = Path.GetFullPath(Path.GetDirectoryName(context.DocFxContext.DocFxFile)!);
         var issues = context.ReadIssues(
             context.DocFxIssuesFromFilePath(logPath, docsDir),
             context.IssuesContext.State.RepositoryRootDirectory);
         context.IssuesContext.State.AddIssues(issues);
+#endif
     }
 }

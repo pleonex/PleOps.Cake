@@ -22,19 +22,21 @@ namespace Cake.Frosting.PleOps.Recipe;
 using System.Collections;
 using System.IO;
 using System.Reflection;
-using System.Text.Json;
 using Cake.Common;
 using Cake.Common.Build;
-using Cake.Common.Tools.GitVersion;
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
-using Cake.Frosting.Issues.Recipe;
 using Cake.Frosting.PleOps.Recipe.DocFx;
 using Cake.Frosting.PleOps.Recipe.Dotnet;
 using Cake.Frosting.PleOps.Recipe.GitHubRelease;
 
+#if CAKE_ISSUES
+using Cake.Frosting.Issues.Recipe;
+
 public class BuildContext : FrostingContext, IIssuesContext
+#endif
+public class BuildContext : FrostingContext
 {
     public BuildContext(ICakeContext context)
         : base(context)
@@ -45,6 +47,7 @@ public class BuildContext : FrostingContext, IIssuesContext
         WarningsAsErrors = true;
         ArtifactsPath = Path.GetFullPath("./build/artifacts");
         TemporaryPath = Path.GetFullPath("./build/temp");
+        RepositoryRootPath = GetRepositoryRootPath();
         ChangelogNextFile = Path.GetFullPath("./CHANGELOG.NEXT.md");
         ChangelogFile = Path.GetFullPath("./CHANGELOG.md");
 
@@ -52,7 +55,9 @@ public class BuildContext : FrostingContext, IIssuesContext
         DocFxContext = new DocFxBuildContext();
         GitHubReleaseContext = new GitHubReleaseBuildContext();
 
+#if CAKE_ISSUES
         IssuesContext = new CakeIssuesContext(this);
+#endif
     }
 
     public string Version { get; set; }
@@ -64,6 +69,8 @@ public class BuildContext : FrostingContext, IIssuesContext
     public string ArtifactsPath { get; set; }
 
     public string TemporaryPath { get; set; }
+
+    public string RepositoryRootPath { get; set; }
 
     public bool WarningsAsErrors { get; set; }
 
@@ -77,12 +84,14 @@ public class BuildContext : FrostingContext, IIssuesContext
 
     public GitHubReleaseBuildContext GitHubReleaseContext { get; set; }
 
+#if CAKE_ISSUES
     [LogIgnore]
     public CakeIssuesContext IssuesContext { get; }
 
     IIssuesParameters IIssuesContext.Parameters => IssuesContext.Parameters;
 
     IIssuesState IIssuesContext.State => IssuesContext.State;
+#endif
 
     public void IfArgIsPresent(string argName, Action<string> setter)
     {
@@ -101,10 +110,13 @@ public class BuildContext : FrostingContext, IIssuesContext
         IfArgIsPresent("changelog-next", x => ChangelogNextFile = x);
         IfArgIsPresent("changelog", x => ChangelogFile = x);
 
-        IssuesContext.ReadArguments(this);
         DotNetContext.ReadArguments(this);
         DocFxContext.ReadArguments(this);
         GitHubReleaseContext.ReadArguments(this);
+
+#if CAKE_ISSUES
+        IssuesContext.ReadArguments(this);
+#endif
     }
 
     public void Print() => PrintObject(this, 0);
@@ -152,5 +164,37 @@ public class BuildContext : FrostingContext, IIssuesContext
                 Log.Information($"{spaces}{property.Name}: '{value}'");
             }
         }
+    }
+
+    private string GetRepositoryRootPath()
+    {
+        int exitCode = this.StartProcess(
+            "git",
+            new Cake.Core.IO.ProcessSettings {
+                Arguments = "rev-parse --show-toplevel",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true
+            },
+            out IEnumerable<string> redirectedStandardOutput,
+            out IEnumerable<string> redirectedErrorOutput);
+
+        if (exitCode != 0) {
+            Log.Warning(
+                $"Git command failed to obtain root repo path. " +
+                $"Exit code: {exitCode}. " +
+                $"Error output: {string.Join(System.Environment.NewLine, redirectedErrorOutput)}");
+            Log.Warning(
+                "The build system will use the current working directory as root. " +
+                "Overwrite or ensure git is installed and in the PATH");
+            return System.Environment.CurrentDirectory;
+        }
+
+        string[] output = redirectedStandardOutput.ToArray();
+        if (output.Length != 1) {
+            Log.Warning("Invalid output from git to obtain root path. Using current working directory");
+            return System.Environment.CurrentDirectory;
+        }
+
+        return output[0];
     }
 }

@@ -19,6 +19,7 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe;
 
+#if CAKE_ISSUES
 using Cake.Frosting.Issues.Recipe;
 
 public class CakeIssuesContext
@@ -38,3 +39,4 @@ public class CakeIssuesContext
         Parameters.OutputDirectory = Path.Combine(context.ArtifactsPath, "reports");
     }
 }
+#endif

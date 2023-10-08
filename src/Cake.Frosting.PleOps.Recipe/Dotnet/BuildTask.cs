@@ -30,9 +30,11 @@ public class BuildTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {
+#if CAKE_ISSUES
         string logPath = Path.GetFileNameWithoutExtension(context.DotNetContext.SolutionPath) + "_msbuild.binlog";
         logPath = Path.Combine(context.TemporaryPath, logPath);
         string binaryLoggerAssembly = typeof(Microsoft.Build.Logging.StructuredLogger.BinaryLog).Assembly.Location;
+#endif
 
         var warningMode = context.WarningsAsErrors
             ? MSBuildTreatAllWarningsAs.Error
@@ -46,19 +48,23 @@ public class BuildTask : FrostingTask<BuildContext>
                 .WithProperty("Platform", context.DotNetContext.Platform)
                 .TreatAllWarningsAs(warningMode)
                 .SetVersion(context.Version)
+#if CAKE_ISSUES
                 // Use the binary logger from the addin.
                 // MSBuild may have an incompatible version.
                 .WithLogger(
                     "BinaryLogger," + binaryLoggerAssembly,
                     "",
                     logPath)
+#endif
                 // This setting improve the experience with VS Code
                 .HideDetailedSummary()
                 .WithProperty("GenerateFullPaths", "true"),
         };
         context.DotNetBuild(context.DotNetContext.SolutionPath, settings);
 
+#if CAKE_ISSUES
         context.IssuesContext.Parameters.InputFiles.AddMsBuildBinaryLogFile(logPath);
+#endif
     }
 }
 

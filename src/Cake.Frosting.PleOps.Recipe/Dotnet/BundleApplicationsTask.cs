@@ -78,9 +78,8 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         context.DotNetPublish(project.ProjectPath, publishSettings);
 
         // Copy license and third-party licence note
-        string repoDir = context.IssuesContext.State.RepositoryRootDirectory.FullPath;
-        CopyIfExists(context, Path.Combine(repoDir, "README.md"), Path.Combine(outputDir, "README.md"));
-        CopyIfExists(context, Path.Combine(repoDir, "LICENSE"), Path.Combine(outputDir, "LICENSE.txt"));
+        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "README.md"), Path.Combine(outputDir, "README.md"));
+        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "LICENSE"), Path.Combine(outputDir, "LICENSE.txt"));
         CopyIfExists(context, context.ChangelogFile, Path.Combine(outputDir, "CHANGELOG.md"));
         GenerateLicense(context, project.ProjectPath, outputDir);
 

@@ -17,14 +17,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-using System.Reflection;
 using Cake.Core;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe;
 
 return new CakeHost()
     .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.BuildContext).Assembly)
-    .AddAssembly(Assembly.GetAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask)))
+#if CAKE_ISSUES
+    .AddAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask).Assembly)
+#endif
     .UseContext<BuildContext>()
     .UseLifetime<BuildLifetime>()
     .Run(args);
@@ -64,7 +65,9 @@ public sealed class DefaultTask : FrostingTask
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
+#if CAKE_ISSUES
 [IsDependentOn(typeof(Cake.Frosting.Issues.Recipe.IssuesTask))]
+#endif
 public sealed class CIBuildTask : FrostingTask
 {
 }
