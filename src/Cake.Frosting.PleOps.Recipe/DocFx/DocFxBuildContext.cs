@@ -32,7 +32,7 @@ public class DocFxBuildContext
     public DocFxBuildContext()
     {
         DocFxFile = Path.GetFullPath("./docs/docfx.json");
-        ChangelogDocPath = Path.GetFullPath("./docs/dev/changelog.md");
+        ChangelogDocPath = Path.GetFullPath("./docs/articles/changelog.md");
         ToolingVerbosity = "Info";
     }
 

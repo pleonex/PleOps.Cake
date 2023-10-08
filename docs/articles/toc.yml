@@ -1,0 +1,27 @@
+- name: ✨ Getting started
+- name: 🚧 Introduction
+  href: ../index.md
+- name: 🚧 Getting started guide
+  href: ./getting-started/tutorial.md
+- name: 🚧 Project setup
+  href: ./getting-started/project-setup.md
+- name: 🚧 Framework architecture
+  href: ./getting-started/architecture.md
+- name: 🚧 Script format
+  href: ./getting-started/build-script.md
+
+- name: ♻ Workflows
+- name: 🚧 Pipeline
+  href: ./workflows/pipeline.md
+- name: 🚧 Translation
+  href: ./workflows/translation.md
+
+- name: 🗒️ Recipe tasks
+- name: 🚧 .NET projects
+  href: ./recipe/dotnet.md
+- name: 🚧 DocFx documentation
+  href: ./recipe/docfx.md
+- name: 🚧 Common
+  href: ./recipe/common.md
+- name: 🚧 GitHub
+  href: ./recipe/github.md

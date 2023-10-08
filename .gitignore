@@ -4,16 +4,11 @@ bin/
 build/artifacts/
 build/temp/
 build/samples_*
-CHANGELOG.md
-CHANGELOG.NEXT.
+/CHANGELOG.md
+/CHANGELOG.NEXT.md
 src/*/build
 
 # Build system
 .vs/
 tools/
 *.csproj.user
-
-# Documentation output
-docs/_site
-docs/api
-docs/_site_pdf

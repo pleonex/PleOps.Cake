@@ -1,26 +1,50 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "cake",
-			"script": "Default",
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"label": "Cake: Run Default"
-		},
-		{
-			"type": "cake",
-			"script": "Build",
-			"group": "build",
-			"problemMatcher": [
-				"$msCompile"
-			],
-			"label": "Cake: Run Build"
-		}
-	]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "process",
+      "command": "dotnet",
+      "args": [
+        "run",
+        "--project",
+        "build/orchestrator/",
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": ["$msCompile"],
+      "label": "Build recipe"
+    },
+    {
+        "type": "process",
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "build/orchestrator/",
+          "--",
+          "--target=CI-Build"
+        ],
+        "group": {
+          "kind": "build",
+        },
+        "problemMatcher": ["$msCompile"],
+        "label": "CI-Build recipe"
+    },
+    {
+        "type": "process",
+        "command": "dotnet",
+        "args": [
+          "run",
+          "--project",
+          "src/Cake.Frosting.PleOps.Sample.BuildSystem/",
+        ],
+        "group": {
+          "kind": "build",
+        },
+        "problemMatcher": ["$msCompile"],
+        "label": "Build sample"
+      },
+  ]
 }
