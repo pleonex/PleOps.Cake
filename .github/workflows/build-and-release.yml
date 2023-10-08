@@ -40,8 +40,15 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: "Artifacts"
-          path: ./build/artifacts/
           retention-days: 7
+          path: |
+            build/artifacts/
+            !build/artifacts/docs
+
+      - name: Publish docs artifact to CI
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: build/artifacts/docs/_site
 
   # Preview release on push to main only
   # Stable release on version tag push only
