@@ -28,6 +28,7 @@ using Cake.Frosting;
 /// Exports the release notes from the GitHub releases.
 /// </summary>
 [TaskName(nameof(GitHub) + ".ExportReleaseNotes")]
+[IsDependentOn(typeof(Common.RestoreToolsTask))]
 public class ExportReleaseNotesTask : FrostingTask<BuildContext>
 {
     /// <inheritdoc />
@@ -51,6 +52,7 @@ public class ExportReleaseNotesTask : FrostingTask<BuildContext>
                 .AppendFormat(" --repository {0}", context.GitHubContext.RepositoryName)
                 .AppendFormat(" --fileOutputPath \"{0}\"", context.ChangelogNextFile);
 
+            context.Log.Information("Exporting release notes for '{0}'", tagName);
             context.DotNetTool("dotnet-gitreleasemanager " + argBuilder.ToString());
         } catch (Exception ex) {
             context.Log.Warning("Cannot extract latest release notes:\n{0}", ex.ToString());
@@ -65,6 +67,7 @@ public class ExportReleaseNotesTask : FrostingTask<BuildContext>
                 .AppendFormat(" --repository {0}", context.GitHubContext.RepositoryName)
                 .AppendFormat(" --fileOutputPath \"{0}\"", context.ChangelogFile);
 
+            context.Log.Information("Exporting release notes for all versions");
             context.DotNetTool("dotnet-gitreleasemanager " + argBuilder.ToString());
         } catch (Exception ex) {
             context.Log.Warning("Cannot extract release notes:\n{0}", ex.ToString());
