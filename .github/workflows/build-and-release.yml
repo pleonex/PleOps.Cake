@@ -62,6 +62,14 @@ jobs:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     needs: "build"
     runs-on: ubuntu-latest
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
       # Needed only for Azure DevOps Artifacts due to its weird auth method.
       PREVIEW_NUGET_FEED: 'https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json'
@@ -94,3 +102,7 @@ jobs:
           STABLE_NUGET_FEED_TOKEN: ${{ secrets.STABLE_NUGET_FEED_TOKEN }}
           PREVIEW_NUGET_FEED_TOKEN: "az"  # Dummy, auth via below env var
           VSS_NUGET_EXTERNAL_FEED_ENDPOINTS: '{"endpointCredentials": [{"endpoint":"${{ env.PREVIEW_NUGET_FEED }}", "username":"", "password":"${{ secrets.NUGET_PREVIEW_TOKEN }}"}]}'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
