@@ -1,14 +1,21 @@
-# PleOps.Cake pipeline [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://choosealicense.com/licenses/mit/) ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push)
+# PleOps Cake recipe [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://choosealicense.com/licenses/mit/) ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push)
 
-Full automated build, test, stage and release pipeline for .NET projects based
-on Cake. Check also the
+Full automated build, test, stage and release pipeline for simple .NET projects
+based on Cake. Check also the
 [template repository](https://github.com/pleonex/template-csharp) to see the
 pipeline in action!
+
+Tech stack:
+
+- Projects: C# / .NET
+- Documentation: DocFX, GitHub page
+- CI: GitHub Actions
+- Release publication: NuGet feeds, GitHub
 
 <!-- prettier-ignore -->
 | Release | Package                                                           |
 | ------- | ----------------------------------------------------------------- |
-| Stable  | [![Nuget](https://img.shields.io/nuget/v/PleOps.Cake?label=nuget.org&logo=nuget)](https://www.nuget.org/packages/PleOps.Cake) |
+| Stable  | [![Nuget](https://img.shields.io/nuget/v/Cake.Frosting.PleOps.Recipe?label=nuget.org&logo=nuget)](https://www.nuget.org/packages/Cake.Frosting.PleOps.Recipe) |
 | Preview | [Azure Artifacts](https://dev.azure.com/benito356/NetDevOpsTest/_packaging?_a=feed&feed=PleOps) |
 
 ## Requirements
@@ -38,7 +45,7 @@ To use a preview version, add a `nuget.config` file in the same directory as
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This file is only needed if you use preview versions of PleOps.Cake build system -->
+<!-- This file is only needed if you use preview versions of the recipe build system -->
 <configuration>
   <packageSources>
     <clear/>
@@ -50,7 +57,7 @@ To use a preview version, add a `nuget.config` file in the same directory as
       <package pattern="*" />
     </packageSource>
     <packageSource key="PleOps-Preview">
-      <package pattern="PleOps.Cake" />
+      <package pattern="Cake.Frosting.PleOps.Recipe" />
     </packageSource>
   </packageSourceMapping>
 </configuration>

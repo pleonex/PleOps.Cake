@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../docs/images/logo_128.png" Pack="true" PackagePath="$(PackageIcon)" Visible="false" />
+    <None Include="../../README.md" Pack="true" PackagePath="$(PackageReadmeFile)" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Cake.Frosting" />
+  </ItemGroup>
+
+  <!--
+    To remove condition and merge when the issue with Cake.Git is resolved
+    https://github.com/cake-contrib/Cake.Issues.Recipe/issues/383
+    https://github.com/cake-contrib/Cake_Git/issues/137
+  -->
+  <ItemGroup Condition="'$(CAKE_ISSUES)' == 'true'">
+    <PackageReference Include="Cake.Frosting.Issues.Recipe" />
+    <PackageReference Include="Cake.Issues.DocFx" />
+  </ItemGroup>
+</Project>

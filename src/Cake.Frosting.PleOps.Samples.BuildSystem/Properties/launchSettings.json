@@ -1,0 +1,11 @@
+{
+    "profiles": {
+        "Sample BuildSystem": {
+            "commandName": "Project"
+        },
+        "CustomTask": {
+            "commandName": "Project",
+            "commandLineArgs": "--target=CustomTask"
+        }
+    }
+}

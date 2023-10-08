@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Default": {
+      "commandName": "Project"
+    },
+    "CI-Build": {
+      "commandName": "Project",
+      "commandLineArgs": "--target=CI-Build --configuration=Release"
+    }
+  }
+}

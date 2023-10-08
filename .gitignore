@@ -1,13 +1,19 @@
 # Build outputs
 obj/
 bin/
-artifacts/
+build/artifacts/
+build/temp/
+build/samples_*
 CHANGELOG.md
-CHANGELOG.NEXT.md
+CHANGELOG.NEXT.
+src/*/build
 
 # Build system
+.vs/
 tools/
+*.csproj.user
 
 # Documentation output
 docs/_site
+docs/api
 docs/_site_pdf
