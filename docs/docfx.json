@@ -4,6 +4,7 @@
         "src": [
           {
             "files": [
+                "Cake.Frosting.PleOps.Recipe/*.csproj"
             ],
             "src": "../src"
           }
@@ -37,7 +38,19 @@
         }
       ],
       "dest": "_site",
-      "globalMetadataFiles": ["global_metadata.json"],
+      "globalMetadata": {
+        "_appTitle": "PleOps Cake recipe",
+        "_appFooter": "Copyright (c) 2020 Benito Palacios Sánchez",
+        "_appLogoPath": "images/logo_48.png",
+        "_appFaviconPath": "images/favicon.png",
+        "_enableSearch": true,
+        "_enableNewTab": true,
+        "_gitContribute": {
+            "apiSpecFolder": "docs/apidoc",
+            "repo": "https://github.com/pleonex/PleOps.Cake",
+            "branch": "main"
+        }
+      },
       "fileMetadataFiles": [],
       "template": [
         "default",
@@ -49,7 +62,6 @@
       "noLangKeyword": false,
       "keepFileLink": false,
       "cleanupCacheHistory": false,
-      "disableGitFeatures": false,
-      "xrefService": [ "https://xref.docs.microsoft.com/query?uid={uid}" ]
+      "disableGitFeatures": false
     }
 }

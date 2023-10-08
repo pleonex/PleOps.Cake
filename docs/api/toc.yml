@@ -1,2 +1,70 @@
-- name: API
-  href: API.md
+### YamlMime:TableOfContent
+items:
+- uid: Cake.Frosting.PleOps.Recipe
+  name: Cake.Frosting.PleOps.Recipe
+  items:
+  - uid: Cake.Frosting.PleOps.Recipe.BuildContext
+    name: BuildContext
+  - uid: Cake.Frosting.PleOps.Recipe.BuildKind
+    name: BuildKind
+  - uid: Cake.Frosting.PleOps.Recipe.DeliveriesContext
+    name: DeliveriesContext
+  - uid: Cake.Frosting.PleOps.Recipe.LogIgnoreAttribute
+    name: LogIgnoreAttribute
+- uid: Cake.Frosting.PleOps.Recipe.Common
+  name: Cake.Frosting.PleOps.Recipe.Common
+  items:
+  - uid: Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask
+    name: CleanArtifactsTask
+  - uid: Cake.Frosting.PleOps.Recipe.Common.RestoreToolsTask
+    name: RestoreToolsTask
+  - uid: Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask
+    name: SetGitVersionTask
+- uid: Cake.Frosting.PleOps.Recipe.DocFx
+  name: Cake.Frosting.PleOps.Recipe.DocFx
+  items:
+  - uid: Cake.Frosting.PleOps.Recipe.DocFx.BuildTask
+    name: BuildTask
+  - uid: Cake.Frosting.PleOps.Recipe.DocFx.BundleTask
+    name: BundleTask
+  - uid: Cake.Frosting.PleOps.Recipe.DocFx.DocFxBuildContext
+    name: DocFxBuildContext
+  - uid: Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks
+    name: DocFxTasks
+  - uid: Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask
+    name: DocFxTasks.PrepareProjectBundlesTask
+- uid: Cake.Frosting.PleOps.Recipe.Dotnet
+  name: Cake.Frosting.PleOps.Recipe.Dotnet
+  items:
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask
+    name: BuildTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.BundleApplicationsTask
+    name: BundleApplicationsTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.BundleLibrariesTask
+    name: BundleLibrariesTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.DeployNuGetTask
+    name: DeployNuGetTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.DotNetBuildContext
+    name: DotNetBuildContext
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks
+    name: DotnetTasks
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask
+    name: DotnetTasks.DeployProjectTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask
+    name: DotnetTasks.PrepareProjectBundlesTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.ProjectPublicationInfo
+    name: ProjectPublicationInfo
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.RestoreDependenciesTask
+    name: RestoreDependenciesTask
+  - uid: Cake.Frosting.PleOps.Recipe.Dotnet.TestTask
+    name: TestTask
+- uid: Cake.Frosting.PleOps.Recipe.GitHub
+  name: Cake.Frosting.PleOps.Recipe.GitHub
+  items:
+  - uid: Cake.Frosting.PleOps.Recipe.GitHub.ExportReleaseNotesTask
+    name: ExportReleaseNotesTask
+  - uid: Cake.Frosting.PleOps.Recipe.GitHub.GitHubBuildContext
+    name: GitHubBuildContext
+  - uid: Cake.Frosting.PleOps.Recipe.GitHub.UploadReleaseBinariesTask
+    name: UploadReleaseBinariesTask
+memberLayout: SamePage
