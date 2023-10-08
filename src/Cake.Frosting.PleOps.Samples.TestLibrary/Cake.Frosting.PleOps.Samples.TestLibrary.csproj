@@ -12,4 +12,8 @@
     <PackageReference Include="coverlet.collector" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cake.Frosting.PleOps.Samples.PublicLibrary\Cake.Frosting.PleOps.Samples.PublicLibrary.csproj" />
+  </ItemGroup>
+
 </Project>
