@@ -1,67 +1,66 @@
 {
-    "metadata": [
+  "metadata": [
+    {
+      "src": [
+        {
+          "files": [
+            "Cake.Frosting.PleOps.Recipe/*.csproj"
+          ],
+          "src": "../src"
+        }
+      ],
+      "dest": "api",
+      "includePrivateMembers": false,
+      "disableGitFeatures": false,
+      "disableDefaultFilter": false,
+      "noRestore": false,
+      "namespaceLayout": "flattened",
+      "memberLayout": "samePage",
+      "EnumSortOrder": "alphabetic",
+      "allowCompilationErrors": false
+    }
+  ],
+  "build": {
+    "content": [
       {
-        "src": [
-          {
-            "files": [
-                "Cake.Frosting.PleOps.Recipe/*.csproj"
-            ],
-            "src": "../src"
-          }
-        ],
-        "dest": "api",
-        "filter": "filter_config.yml",
-        "disableGitFeatures": false,
-        "disableDefaultFilter": false
+        "files": [
+          "api/**.yml",
+          "api/index.md"
+        ]
+      },
+      { "files": "**/*.{md,yml}", "src": "articles", "dest": "docs" },
+      { "files": [ "toc.yml", "*.md" ] }
+    ],
+    "resource": [
+      {
+        "files": [ "**/images/**", "**/resources/**" ],
+        "exclude": [ "_site/**", "obj/**" ]
       }
     ],
-    "build": {
-      "content": [
-        {
-          "files": [ "api/**", "dev/**" ]
-        },
-        {
-          "files": [ "toc.yml", "index.md" ]
-        },
-        {
-          "files": [ "guides/**" ],
-          "exclude": [ "**/*.png", "**/*.drawio" ]
-        },
-        {
-          "files": ["CONTRIBUTING.md"],
-          "src": "../"
-        }
-      ],
-      "resource": [
-        {
-          "files": [ "images/**", "guides/**/*.png", "guides/**/*.drawio" ]
-        }
-      ],
-      "dest": "_site",
-      "globalMetadata": {
-        "_appTitle": "PleOps Cake recipe",
-        "_appFooter": "Copyright (c) 2020 Benito Palacios Sánchez",
-        "_appLogoPath": "images/logo_48.png",
-        "_appFaviconPath": "images/favicon.png",
-        "_enableSearch": true,
-        "_enableNewTab": true,
-        "_gitContribute": {
-            "apiSpecFolder": "docs/apidoc",
-            "repo": "https://github.com/pleonex/PleOps.Cake",
-            "branch": "main"
-        }
-      },
-      "fileMetadataFiles": [],
-      "template": [
-        "default",
-        "statictoc",
-        "default-widescreen"
-      ],
-      "postProcessors": [],
-      "markdownEngineName": "markdig",
-      "noLangKeyword": false,
-      "keepFileLink": false,
-      "cleanupCacheHistory": false,
-      "disableGitFeatures": false
+    "output": "_site",
+    "globalMetadata": {
+      "_appTitle": "PleOps Cake recipe",
+      "_appName": "PleOps Cake",
+      "_appFooter": "<span>Copyright (c) 2020 Benito Palacios Sánchez. Docs made with <a href=\"https://dotnet.github.io/docfx\" target=\"_blank\">docfx</a></span>",
+      "_appLogoPath": "images/logo_48.png",
+      "_appFaviconPath": "images/favicon.png",
+      "_enableSearch": true,
+      "_enableNewTab": true,
+      "_lang": "en"
+    },
+    "fileMetadataFiles": [],
+    "template": [
+      "default",
+      "modern",
+      "template"
+    ],
+    "postProcessors": [],
+    "keepFileLink": false,
+    "disableGitFeatures": false,
+    "sitemap": {
+      "baseUrl": "https://pleonex.dev/PleOps.Cake",
+      "priority": 0.5,
+      "changefreq": "monthly"
     }
+  }
 }

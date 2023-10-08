@@ -53,7 +53,7 @@ jobs:
       - name: Publish docs artifact to CI
         uses: actions/upload-pages-artifact@v2
         with:
-          path: build/artifacts/docs/_site
+          path: build/artifacts/docs
 
   # Preview release on push to main only
   # Stable release on version tag push only
