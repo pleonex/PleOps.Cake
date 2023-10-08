@@ -60,8 +60,8 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         // directory separator and the MSBuild convention from the default publish dir
         // is to provide the path WITH the directory separator. We pass the value
         // by property and we must ensure the folder exists.
-        string outputDir = Path.Combine(context.TemporaryPath, $"{projectName}_{runtime}");
-        context.CleanDirectory(outputDir);
+        string appData = Path.Combine(context.TemporaryPath, $"{projectName}_{runtime}");
+        context.CleanDirectory(appData);
 
         // Since we are not building in the RID expected path and by default
         // it builds only for the current runtime, we need to rebuild.
@@ -73,19 +73,23 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
             Framework = string.IsNullOrEmpty(project.Framework) ? null : project.Framework,
             MSBuildSettings = new DotNetMSBuildSettings()
                 .SetVersion(context.Version)
-                .WithProperty("PublishDir", $"{outputDir}/"),
+                .WithProperty("PublishDir", $"{appData}/"),
         };
         context.DotNetPublish(project.ProjectPath, publishSettings);
 
         // Copy license and third-party licence note
-        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "README.md"), Path.Combine(outputDir, "README.md"));
-        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "LICENSE"), Path.Combine(outputDir, "LICENSE.txt"));
-        CopyIfExists(context, context.ChangelogFile, Path.Combine(outputDir, "CHANGELOG.md"));
-        GenerateLicense(context, project.ProjectPath, outputDir);
+        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "README.md"), Path.Combine(appData, "README.md"));
+        CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "LICENSE"), Path.Combine(appData, "LICENSE.txt"));
+        CopyIfExists(context, context.ChangelogFile, Path.Combine(appData, "CHANGELOG.md"));
+        GenerateLicense(context, project.ProjectPath, appData);
 
-        context.Zip(
-            outputDir,
-            $"{context.ArtifactsPath}/{projectName}_{runtime}_v{context.Version}.zip");
+        string outputName = $"{projectName}_{runtime}_v{context.Version}.zip";
+        string outputPackage = Path.Combine(context.ArtifactsPath, outputName);
+        context.Zip(appData, outputPackage);
+
+        if (!context.DeliveriesContext.BinaryFiles.Contains(outputPackage)) {
+            context.DeliveriesContext.BinaryFiles.Add(outputPackage);
+        }
     }
 
     private static void GenerateLicense(BuildContext context, string projectPath, string outputDir)

@@ -17,28 +17,40 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-namespace Cake.Frosting.PleOps.Recipe.GitHubRelease;
+namespace Cake.Frosting.PleOps.Recipe.GitHub;
 
 using Cake.Common.Tools.GitReleaseManager;
+using Cake.Common.Tools.GitReleaseManager.Export;
+using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
-[TaskName(nameof(GitHubRelease) + ".UploadReleaseBinaries")]
-public class UploadReleaseBinariesTask : FrostingTask<BuildContext>
+[TaskName(nameof(GitHub) + ".ExportReleaseNotes")]
+public class ExportReleaseNotesTask : FrostingTask<BuildContext>
 {
     public override bool ShouldRun(BuildContext context) =>
-        (context.BuildKind == BuildKind.Stable) &&
-        !string.IsNullOrEmpty(context.GitHubReleaseContext.GitHubToken);
+        (context.BuildKind is BuildKind.Preview or BuildKind.Stable)
+        && !string.IsNullOrEmpty(context.GitHubContext.GitHubToken);
 
     public override void Run(BuildContext context)
     {
-        string tagName = $"v{context.Version}";
-        foreach (string artifact in Directory.EnumerateFiles(context.ArtifactsPath, "*.zip", SearchOption.TopDirectoryOnly)) {
-            context.GitReleaseManagerAddAssets(
-                context.GitHubReleaseContext.GitHubToken,
-                context.GitHubReleaseContext.RepositoryOwner,
-                context.GitHubReleaseContext.RepositoryName,
-                tagName,
-                artifact);
+        // Export last release to embed in apps and libraries (if exists)
+        try {
+            string tagName = $"v{context.Version}";
+            context.GitReleaseManagerExport(
+                context.GitHubContext.GitHubToken,
+                context.GitHubContext.RepositoryOwner,
+                context.GitHubContext.RepositoryName,
+                context.ChangelogNextFile,
+                new GitReleaseManagerExportSettings { TagName = tagName });
+        } catch (Exception e) {
+            context.Log.Warning("Cannot extract latest release notes:\n{0}", e.ToString());
         }
+
+        // Export full changelog for documentation
+        context.GitReleaseManagerExport(
+            context.GitHubContext.GitHubToken,
+            context.GitHubContext.RepositoryOwner,
+            context.GitHubContext.RepositoryName,
+            context.ChangelogFile);
     }
 }

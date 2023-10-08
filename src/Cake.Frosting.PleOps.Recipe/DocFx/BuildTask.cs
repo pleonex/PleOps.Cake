@@ -50,18 +50,21 @@ public class BuildTask : FrostingTask<BuildContext>
             File.Copy(context.ChangelogFile, context.DocFxContext.ChangelogDocPath, true);
         }
 
+#if CAKE_ISSUES
         string logPath = Path.Combine(context.TemporaryPath, "docfx_log.txt");
         if (File.Exists(logPath)) {
             File.Delete(logPath);
         }
+#endif
 
-        string outputDocs = Path.Combine(context.TemporaryPath, "docfx");
         string docfxArgs = new StringBuilder()
             .AppendFormat(" \"{0}\"", context.DocFxContext.DocFxFile)
+#if CAKE_ISSUES
             .AppendFormat(" --log \"{0}\"", logPath)
+#endif
             .AppendFormat(" --logLevel {0}", context.DocFxContext.ToolingVerbosity)
             .AppendFormat(" {0}", context.WarningsAsErrors ? "--warningsAsErrors" : string.Empty)
-            .AppendFormat(" --output \"{0}\"", outputDocs)
+            .AppendFormat(" --output \"{0}\"", context.DeliveriesContext.DocumentationPath)
             .ToString();
 
         context.DotNetTool("docfx" + docfxArgs);

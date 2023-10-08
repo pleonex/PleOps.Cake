@@ -30,7 +30,7 @@ public class BundleTask : FrostingTask<BuildContext>
     public override void Run(BuildContext context)
     {
         context.Zip(
-            $"{context.TemporaryPath}/docfx/_site",
-            $"{context.ArtifactsPath}/docs.zip");
+            Path.Combine(context.DeliveriesContext.DocumentationPath, "_site"),
+            Path.Combine(context.DeliveriesContext.DocumentationPath, "docs.zip"));
     }
 }

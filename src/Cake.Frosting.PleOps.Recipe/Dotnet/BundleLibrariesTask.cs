@@ -44,12 +44,19 @@ public class BundleLibrariesTask : FrostingTask<BuildContext>
 
         var packSettings = new DotNetPackSettings {
             Configuration = context.DotNetContext.Configuration,
-            OutputDirectory = context.ArtifactsPath,
+            OutputDirectory = context.DeliveriesContext.NuGetArtifactsPath,
             NoBuild = true,
             MSBuildSettings = new DotNetMSBuildSettings()
                 .SetVersion(context.Version)
                 .WithProperty("PackageReleaseNotes", changelog),
         };
         context.DotNetPack(context.DotNetContext.SolutionPath, packSettings);
+
+        context.DeliveriesContext.NuGetLibraries.Clear();
+        if (Directory.Exists(context.DeliveriesContext.NuGetArtifactsPath)) {
+            foreach (string nuget in Directory.EnumerateFiles(context.DeliveriesContext.NuGetArtifactsPath, "*.nupkg")) {
+                context.DeliveriesContext.NuGetLibraries.Add(nuget);
+            }
+        }
     }
 }

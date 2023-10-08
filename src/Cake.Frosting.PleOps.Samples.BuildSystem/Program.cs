@@ -71,13 +71,15 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 
     public override void Teardown(MyCustomContext context, ITeardownContext info)
     {
+        // Save the info from the existing artifacts for the next execution (e.g. deploy job)
+        context.DeliveriesContext.Save();
     }
 }
 
 [TaskName("Default")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHub.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
 #if CAKE_ISSUES

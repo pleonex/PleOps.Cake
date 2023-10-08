@@ -17,25 +17,18 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-namespace Cake.Frosting.PleOps.Recipe.GitHubRelease;
+namespace Cake.Frosting.PleOps.Recipe.GitHub;
 
 using Cake.Core;
 
-public class GitHubReleaseBuildContext
+public class GitHubBuildContext
 {
-    public GitHubReleaseBuildContext()
+    public GitHubBuildContext()
     {
-        WorkMilestone = "vNext";
-        FutureMilestone = "Future";
-
         GitHubToken = string.Empty;
         RepositoryOwner = string.Empty;
         RepositoryName = string.Empty;
     }
-
-    public string WorkMilestone { get; set; }
-
-    public string FutureMilestone { get; set; }
 
     public string RepositoryOwner { get; set; }
 

@@ -21,6 +21,7 @@ namespace Cake.Frosting.PleOps.Recipe.Dotnet;
 
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.NuGet.Push;
+using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
 [TaskName(DotnetTasks.DeployNuGetTaskName)]
@@ -44,6 +45,10 @@ public class DeployNuGetTask : FrostingTask<BuildContext>
             ApiKey = token,
             SkipDuplicate = true,
         };
-        context.DotNetNuGetPush($"{context.ArtifactsPath}/*.nupkg", settings);
+
+        foreach (string package in context.DeliveriesContext.NuGetLibraries) {
+            context.Log.Information("Pushing NuGet: {0}", package);
+            context.DotNetNuGetPush(package, settings);
+        }
     }
 }

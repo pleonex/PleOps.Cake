@@ -48,6 +48,8 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
 
     public override void Teardown(BuildContext context, ITeardownContext info)
     {
+        // Save the info from the existing artifacts for the next execution (e.g. deploy job)
+        context.DeliveriesContext.Save();
     }
 }
 
@@ -62,7 +64,7 @@ public sealed class DefaultTask : FrostingTask
 [TaskName("CI-Build")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.CleanArtifactsTask))]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.ExportReleaseNotesTask))]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHub.ExportReleaseNotesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.PrepareProjectBundlesTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.DocFx.DocFxTasks.PrepareProjectBundlesTask))]
 #if CAKE_ISSUES
@@ -75,7 +77,7 @@ public sealed class CIBuildTask : FrostingTask
 [TaskName("CI-Deploy")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask))]
-[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHubRelease.UploadReleaseBinariesTask))]
+[IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.GitHub.UploadReleaseBinariesTask))]
 public sealed class CIDeployTask : FrostingTask
 {
 }

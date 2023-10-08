@@ -29,7 +29,7 @@ using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.DocFx;
 using Cake.Frosting.PleOps.Recipe.Dotnet;
-using Cake.Frosting.PleOps.Recipe.GitHubRelease;
+using Cake.Frosting.PleOps.Recipe.GitHub;
 
 #if CAKE_ISSUES
 using Cake.Frosting.Issues.Recipe;
@@ -53,7 +53,8 @@ public class BuildContext : FrostingContext
 
         DotNetContext = new DotNetBuildContext();
         DocFxContext = new DocFxBuildContext();
-        GitHubReleaseContext = new GitHubReleaseBuildContext();
+        GitHubContext = new GitHubBuildContext();
+        DeliveriesContext = new DeliveriesContext();
 
 #if CAKE_ISSUES
         IssuesContext = new CakeIssuesContext(this);
@@ -82,7 +83,9 @@ public class BuildContext : FrostingContext
 
     public DocFxBuildContext DocFxContext { get; set; }
 
-    public GitHubReleaseBuildContext GitHubReleaseContext { get; set; }
+    public GitHubBuildContext GitHubContext { get; set; }
+
+    public DeliveriesContext DeliveriesContext { get; set; }
 
 #if CAKE_ISSUES
     [LogIgnore]
@@ -112,7 +115,8 @@ public class BuildContext : FrostingContext
 
         DotNetContext.ReadArguments(this);
         DocFxContext.ReadArguments(this);
-        GitHubReleaseContext.ReadArguments(this);
+        GitHubContext.ReadArguments(this);
+        DeliveriesContext.Initialize(this);
 
 #if CAKE_ISSUES
         IssuesContext.ReadArguments(this);
