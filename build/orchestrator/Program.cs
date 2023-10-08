@@ -40,7 +40,7 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
         context.ReadArguments();
 
         // HERE you can force values non-overridables.
-        context.WarningsAsErrors = false;
+        context.DotNetContext.PreviewNuGetFeed = "https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json";
 
         // Print the build info to use.
         context.Print();
