@@ -1,4 +1,4 @@
-# PleOps Cake recipe [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://choosealicense.com/licenses/mit/) ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push)
+# PleOps Cake recipe: a simple DevOps workflow [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://choosealicense.com/licenses/mit/) ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push)
 
 Full automated build, test, stage and release pipeline for simple .NET projects
 based on Cake. Check also the
@@ -21,27 +21,11 @@ Tech stack:
 ## Requirements
 
 - .NET 6.0 SDK
-- [Linux and MacOS only] Mono 6 (for DocFX)
-
-## Build system command
-
-The following target are available for build, test and release.
-
-- `BuildTest`: build the project and run its tests and quality assurance tools.
-
-- `Generate-ReleaseNotes`: generate a release notes and full changelog by
-  analyzing issues and PR of GitHub.
-
-- `Stage-Artifacts`: run `BuildTest`, generate the release notes, build the
-  documentation, pack the libraries in NuGet and stage the executables.
-
-- `Push-Artifacts`: push the libraries, applications and documentation to the
-  preview or stable feed.
 
 ## Preview versions
 
-To use a preview version, add a `nuget.config` file in the same directory as
-`build.cake` with the following content:
+To use a preview version, add a `nuget.config` file in the repository root
+directory with the following content:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -71,28 +55,27 @@ Feel free to ask any question in the
 Check the [documentation](https://www.pleonex.dev/PleOps.Cake/) for more
 information. For reference, this is the general build and release pipeline.
 
-![release diagram](./docs/guides/spec/release_automation.png)
+![release diagram](./docs/articles/workflows/images/release_automation.png)
 
 ## Build
 
-The project requires to build .NET 6.0 SDK (Linux and MacOS require also Mono).
-If you open the project with VS Code and you did install the
-[VS Code Remote Containers](https://code.visualstudio.com/docs/remote/containers)
-extension, you can have an already pre-configured development environment with
-Docker or Podman.
+The project requires to build .NET 6.0 SDK.
 
 To build, test and generate artifacts run:
 
 ```sh
-# Only required the first time
-dotnet tool restore
-
-# Default target is Stage-Artifacts
-dotnet cake
+dotnet run --project build/orchestrator -- --target=CI-Build
 ```
 
-To just build and test quickly, run:
+For a quick build use the `Default` target or skip the `target` argument.
+
+To build (and test) the recipe against the examples run:
 
 ```sh
-dotnet cake --target=BuildTest
+dotnet run --project src/Cake.Frosting.PleOps.Samples.BuildSystem
 ```
+
+## Release
+
+Create a new GitHub release with a tag `v{Version}` (e.g. `v2.4`) and that's it!
+This triggers a pipeline that builds and deploy the project.

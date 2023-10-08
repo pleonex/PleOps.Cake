@@ -1,4 +1,4 @@
-# PleOps Cake recipe
+# PleOps Cake recipe: simple DevOps workflow
 
 ![Build and release](https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push)
 
@@ -16,12 +16,3 @@ pipeline in action!
 ## Requirements
 
 - .NET 6.0 SDK
-- [Linux and MacOS only] Mono 6 (for DocFX)
-
-## Build system command
-
-TODO
-
-## Documentation
-
-TODO
