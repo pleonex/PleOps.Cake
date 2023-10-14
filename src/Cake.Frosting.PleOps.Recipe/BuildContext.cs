@@ -168,7 +168,7 @@ public class BuildContext : FrostingContext
     /// <summary>
     /// Initialize the build context with command-line arguments if present.
     /// </summary>
-    public void ReadArguments()
+    public virtual void ReadArguments()
     {
         IfArgIsPresent("artifacts", x => ArtifactsPath = Path.GetFullPath(x));
         IfArgIsPresent("temp", x => TemporaryPath = Path.GetFullPath(x));

@@ -14,7 +14,7 @@ on:
       - published
 
 env:
-  NET_SDK: '6.0.414'
+  NET_SDK: '6.0.415'
 
 jobs:
   build:
@@ -34,12 +34,12 @@ jobs:
       - name: "Build, test and bundle"
         run: dotnet run --project build/orchestrator -- --target=CI-Build --configuration=Release
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Test sample build system"
         run: dotnet run --project src/Cake.Frosting.PleOps.Samples.BuildSystem
         env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Publish artifacts to CI"
         uses: actions/upload-artifact@v3
@@ -96,7 +96,7 @@ jobs:
         run: wget -qO- https://aka.ms/install-artifacts-credprovider.sh | bash
 
       - name: "Deploy artifacts"
-        run: dotnet run --project build/orchestrator -- --target=CI-Deploy --verbosity=diagnostic
+        run: dotnet run --project build/orchestrator -- --target=CI-Deploy
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_GITHUB_TOKEN }}
           STABLE_NUGET_FEED_TOKEN: ${{ secrets.STABLE_NUGET_FEED_TOKEN }}
