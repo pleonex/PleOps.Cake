@@ -53,7 +53,6 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
     }
 }
 
-
 [TaskName("Default")]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Common.SetGitVersionTask))]
 [IsDependentOn(typeof(Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask))]
