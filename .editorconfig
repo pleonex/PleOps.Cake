@@ -5,6 +5,14 @@ root = true
 [*]
 indent_style = space
 
+[*.md]
+charset = utf-8
+insert_final_newline = true
+end_of_line = unset # Leave it to git
+indent_style = space
+indent_size = 2
+max_line_length = 80
+
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
@@ -116,7 +124,7 @@ csharp_style_throw_expression = true:warning
 csharp_style_conditional_delegate_call = true:warning
 
 ### Code-block preferences
-csharp_prefer_braces = when_multiline:error
+csharp_prefer_braces = true:warning
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 
@@ -135,15 +143,13 @@ csharp_style_prefer_readonly_struct_member = true:suggestion
 
 ## C# formatting rules
 ### New line preferences
-csharp_new_line_before_open_brace = local_functions,methods,types:warning
-csharp_new_line_before_else = false:warning
-csharp_new_line_before_catch = false:warning
-csharp_new_line_before_finally = false:warning
-csharp_new_line_before_members_in_object_initializers = true:warning
-csharp_new_line_before_members_in_anonymous_types = true:warning
-csharp_new_line_between_query_expression_clauses = true:warning
-dotnet_style_allow_multiple_blank_lines_experimental = false:suggestion
-dotnet_style_allow_statement_immediately_after_block_experimental = false:warning
+csharp_new_line_before_open_brace = methods,types
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
 
 ### Indentation preferences
 csharp_indent_case_contents = true:warning
