@@ -75,7 +75,7 @@ dotnet_style_prefer_simplified_boolean_expressions = true:warning
 dotnet_style_operator_placement_when_wrapping = end_of_line
 
 ### Null-checking preferences
-dotnet_style_coalesce_expression = true:warning
+dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_null_propagation = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 
@@ -133,6 +133,7 @@ csharp_style_prefer_tuple_swap = true:suggestion
 
 ### 'using' directive preferences
 csharp_using_directive_placement = inside_namespace:warning
+dotnet_diagnostic.SA1200.severity = warning # Doesn't follow above value
 
 ### Modifier preferences
 csharp_prefer_static_local_function = true:warning
@@ -240,6 +241,8 @@ dotnet_diagnostic.IDE0046.severity = suggestion # Simplify ifs
 
 ### StyleCop
 dotnet_diagnostic.SA1000.severity = none # false positive, space before parentheses in new()
+dotnet_diagnostic.SA1009.severity = none # false positive with ()! for null checking
+dotnet_diagnostic.SA1011.severity = none # False positive due to nullables
 dotnet_diagnostic.SA1101.severity = none # Do not force to prefix local calls with 'this'
 dotnet_diagnostic.SA1500.severity = none # Allow inline braces
 dotnet_diagnostic.SA1633.severity = none # No XML-format header in source files
@@ -264,3 +267,4 @@ dotnet_diagnostic.S1144.severity = none # Remove unused setter
 dotnet_diagnostic.S2094.severity = none # Remove empty class
 dotnet_diagnostic.S2699.severity = none # Assert may be in helper methods
 dotnet_diagnostic.S3966.severity = none # Dispose twice to test implementation
+dotnet_code_quality_unused_parameters = all:none # Some test methods may not use all the source args
