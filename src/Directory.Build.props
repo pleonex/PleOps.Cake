@@ -20,7 +20,7 @@
     <PackageProjectUrl>https://github.com/pleonex/PleOps.Cake</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pleonex/PleOps.Cake</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageTags>netcore;csharp;devops;pipeline;github-actions</PackageTags>
+    <PackageTags>net;csharp;devops;pipeline;github-actions</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
@@ -55,4 +55,9 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" PrivateAssets="All"/>
+    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="All"/>
+    <PackageReference Include="Roslynator.Analyzers" PrivateAssets="All"/>
+  </ItemGroup>
 </Project>

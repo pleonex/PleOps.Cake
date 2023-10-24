@@ -70,6 +70,11 @@ public class DeliveriesContext
     /// </summary>
     public void Save()
     {
+        string? outDir = Path.GetDirectoryName(DeliveryInfoPath);
+        if (!string.IsNullOrEmpty(outDir) && !Directory.Exists(outDir)) {
+            Directory.CreateDirectory(outDir);
+        }
+
         string json = JsonSerializer.Serialize(this);
         File.WriteAllText(DeliveryInfoPath, json);
     }
