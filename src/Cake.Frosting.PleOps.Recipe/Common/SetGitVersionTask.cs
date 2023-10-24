@@ -25,6 +25,7 @@ using System.Text.Json;
 using Cake.Common;
 using Cake.Common.Build;
 using Cake.Common.Tools.GitVersion;
+using Cake.Core;
 using Cake.Core.Diagnostics;
 
 /// <summary>
@@ -43,7 +44,7 @@ public class SetGitVersionTask : FrostingTask<BuildContext>
     /// </summary>
     /// <param name="context">Build context.</param>
     /// <exception cref="Exception">GitVersion failed.</exception>
-    /// <exception cref="FormatException">Invalid output from GitVersion</exception>
+    /// <exception cref="FormatException">Invalid output from GitVersion.</exception>
     public override void Run(BuildContext context)
     {
         // Use Cake GitVersion from the dotnet tool manifest
@@ -52,18 +53,18 @@ public class SetGitVersionTask : FrostingTask<BuildContext>
         {
             int retcode = context.StartProcess(
                 "dotnet",
-                new Cake.Core.IO.ProcessSettings {
+                new Core.IO.ProcessSettings {
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     Silent = true,
-                    Arguments = "gitversion /nofetch"
+                    Arguments = "gitversion /nofetch",
                 },
                 out IEnumerable<string> output);
             if (retcode != 0) {
-                throw new Exception($"GitVersion returned {retcode}");
+                throw new CakeException($"GitVersion returned {retcode}");
             }
 
-            string allOutput = string.Join(string.Empty, output);
+            string allOutput = string.Concat(output);
             return JsonSerializer.Deserialize<GitVersion>(allOutput)
                 ?? throw new FormatException($"Invalid GitVersion output:\n{allOutput}");
         }

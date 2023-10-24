@@ -24,18 +24,16 @@ using Cake.Frosting;
 /// <summary>
 /// Tasks to work with .NET projects.
 /// </summary>
+/// <remarks>
+/// Not supported actions:
+/// - InstallSdkTaskName: assummed to be installed as the orchestrator is a .NET project.
+/// </remarks>
 public static class DotnetTasks
 {
-    private const string ModuleName = nameof(Dotnet);
-
     /// <summary>
-    /// Gets the name of the install SDK task.
+    /// Gets the module name.
     /// </summary>
-    /// <remarks>
-    /// The build orchestrator requires the .NET SDK as well as is a .NET project.
-    /// It's assummed is already installed and running.
-    /// </remarks>
-    internal const string InstallSdkTaskName = "";
+    public const string ModuleName = nameof(Dotnet);
 
     /// <summary>
     /// Gets the name of the restore dependencies task.

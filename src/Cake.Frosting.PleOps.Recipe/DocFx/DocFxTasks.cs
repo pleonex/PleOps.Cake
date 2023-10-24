@@ -24,34 +24,30 @@ using Cake.Frosting;
 /// <summary>
 /// Tasks to work with DocFx projects.
 /// </summary>
+/// <remarks>
+/// Not supported actions:
+/// - InstallSdkTaskName: done via dotnet manifest tool, task already exists.
+/// - RestoreTaskName: themes if any would be restore via git submodules at clone time.
+/// - TestTaskName: no need. Linting happens while building.
+/// - DeployPreview: depends on hosting.
+/// - DeployStable: depends on hosting.
+/// </remarks>
 public static class DocFxTasks
 {
-    private const string ModuleName = nameof(DocFx);
-
-    // In dotnet manifest via dotnet tools with the rest of tools
-    internal const string InstallSdkTaskName = "";
-
-    // Themes if any would be restore via git submodules.
-    internal const string RestoreTaskName = "";
+    /// <summary>
+    /// Gets the module name.
+    /// </summary>
+    public const string ModuleName = nameof(DocFx);
 
     /// <summary>
     /// Gets the name of the build task.
     /// </summary>
     public const string BuildTaskName = ModuleName + ".Build";
 
-    // No need. Linting happens while building
-    internal const string TestTaskName = "";
-
     /// <summary>
     /// Gets the name of the bundle task.
     /// </summary>
     public const string BundleTaskName = ModuleName + ".Bundle";
-
-    // No need.
-    internal const string DeployPreview = "";
-
-    // No need. Way simpler via GitHub action.
-    internal const string DeployStable = "";
 
     /// <summary>
     /// Run tasks to build, test and bundle projects.

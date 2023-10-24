@@ -74,7 +74,7 @@ public class GitHubBuildContext
     {
         string? repo = context.Environment.GetEnvironmentVariable("GITHUB_REPOSITORY");
         string[]? parts = repo?.Split('/');
-        if (repo is null || parts?.Length != 2) {
+        if (repo is null || parts is not { Length: 2 }) {
             return;
         }
 

@@ -45,6 +45,7 @@ public class BuildContext : FrostingContext
     /// <summary>
     /// Initializes a new instance of the <see cref="BuildContext"/> class.
     /// </summary>
+    /// <param name="context">The context to pass to the base class.</param>
     public BuildContext(ICakeContext context)
         : base(context)
     {
@@ -245,14 +246,14 @@ public class BuildContext : FrostingContext
             new Cake.Core.IO.ProcessSettings {
                 Arguments = "rev-parse --show-toplevel",
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
             },
             out IEnumerable<string> redirectedStandardOutput,
             out IEnumerable<string> redirectedErrorOutput);
 
         if (exitCode != 0) {
             Log.Warning(
-                $"Git command failed to obtain root repo path. " +
+                "Git command failed to obtain root repo path. " +
                 $"Exit code: {exitCode}. " +
                 $"Error output: {string.Join(System.Environment.NewLine, redirectedErrorOutput)}");
             Log.Warning(

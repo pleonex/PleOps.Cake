@@ -9,5 +9,9 @@
     <PackageVersion Include="coverlet.collector" Version="6.0.0" />
 
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="1.1.1" />
+
+    <PackageVersion Include="StyleCop.Analyzers" Version="1.1.118" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.12.0.78982" />
+    <PackageVersion Include="Roslynator.Analyzers" Version="4.6.1" />
   </ItemGroup>
 </Project>

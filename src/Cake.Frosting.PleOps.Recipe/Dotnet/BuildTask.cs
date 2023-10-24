@@ -60,6 +60,7 @@ public class BuildTask : FrostingTask<BuildContext>
                     "",
                     logPath)
 #endif
+
                 // This setting improve the experience with VS Code
                 .HideDetailedSummary()
                 .WithProperty("GenerateFullPaths", "true"),
@@ -72,12 +73,22 @@ public class BuildTask : FrostingTask<BuildContext>
     }
 }
 
+/// <summary>
+/// Extensions for MSBuild settings.
+/// </summary>
 internal static class MSBuildSettingExtensions
 {
+    /// <summary>
+    /// Hide the detailed summary for compatibility with VS Code.
+    /// </summary>
+    /// <param name="settings">Settings parameter.</param>
+    /// <returns>The same instance.</returns>
+    /// <exception cref="ArgumentNullException">Settings is null.</exception>
     public static DotNetMSBuildSettings HideDetailedSummary(this DotNetMSBuildSettings settings)
     {
-        if (settings == null)
+        if (settings == null) {
             throw new ArgumentNullException(nameof(settings));
+        }
 
         settings.DetailedSummary = false;
         return settings;

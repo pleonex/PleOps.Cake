@@ -17,9 +17,9 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#if CAKE_ISSUES
 namespace Cake.Frosting.PleOps.Recipe;
 
-#if CAKE_ISSUES
 using Cake.Frosting.Issues.Recipe;
 
 public class CakeIssuesContext

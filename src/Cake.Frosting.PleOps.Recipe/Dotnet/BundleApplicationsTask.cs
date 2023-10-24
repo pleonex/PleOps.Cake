@@ -19,12 +19,12 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe.Dotnet;
 
-using System;
 using System.Linq;
 using Cake.Common.IO;
 using Cake.Common.Tools.DotNet;
 using Cake.Common.Tools.DotNet.MSBuild;
 using Cake.Common.Tools.DotNet.Publish;
+using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Common;
@@ -39,9 +39,9 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
     /// <inheritdoc />
     public override void Run(BuildContext context)
     {
-        foreach (var project in context.DotNetContext.ApplicationProjects) {
+        foreach (ProjectPublicationInfo project in context.DotNetContext.ApplicationProjects) {
             if (project.Runtimes.Length == 0) {
-                throw new Exception($"At least one runtime must be specified for {project.ProjectPath}");
+                throw new CakeException($"At least one runtime must be specified for {project.ProjectPath}");
             }
 
             foreach (string runtime in project.Runtimes) {
@@ -58,6 +58,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
                 ? Path.GetDirectoryName(project.ProjectPath)! // full path
                 : Path.GetFileName(project.ProjectPath); // dir
         }
+
         context.Log.Information("Packing {0} for {1}", projectName, runtime);
 
         // We don't use the property "OutputDirectory" because it removes the last

@@ -62,7 +62,7 @@ public class TestTask : FrostingTask<BuildContext>
             Loggers = new[] { "trx" },
             ArgumentCustomization = x => x.AppendSwitchQuoted("--collect", "XPlat Code Coverage"),
             MSBuildSettings = new DotNetMSBuildSettings()
-                .WithProperty("Platform", context.DotNetContext.Platform)
+                .WithProperty("Platform", context.DotNetContext.Platform),
         };
 
         if (!string.IsNullOrWhiteSpace(context.DotNetContext.TestConfigPath)) {
@@ -84,7 +84,7 @@ public class TestTask : FrostingTask<BuildContext>
             .Append(" -reports:\"").Append(testOutput).Append("/**/coverage.cobertura.xml\"")
             .Append(" -targetdir:").Append(coverageOutput)
             .Append(" -reporttypes:\"Html;Cobertura\"");
-        context.DotNetTool("reportgenerator" + argBuilder.ToString());
+        context.DotNetTool("reportgenerator" + argBuilder);
 
         // Get final result
         string coverageFile = $"{coverageOutput}/Cobertura.xml";
@@ -104,7 +104,7 @@ public class TestTask : FrostingTask<BuildContext>
         } else {
             string message = $"Code coverage is below target: {lineRate} < {context.DotNetContext.CoverageTarget}";
             if (context.WarningsAsErrors) {
-                throw new Exception(message);
+                throw new CakeException(message);
             }
 
             context.Log.Warning(message);

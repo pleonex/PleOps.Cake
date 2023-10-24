@@ -19,9 +19,9 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe.Common;
 
-using System;
 using System.Text;
 using Cake.Common;
+using Cake.Core;
 using Cake.Core.IO;
 
 /// <summary>
@@ -47,7 +47,7 @@ public class RestoreToolsTask : FrostingTask<BuildContext>
             });
 
         if (retcode != 0) {
-            throw new Exception($"Cannot restore build tools: {retcode}");
+            throw new CakeException($"Cannot restore build tools: {retcode}");
         }
     }
 }

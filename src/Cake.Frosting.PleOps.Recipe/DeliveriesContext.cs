@@ -51,7 +51,7 @@ public class DeliveriesContext
     public Collection<string> NuGetPackages { get; set; }
 
     /// <summary>
-    /// Get or sets the collection of binary delivery files.
+    /// Gets or sets the collection of binary delivery files.
     /// </summary>
     public Collection<string> BinaryFiles { get; set; }
 
@@ -63,7 +63,7 @@ public class DeliveriesContext
     /// <summary>
     /// Gets or sets the path to the JSON file with the information of the deliveries.
     /// </summary>
-    public string DeliveryInfoPath { get; private set; }
+    public string DeliveryInfoPath { get; set; }
 
     /// <summary>
     /// Serializes this class into JSON and store it in the provided path.
@@ -72,7 +72,7 @@ public class DeliveriesContext
     {
         string? outDir = Path.GetDirectoryName(DeliveryInfoPath);
         if (!string.IsNullOrEmpty(outDir) && !Directory.Exists(outDir)) {
-            Directory.CreateDirectory(outDir);
+            _ = Directory.CreateDirectory(outDir);
         }
 
         string json = JsonSerializer.Serialize(this);
