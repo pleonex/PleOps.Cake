@@ -28,14 +28,14 @@ using Cake.Frosting;
 /// Tasks to deploy NuGet packages to the preview or stable feed.
 /// </summary>
 [TaskName(DotnetTasks.DeployNuGetTaskName)]
-public class DeployNuGetTask : FrostingTask<BuildContext>
+public class DeployNuGetTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override bool ShouldRun(BuildContext context) =>
+    public override bool ShouldRun(PleOpsBuildContext context) =>
         context.BuildKind != BuildKind.Development;
 
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         string feed = (context.BuildKind == BuildKind.Stable)
             ? context.DotNetContext.StableNuGetFeed

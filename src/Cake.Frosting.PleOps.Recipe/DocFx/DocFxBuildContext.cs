@@ -56,7 +56,7 @@ public class DocFxBuildContext
     /// </summary>
     /// <param name="context">Cake context.</param>
     /// <exception cref="NotSupportedException">Invalid cake verbosity.</exception>
-    public void ReadArguments(BuildContext context)
+    public void ReadArguments(PleOpsBuildContext context)
     {
         // From Cake script verbosity "--verbosity X" flag
         ToolingVerbosity = context.Log.Verbosity switch {

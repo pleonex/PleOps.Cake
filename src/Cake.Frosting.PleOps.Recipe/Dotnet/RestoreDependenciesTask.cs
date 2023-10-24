@@ -30,10 +30,10 @@ using Cake.Frosting;
 /// Restore dependencies of .NET projects.
 /// </summary>
 [TaskName(DotnetTasks.RestoreTaskName)]
-public class RestoreDependenciesTask : FrostingTask<BuildContext>
+public class RestoreDependenciesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         if (!context.IsIncrementalBuild) {
             context.Log.Information("Cleaning .NET projects for selected configuration and platform");

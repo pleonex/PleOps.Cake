@@ -22,17 +22,17 @@ using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe;
 
 return new CakeHost()
-    .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.BuildContext).Assembly)
+    .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.PleOpsBuildContext).Assembly)
 #if CAKE_ISSUES
     .AddAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask).Assembly)
 #endif
-    .UseContext<BuildContext>()
+    .UseContext<PleOpsBuildContext>()
     .UseLifetime<BuildLifetime>()
     .Run(args);
 
-public sealed class BuildLifetime : FrostingLifetime<BuildContext>
+public sealed class BuildLifetime : FrostingLifetime<PleOpsBuildContext>
 {
-    public override void Setup(BuildContext context, ISetupContext info)
+    public override void Setup(PleOpsBuildContext context, ISetupContext info)
     {
         // HERE you can set default values overridable by command-line
 
@@ -46,7 +46,7 @@ public sealed class BuildLifetime : FrostingLifetime<BuildContext>
         context.Print();
     }
 
-    public override void Teardown(BuildContext context, ITeardownContext info)
+    public override void Teardown(PleOpsBuildContext context, ITeardownContext info)
     {
         // Save the info from the existing artifacts for the next execution (e.g. deploy job)
         context.DeliveriesContext.Save();

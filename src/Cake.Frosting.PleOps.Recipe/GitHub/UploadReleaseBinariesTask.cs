@@ -30,15 +30,15 @@ using Cake.Frosting;
 /// This action only runs for stable builds if the GitHub token is present.
 /// </remarks>
 [TaskName(nameof(GitHub) + ".UploadReleaseBinaries")]
-public class UploadReleaseBinariesTask : FrostingTask<BuildContext>
+public class UploadReleaseBinariesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override bool ShouldRun(BuildContext context) =>
+    public override bool ShouldRun(PleOpsBuildContext context) =>
         (context.BuildKind == BuildKind.Stable) &&
         !string.IsNullOrEmpty(context.GitHubContext.GitHubToken);
 
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         string tagName = $"v{context.Version}";
         foreach (string artifact in context.DeliveriesContext.BinaryFiles) {

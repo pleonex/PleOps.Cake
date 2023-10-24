@@ -35,10 +35,10 @@ using Cake.Issues.DocFx;
 /// </summary>
 [TaskName(DocFxTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
-public class BuildTask : FrostingTask<BuildContext>
+public class BuildTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         if (!File.Exists(context.DocFxContext.DocFxFile)) {
             context.Log.Warning("There isn't documentation.");

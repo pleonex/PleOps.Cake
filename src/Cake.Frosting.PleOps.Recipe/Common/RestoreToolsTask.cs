@@ -28,10 +28,10 @@ using Cake.Core.IO;
 /// Task to restore or update .NET tools available in the manifest.
 /// </summary>
 [TaskName(nameof(Common) + ".RestoreTools")]
-public class RestoreToolsTask : FrostingTask<BuildContext>
+public class RestoreToolsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         var argBuilder = new StringBuilder()
             .Append(" tool").Append(" restore");

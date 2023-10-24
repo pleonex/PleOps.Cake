@@ -64,7 +64,7 @@ public class GitHubBuildContext
     /// Initializes from environment variables.
     /// </summary>
     /// <param name="context">Cake context extensions.</param>
-    public void ReadArguments(BuildContext context)
+    public void ReadArguments(PleOpsBuildContext context)
     {
         GitHubToken = context.Environment.GetEnvironmentVariable("GITHUB_TOKEN");
         FindRepoInfo(context);

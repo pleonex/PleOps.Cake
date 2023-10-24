@@ -87,7 +87,7 @@ public class DeliveriesContext
     /// <remarks>
     /// If the artifacts.json file exists, it will load the information from there.
     /// </remarks>
-    public void Initialize(BuildContext context)
+    public void Initialize(PleOpsBuildContext context)
     {
         DeliveryInfoPath = Path.Combine(context.ArtifactsPath, "artifacts.json");
 

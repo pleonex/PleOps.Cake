@@ -30,10 +30,10 @@ using Cake.Frosting;
 /// </summary>
 [TaskName(DotnetTasks.BundleNuGetsTaskName)]
 [IsDependentOn(typeof(BuildTask))]
-public class BundleNuGetsTask : FrostingTask<BuildContext>
+public class BundleNuGetsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         string changelog = "Check the project site";
         if (File.Exists(context.ChangelogNextFile)) {

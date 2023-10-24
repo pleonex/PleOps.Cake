@@ -36,10 +36,10 @@ using Cake.Frosting.PleOps.Recipe.Common;
 [TaskName(DotnetTasks.TestTaskName)]
 [IsDependentOn(typeof(BuildTask))]
 [IsDependentOn(typeof(RestoreToolsTask))]
-public class TestTask : FrostingTask<BuildContext>
+public class TestTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         string testOutput = Path.Combine(context.TemporaryPath, "tests_result");
         RunTests(context, testOutput);
@@ -51,7 +51,7 @@ public class TestTask : FrostingTask<BuildContext>
         }
     }
 
-    private static void RunTests(BuildContext context, string testOutput)
+    private static void RunTests(PleOpsBuildContext context, string testOutput)
     {
         context.CleanDirectory(testOutput);
 
@@ -76,7 +76,7 @@ public class TestTask : FrostingTask<BuildContext>
         context.DotNetTest(context.DotNetContext.SolutionPath, netcoreSettings);
     }
 
-    private static void RunCodeCoverage(BuildContext context, string testOutput)
+    private static void RunCodeCoverage(PleOpsBuildContext context, string testOutput)
     {
         string coverageOutput = Path.Combine(context.ArtifactsPath, "code_coverage");
 

@@ -23,7 +23,7 @@ using Cake.Frosting;
 using Cake.Frosting.PleOps.Recipe.Dotnet;
 
 return new CakeHost()
-    .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.BuildContext).Assembly)
+    .AddAssembly(typeof(Cake.Frosting.PleOps.Recipe.PleOpsBuildContext).Assembly)
 #if CAKE_ISSUES
     .AddAssembly(typeof(Cake.Frosting.Issues.Recipe.IssuesTask).Assembly)
 #endif
@@ -31,7 +31,10 @@ return new CakeHost()
     .UseLifetime<BuildLifetime>()
     .Run(args);
 
-public sealed class MyCustomContext : Cake.Frosting.PleOps.Recipe.BuildContext
+#pragma warning disable S3903 // Can't use namespace in a top-level statement file
+#pragma warning disable SA1402 // Only one type per file
+#pragma warning disable SA1649 // File name should match first type name
+public sealed class MyCustomContext : Cake.Frosting.PleOps.Recipe.PleOpsBuildContext
 {
     public MyCustomContext(ICakeContext context)
         : base(context)

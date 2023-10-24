@@ -27,14 +27,14 @@ using Cake.Frosting;
 /// Task to clean the artifact and temporary folders if it's not an incremental build.
 /// </summary>
 [TaskName(nameof(Common) + ".CleanArtifacts")]
-public class CleanArtifactsTask : FrostingTask<BuildContext>
+public class CleanArtifactsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override bool ShouldRun(BuildContext context) =>
+    public override bool ShouldRun(PleOpsBuildContext context) =>
         !context.IsIncrementalBuild;
 
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         context.Log.Information("Removing artifacts directory");
         context.CleanDirectory(context.TemporaryPath, new CleanDirectorySettings { Force = true });

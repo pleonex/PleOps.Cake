@@ -132,7 +132,7 @@ public class DotNetBuildContext
     /// </summary>
     /// <param name="context">Cake context.</param>
     /// <exception cref="NotSupportedException">Invalid verbosity.</exception>
-    public void ReadArguments(BuildContext context)
+    public void ReadArguments(PleOpsBuildContext context)
     {
         // From Cake script verbosity "--verbosity X" flag
         ToolingVerbosity = context.Log.Verbosity switch {

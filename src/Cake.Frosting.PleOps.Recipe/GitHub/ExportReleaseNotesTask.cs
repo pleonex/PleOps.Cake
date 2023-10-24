@@ -29,16 +29,16 @@ using Cake.Frosting;
 /// </summary>
 [TaskName(nameof(GitHub) + ".ExportReleaseNotes")]
 [IsDependentOn(typeof(Common.RestoreToolsTask))]
-public class ExportReleaseNotesTask : FrostingTask<BuildContext>
+public class ExportReleaseNotesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override bool ShouldRun(BuildContext context) =>
+    public override bool ShouldRun(PleOpsBuildContext context) =>
         !string.IsNullOrEmpty(context.GitHubContext.GitHubToken) &&
         !string.IsNullOrEmpty(context.GitHubContext.RepositoryOwner) &&
         !string.IsNullOrEmpty(context.GitHubContext.RepositoryName);
 
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         var argBuilder = new StringBuilder();
 

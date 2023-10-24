@@ -34,10 +34,10 @@ using Cake.Frosting.PleOps.Recipe.Common;
 /// </summary>
 [TaskName(DotnetTasks.BundleAppsTaskName)]
 [IsDependentOn(typeof(RestoreToolsTask))]
-public class BundleApplicationsTask : FrostingTask<BuildContext>
+public class BundleApplicationsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         foreach (ProjectPublicationInfo project in context.DotNetContext.ApplicationProjects) {
             if (project.Runtimes.Length == 0) {
@@ -50,7 +50,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         }
     }
 
-    private static void StageApp(BuildContext context, ProjectPublicationInfo project, string runtime)
+    private static void StageApp(PleOpsBuildContext context, ProjectPublicationInfo project, string runtime)
     {
         string? projectName = project.ProjectName;
         if (string.IsNullOrEmpty(projectName)) {
@@ -97,7 +97,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         }
     }
 
-    private static void GenerateLicense(BuildContext context, string projectPath, string outputDir)
+    private static void GenerateLicense(PleOpsBuildContext context, string projectPath, string outputDir)
     {
         context.Log.Information("Generating third-party notice");
 
@@ -106,7 +106,7 @@ public class BundleApplicationsTask : FrostingTask<BuildContext>
         context.DotNetTool("thirdlicense " + args);
     }
 
-    private static void CopyIfExists(BuildContext context, string file, string output)
+    private static void CopyIfExists(PleOpsBuildContext context, string file, string output)
     {
         if (File.Exists(file)) {
             File.Copy(file, output);

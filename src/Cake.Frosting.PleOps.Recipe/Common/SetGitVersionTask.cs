@@ -37,7 +37,7 @@ using Cake.Core.Diagnostics;
 /// </remarks>
 [TaskName(nameof(Common) + ".SetGitVersion")]
 [IsDependentOn(typeof(RestoreToolsTask))]
-public class SetGitVersionTask : FrostingTask<BuildContext>
+public class SetGitVersionTask : FrostingTask<PleOpsBuildContext>
 {
     /// <summary>
     /// Run GitVersion tool to get the version.
@@ -45,7 +45,7 @@ public class SetGitVersionTask : FrostingTask<BuildContext>
     /// <param name="context">Build context.</param>
     /// <exception cref="Exception">GitVersion failed.</exception>
     /// <exception cref="FormatException">Invalid output from GitVersion.</exception>
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         // Use Cake GitVersion from the dotnet tool manifest
         // https://github.com/cake-build/cake/issues/3209

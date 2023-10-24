@@ -40,13 +40,13 @@ public class BuildContext : FrostingContext, IIssuesContext
 /// <summary>
 /// Build context information to share across tasks.
 /// </summary>
-public class BuildContext : FrostingContext
+public class PleOpsBuildContext : FrostingContext
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BuildContext"/> class.
+    /// Initializes a new instance of the <see cref="PleOpsBuildContext"/> class.
     /// </summary>
     /// <param name="context">The context to pass to the base class.</param>
-    public BuildContext(ICakeContext context)
+    public PleOpsBuildContext(ICakeContext context)
         : base(context)
     {
         Version = "0.0.1";
@@ -203,7 +203,7 @@ public class BuildContext : FrostingContext
         // Ignore properties defined in cake assemblies
         if (indentation == 0) {
             properties = properties.Where(
-                p => p.DeclaringType?.IsAssignableTo(typeof(BuildContext)) ?? false);
+                p => p.DeclaringType?.IsAssignableTo(typeof(PleOpsBuildContext)) ?? false);
         }
 
         foreach (PropertyInfo property in properties) {

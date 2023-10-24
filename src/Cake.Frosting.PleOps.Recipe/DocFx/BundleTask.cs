@@ -28,10 +28,10 @@ using Cake.Frosting;
 /// </summary>
 [TaskName(DocFxTasks.BundleTaskName)]
 [IsDependentOn(typeof(BuildTask))]
-public class BundleTask : FrostingTask<BuildContext>
+public class BundleTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
         context.Zip(
             Path.Combine(context.DeliveriesContext.DocumentationPath),

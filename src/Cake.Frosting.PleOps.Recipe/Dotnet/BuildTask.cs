@@ -29,10 +29,10 @@ using Cake.Frosting;
 /// </summary>
 [TaskName(DotnetTasks.BuildTaskName)]
 [IsDependentOn(typeof(RestoreDependenciesTask))]
-public class BuildTask : FrostingTask<BuildContext>
+public class BuildTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
-    public override void Run(BuildContext context)
+    public override void Run(PleOpsBuildContext context)
     {
 #if CAKE_ISSUES
         string logPath = Path.GetFileNameWithoutExtension(context.DotNetContext.SolutionPath) + "_msbuild.binlog";
