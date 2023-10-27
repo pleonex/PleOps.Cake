@@ -8,4 +8,4 @@ assignees: ""
 
 A clear and concise description of what the problem is.
 
-**Describe the solution you'd like to see**
+**Describe the solution you'd like to see.**

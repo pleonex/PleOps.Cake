@@ -65,6 +65,9 @@ public class SetGitVersionTask : FrostingTask<PleOpsBuildContext>
             }
 
             string allOutput = string.Concat(output);
+            context.Log.Debug("Output:");
+            context.Log.Debug(output);
+
             return JsonSerializer.Deserialize<GitVersion>(allOutput)
                 ?? throw new FormatException($"Invalid GitVersion output:\n{allOutput}");
         }

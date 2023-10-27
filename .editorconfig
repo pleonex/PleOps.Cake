@@ -246,6 +246,7 @@ dotnet_diagnostic.SA1011.severity = none # False positive due to nullables
 dotnet_diagnostic.SA1101.severity = none # Do not force to prefix local calls with 'this'
 dotnet_diagnostic.SA1313.severity = none # Pascal naming broken with records.
 dotnet_diagnostic.SA1500.severity = none # Allow inline braces
+dotnet_diagnostic.SA1516.severity = none # Multiple blank lines - broken with top-level statements
 dotnet_diagnostic.SA1633.severity = none # No XML-format header in source files
 
 ### SonarAnalyzer
