@@ -58,22 +58,41 @@ public class SetGitVersionTask : FrostingTask<PleOpsBuildContext>
                     RedirectStandardError = true,
                     Silent = true,
                     Arguments = "gitversion /nofetch",
+                    Timeout = 5_000, // in ms
                 },
-                out IEnumerable<string> output);
+                out IEnumerable<string> stdOut,
+                out IEnumerable<string> stdErr);
             if (retcode != 0) {
                 throw new CakeException($"GitVersion returned {retcode}");
             }
 
-            string allOutput = string.Concat(output);
+            string allOutput = string.Concat(stdOut);
             context.Log.Debug("Output:");
-            context.Log.Debug(output);
+            context.Log.Debug(allOutput);
+
+            context.Log.Debug("Errors:");
+            context.Log.Debug(string.Concat(stdErr));
+
+            if (allOutput.Length == 0) {
+                throw new FormatException("GitVersion did return nothing ???");
+            }
 
             return JsonSerializer.Deserialize<GitVersion>(allOutput)
                 ?? throw new FormatException($"Invalid GitVersion output:\n{allOutput}");
         }
 
         // Get the version using the tool GitVersion
-        GitVersion version = GetGitVersion();
+        // For some reason, sometimes when using a C# script the first time
+        // or after updating a NuGet version, it returns nothing.
+        GitVersion version;
+        try {
+            version = GetGitVersion();
+        } catch (Exception ex) {
+            // A second attempt usually fixes it. Maybe git/dotnet is busy/locking some files...
+            context.Log.Information(ex);
+            context.Log.Information("Attempting a second time to run GitVersion");
+            version = GetGitVersion();
+        }
 
         context.Version = version.SemVer;
 
