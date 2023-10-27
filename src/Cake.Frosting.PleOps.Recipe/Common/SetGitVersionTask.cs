@@ -35,7 +35,7 @@ using Cake.Core.Diagnostics;
 /// It requires the dotnet tool: GitVersion.Tool. Make sure to install it
 /// via 'dotnet tool install GitVersion.Tool' or using InstallTool().
 /// </remarks>
-[TaskName(nameof(Common) + ".SetGitVersion")]
+[TaskName("PleOps.Recipe.Common.SetGitVersion")]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class SetGitVersionTask : FrostingTask<PleOpsBuildContext>
 {

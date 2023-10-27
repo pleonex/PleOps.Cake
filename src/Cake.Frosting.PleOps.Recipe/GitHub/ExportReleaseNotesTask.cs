@@ -27,7 +27,7 @@ using Cake.Frosting;
 /// <summary>
 /// Exports the release notes from the GitHub releases.
 /// </summary>
-[TaskName(nameof(GitHub) + ".ExportReleaseNotes")]
+[TaskName("PleOps.Recipe.GitHub.ExportReleaseNotes")]
 [IsDependentOn(typeof(Common.RestoreToolsTask))]
 public class ExportReleaseNotesTask : FrostingTask<PleOpsBuildContext>
 {

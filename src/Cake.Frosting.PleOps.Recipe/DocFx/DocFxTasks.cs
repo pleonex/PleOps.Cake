@@ -37,7 +37,7 @@ public static class DocFxTasks
     /// <summary>
     /// Gets the module name.
     /// </summary>
-    public const string ModuleName = nameof(DocFx);
+    public const string ModuleName = "PleOps.Recipe.DocFx";
 
     /// <summary>
     /// Gets the name of the build task.

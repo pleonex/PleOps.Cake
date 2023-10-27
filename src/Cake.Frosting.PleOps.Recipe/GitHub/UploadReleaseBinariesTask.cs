@@ -29,7 +29,7 @@ using Cake.Frosting;
 /// The GitHub release should have as a tag "v{Version}".
 /// This action only runs for stable builds if the GitHub token is present.
 /// </remarks>
-[TaskName(nameof(GitHub) + ".UploadReleaseBinaries")]
+[TaskName("PleOps.Recipe.GitHub.UploadReleaseBinaries")]
 public class UploadReleaseBinariesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

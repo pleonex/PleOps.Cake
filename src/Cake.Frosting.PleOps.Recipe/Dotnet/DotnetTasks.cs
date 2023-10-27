@@ -33,7 +33,7 @@ public static class DotnetTasks
     /// <summary>
     /// Gets the module name.
     /// </summary>
-    public const string ModuleName = nameof(Dotnet);
+    public const string ModuleName = "PleOps.Recipe.Dotnet";
 
     /// <summary>
     /// Gets the name of the restore dependencies task.

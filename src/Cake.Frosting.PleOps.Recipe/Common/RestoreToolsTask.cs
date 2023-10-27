@@ -27,7 +27,7 @@ using Cake.Core.IO;
 /// <summary>
 /// Task to restore or update .NET tools available in the manifest.
 /// </summary>
-[TaskName(nameof(Common) + ".RestoreTools")]
+[TaskName("PleOps.Recipe.Common.RestoreTools")]
 public class RestoreToolsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />
