@@ -64,10 +64,12 @@ The project requires to build .NET 8.0 SDK.
 To build, test and generate artifacts run:
 
 ```sh
-dotnet run --project build/orchestrator -- --target=CI-Build
-```
+# Build and run tests
+dotnet run --project build/orchestrator -- --target=Default
 
-For a quick build use the `Default` target or skip the `target` argument.
+# (Optional) Create bundles (nuget, zips, docs)
+dotnet run --project build/orchestrator -- --target=Bundle
+```
 
 To build (and test) the recipe against the examples run:
 
