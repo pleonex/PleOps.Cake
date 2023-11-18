@@ -15,4 +15,4 @@ pipeline in action!
 
 ## Requirements
 
-- .NET 6.0 SDK
+- .NET 8.0 SDK
