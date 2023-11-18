@@ -3,9 +3,9 @@
     "Default": {
       "commandName": "Project"
     },
-    "CI-Build": {
+    "Bundle": {
       "commandName": "Project",
-      "commandLineArgs": "--target=CI-Build --configuration=Release",
+      "commandLineArgs": "--target=Bundle",
       "environmentVariables": {
         "GITHUB_REPOSITORY": "pleonex/PleOps.Cake"
       }
