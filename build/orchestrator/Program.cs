@@ -39,7 +39,7 @@ public sealed class BuildLifetime : FrostingLifetime<PleOpsBuildContext>
         // Update build parameters from command line arguments.
         context.ReadArguments();
 
-        // HERE you can force values non-overridables.
+        // HERE you can force values non-overridable.
         context.DotNetContext.PreviewNuGetFeed = "https://pkgs.dev.azure.com/benito356/NetDevOpsTest/_packaging/PleOps/nuget/v3/index.json";
 
         // Print the build info to use.

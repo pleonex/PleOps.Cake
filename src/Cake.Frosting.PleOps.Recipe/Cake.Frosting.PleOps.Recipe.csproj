@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -12,7 +12,7 @@
     <None Include="../../docs/images/logo_128.png" Pack="true" PackagePath="$(PackageIcon)" Visible="false" />
     <None Include="../../README.md" Pack="true" PackagePath="$(PackageReadmeFile)" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Cake.Frosting" />
   </ItemGroup>

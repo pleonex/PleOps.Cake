@@ -54,7 +54,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
         context.DotNetContext.ApplicationProjects.Add(new ProjectPublicationInfo(
             "./src/Cake.Frosting.PleOps.Samples.PublicApp", new[] { "win-x64" }));
         context.DotNetContext.ApplicationProjects.Add(new ProjectPublicationInfo(
-            "./src/Cake.Frosting.PleOps.Samples.PublicApp2", new[] { "linux-x64", "osx-x64" }, "net7.0", "CustomApp"));
+            "./src/Cake.Frosting.PleOps.Samples.PublicApp2", new[] { "linux-x64", "osx-x64" }, "net8.0", "CustomApp"));
         context.ArtifactsPath = "./build/samples_artifacts";
         context.TemporaryPath = "./build/samples_temp";
 
