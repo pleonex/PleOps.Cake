@@ -48,14 +48,4 @@ public static class DocFxTasks
     /// Gets the name of the bundle task.
     /// </summary>
     public const string BundleTaskName = ModuleName + ".Bundle";
-
-    /// <summary>
-    /// Run tasks to build, test and bundle projects.
-    /// </summary>
-    [TaskName(ModuleName + "PrepareProjectBundles")]
-    [IsDependentOn(typeof(BuildTask))]
-    [IsDependentOn(typeof(BundleTask))]
-    public class PrepareProjectBundlesTask : FrostingTask
-    {
-    }
 }

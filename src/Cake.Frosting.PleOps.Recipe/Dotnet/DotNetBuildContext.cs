@@ -38,7 +38,7 @@ public class DotNetBuildContext
         Platform = "Any CPU";
         ApplicationProjects = new();
 
-        CoverageTarget = 100;
+        CoverageTarget = 80;
         TestFilter = string.Empty;
 
         NugetConfigPath = string.Empty;

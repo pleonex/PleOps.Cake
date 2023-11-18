@@ -66,15 +66,23 @@ public static class DotnetTasks
     public const string DeployNuGetTaskName = ModuleName + ".DeployNuGet";
 
     /// <summary>
-    /// Run tasks to build, test and bundle projects.
+    /// Run tasks to build and test projects.
     /// </summary>
-    [TaskName(ModuleName + ".PrepareProjectBundles")]
+    [TaskName(ModuleName + ".BuildProject")]
     [IsDependentOn(typeof(RestoreDependenciesTask))]
     [IsDependentOn(typeof(BuildTask))]
     [IsDependentOn(typeof(TestTask))]
+    public class BuildProjectTask : FrostingTask
+    {
+    }
+
+    /// <summary>
+    /// Run tasks to bundle the deliveries.
+    /// </summary>
+    [TaskName(ModuleName + ".BundleProject")]
     [IsDependentOn(typeof(BundleNuGetsTask))]
     [IsDependentOn(typeof(BundleApplicationsTask))]
-    public class PrepareProjectBundlesTask : FrostingTask
+    public class BundleProjectTask : FrostingTask
     {
     }
 
