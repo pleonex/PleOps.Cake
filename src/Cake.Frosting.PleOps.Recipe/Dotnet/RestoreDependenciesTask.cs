@@ -35,17 +35,6 @@ public class RestoreDependenciesTask : FrostingTask<PleOpsBuildContext>
     /// <inheritdoc />
     public override void Run(PleOpsBuildContext context)
     {
-        if (!context.IsIncrementalBuild) {
-            context.Log.Information("Cleaning .NET projects for selected configuration and platform");
-            var cleanSettings = new DotNetCleanSettings {
-                Verbosity = context.DotNetContext.ToolingVerbosity,
-                Configuration = context.DotNetContext.Configuration,
-                MSBuildSettings = new DotNetMSBuildSettings()
-                    .WithProperty("Platform", context.DotNetContext.Platform),
-            };
-            context.DotNetClean(context.DotNetContext.SolutionPath, cleanSettings);
-        }
-
         MSBuildTreatAllWarningsAs warningMode = context.WarningsAsErrors
             ? MSBuildTreatAllWarningsAs.Error
             : MSBuildTreatAllWarningsAs.Default;
@@ -64,5 +53,19 @@ public class RestoreDependenciesTask : FrostingTask<PleOpsBuildContext>
         }
 
         context.DotNetRestore(context.DotNetContext.SolutionPath, dotnetSettings);
+
+        // Clean must happen after restore, otherwise it may fail
+        // https://github.com/dotnet/sdk/issues/4018
+        // https://github.com/dotnet/sdk/issues/30199
+        if (!context.IsIncrementalBuild) {
+            context.Log.Information("Cleaning .NET projects for selected configuration and platform");
+            var cleanSettings = new DotNetCleanSettings {
+                Verbosity = context.DotNetContext.ToolingVerbosity,
+                Configuration = context.DotNetContext.Configuration,
+                MSBuildSettings = new DotNetMSBuildSettings()
+                    .WithProperty("Platform", context.DotNetContext.Platform),
+            };
+            context.DotNetClean(context.DotNetContext.SolutionPath, cleanSettings);
+        }
     }
 }
