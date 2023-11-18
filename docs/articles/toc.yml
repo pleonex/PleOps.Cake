@@ -3,8 +3,10 @@
   href: ../index.md
 - name: 🚧 Getting started guide
   href: ./getting-started/tutorial.md
-- name: 🚧 Project setup
-  href: ./getting-started/project-setup.md
+- name: 🚧 Setup from C# Template repo
+  href: ./getting-started/setup-setup.md
+- name: 🚧 Setup checklist
+  href: ./getting-started/setup-checklist.md
 - name: 🚧 Framework architecture
   href: ./getting-started/architecture.md
 - name: 🚧 Script format
