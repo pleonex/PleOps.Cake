@@ -38,7 +38,7 @@
         "args": [
           "run",
           "--project",
-          "src/Cake.Frosting.PleOps.Sample.BuildSystem/",
+          "src/Cake.Frosting.PleOps.Samples.BuildSystem/",
         ],
         "group": {
           "kind": "build",
