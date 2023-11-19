@@ -9,7 +9,7 @@
   href: ./getting-started/setup-checklist.md
 - name: 🚧 Framework architecture
   href: ./getting-started/architecture.md
-- name: 🚧 Orchestrator script
+- name: Orchestrator script
   href: ./getting-started/build-script.md
 - name: Setup .NET environment
   href: ./getting-started/env-dotnet.md
