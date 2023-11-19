@@ -7,6 +7,9 @@ on Cake. Check also the
 [template repository](https://github.com/pleonex/template-csharp) to see the
 pipeline in action!
 
+- DevOps best practices for a software project
+- Common build and release tasks for .NET projects
+
 <!-- prettier-ignore -->
 | Release | Package                                                           |
 | ------- | ----------------------------------------------------------------- |
