@@ -1,10 +1,10 @@
 - name: ✨ Getting started
-- name: 🚧 Introduction
+- name: Introduction
   href: ../index.md
-- name: 🚧 Getting started guide
+- name: Getting started guide
   href: ./getting-started/tutorial.md
 - name: 🚧 Setup from C# Template repo
-  href: ./getting-started/setup-setup.md
+  href: ./getting-started/setup-template.md
 - name: 🚧 Setup checklist
   href: ./getting-started/setup-checklist.md
 - name: 🚧 Framework architecture
@@ -15,6 +15,8 @@
 - name: ♻ Workflows
 - name: 🚧 Pipeline
   href: ./workflows/pipeline.md
+- name: 🚧 Versioning
+  href: ./workflows/versioning.md
 - name: 🚧 Translation
   href: ./workflows/translation.md
 
