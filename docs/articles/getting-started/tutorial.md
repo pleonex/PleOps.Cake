@@ -240,7 +240,7 @@ file. You can do this from the `Setup` method of the `BuildLifetime` class we
 just created. You can get the list of options in
 [build context](../recipe/buildcontext.md).
 
-### Configure test filters
+### Configure test code coverage
 
 You can get a report on code coverage from your unit tests. Add a package
 reference to `coverlet.collector` in your test libraries. Then create a file
@@ -294,9 +294,63 @@ dotnet run --project build/orchestrator
 dotnet run --project build/orchestrator -- --target=Bundle
 ```
 
-## Adding documentation
+## Building documentation
 
-TODO
+[DocFX](https://dotnet.github.io/docfx/index.html) is a static site generator
+(like Jekyll or Hugo) that can also generate API documentation of .NET projects.
+PleOps Cake provides tasks to build documentation projects with DocFx.
+
+If you don't have one project already, follow their
+[quick guide](https://dotnet.github.io/docfx/index.html) or
+[take our template project](https://github.com/pleonex/template-csharp/tree/main/docs).
+
+The
+[template project also provides](https://github.com/pleonex/template-csharp/tree/main/docs/template)
+some adjustments over the default _modern_ template. Check them out if you are
+interested. For instance, you can put your GitHub icon in the `main.js` file.
+
+The build system expects to find a `docfx.json` file in `docs/`. If you create
+the project in other folder, adjust the build context in
+`BuildLifetime.Setup()`:
+
+```cs
+context.DocFxContext.DocFxFile = "Documentation/DocFX/docfx.json";
+```
+
+You see the output by running:
+
+```bash
+dotnet docfx docs/docfx.json --serve
+```
+
+> [!IMPORTANT]  
+> If you open the build output in your browser directly (`index.html`), the site
+> will look like broken. The generated site requires an HTTP server to see
+> properly. You can use the one from DocFX:
+> `dotnet docfx serve build/artifacts/docs`
+
+### Changelog
+
+If you check the `Bundle` task we created, you will see we run first the task
+`ExportReleaseNotesTask`. This task generates two files from the release
+information in GitHub:
+
+- `CHANGELOG.md`: it contains the release notes of every released version.
+- `CHANGELOG.NEXT.md`: it contains the release notes of GitHub release that
+  matches the current build version. This will only works when building from a
+  git tag that matches the GitHub release.
+  - This file is included in the NuGet packages in the property
+    `PackageReleaseNotes`.
+
+The name of these files can be configured through _build context_. At build
+time, DocFX will take the `CHANGELOG.md` file and copy it into the documentation
+project. You can adjust this behavior and path with the build context of DocFx
+(`ChangelogDocPath`).
+
+> [!NOTE]  
+> If you don't use GitHub releases or prefer to write manually the release
+> notes, you can not add the task `ExportReleaseNotesTask`. The documentation
+> and NuGet pack will still look for those files in your repo.
 
 ## Setting up continuous integration
 
@@ -304,4 +358,26 @@ TODO: configure github page settings, secrets
 
 ## Contribution files
 
-TODO
+While not directly related to the build system, these files will improve the
+collaboration in your project. Consider adding them:
+
+- `README.md`: include at least the main features, screenshots, getting started
+  or links to documentation and build & release instructions.
+- `LICENSE`: information about the license. Check
+  [choose a license](https://choosealicense.com/).
+- [`SECURITY.md`](https://github.com/pleonex/template-csharp/blob/main/SECURITY.md):
+  information how to report vulnerabilities properly.
+- Community:
+  - [`CONTRIBUTING.md`](https://github.com/pleonex/template-csharp/blob/main/CONTRIBUTING.md):
+    explain how to create issues and pull requests.
+  - `CODE_OF_CONDUCT.md`: GitHub can help to create it.
+- IDE support:
+  - [`.editorconfig`](https://github.com/pleonex/template-csharp/blob/main/.editorconfig):
+    code styles and code warnings.
+  - [`.vscode/`](https://github.com/pleonex/template-csharp/tree/main/.vscode):
+    VS Code support to build, run and debug the project.
+- GitHub issues / PR:
+  - [`.github/ISSUE_TEMPLATE/`](https://github.com/pleonex/template-csharp/tree/main/.github/ISSUE_TEMPLATE):
+    templates to create GitHub feature requests and bug reports.
+  - [`.github/PULL_REQUEST_TEMPLATE.md`](https://github.com/pleonex/template-csharp/blob/main/.github/pull_request_template.md):
+    Pull Request template.

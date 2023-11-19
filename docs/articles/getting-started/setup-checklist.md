@@ -64,8 +64,16 @@ following [project template](https://github.com/pleonex/template-csharp).
 
 ## Documentation
 
-1. Copy, compare and adapt the DocFX configuration and TOC files. In the
-   `docs/dev/Changelog.md` file the full changelog will be written.
+1. Create or [copy](https://github.com/pleonex/template-csharp/tree/main/docs)
+   the DocFX documentation project.
+   - Our
+     [template repository provides](https://github.com/pleonex/template-csharp/tree/main/docs/template)
+     some adjustments over the _modern_ template.
+   - You can include the GitHub icon in the _modern_ template via the `main.js`
+     file.
+   - Remember to update links in `docfx.json` and ToC files.
+2. If you create the project in other folder than `docs/`, configure the _build
+   context_.
 
 ## Continuous integration
 
@@ -75,17 +83,21 @@ following [project template](https://github.com/pleonex/template-csharp).
 
 ## Collaboration files
 
-1. Copy and adapt `.editorconfig` to follow your project coding style
-   guidelines. This file also defines some ignore rules. Pay attention to the
-   end of the file where it ignores special rules for test projects, you may
-   need to adjust the glob expression.
-
-2. Compare the content of the example `README.md`, `LICENSE`,
-   `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md` files and make any
-   desired modifications.
-
-3. Copy the GitHub templates for issues and pull requests:
-   `.github/ISSUE_TEMPLATE` and `PULL_REQUEST_TEMPLATE.md`.
-
-4. Copy the `.vscode` to have build and launch tasks for VS Code. Adapt the path
-   to launch your applications (if any).
+1. Create project information files:
+   1. `README.md`
+   2. `LICENSE`
+   3. [`SECURITY.md`](https://github.com/pleonex/template-csharp/blob/main/SECURITY.md)
+2. Create community guidelines:
+   1. [`CONTRIBUTING.md`](https://github.com/pleonex/template-csharp/blob/main/CONTRIBUTING.md):
+      explain how to create issues and pull requests.
+   2. `CODE_OF_CONDUCT.md`: GitHub can help to create it.
+3. Create IDE support files:
+   1. [`.editorconfig`](https://github.com/pleonex/template-csharp/blob/main/.editorconfig):
+      code styles and code warnings.
+   2. [`.vscode/`](https://github.com/pleonex/template-csharp/tree/main/.vscode):
+      VS Code support to build, run and debug the project.
+4. Create templates for GitHub issues / PR:
+   1. [`.github/ISSUE_TEMPLATE/`](https://github.com/pleonex/template-csharp/tree/main/.github/ISSUE_TEMPLATE):
+      templates to create GitHub feature requests and bug reports.
+   2. [`.github/PULL_REQUEST_TEMPLATE.md`](https://github.com/pleonex/template-csharp/blob/main/.github/pull_request_template.md):
+      Pull Request template.
