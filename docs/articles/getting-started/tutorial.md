@@ -354,7 +354,38 @@ project. You can adjust this behavior and path with the build context of DocFx
 
 ## Setting up continuous integration
 
-TODO: configure github page settings, secrets
+Nice, now we can fully build, test and bundle our projects locally. Time to
+setup a continuous integration pipeline to do the same. According to the
+[proposed workflow](../workflows/pipeline.md) there are three types of builds:
+
+- **Development**: for instance locally or on a pull request validation
+- **Preview**: publish the changes on an intermediary / staging feeds. It
+  happens on commits / merges into the main branch (`main` / `develop`).
+- **Production**: publish stable versions. It happens when we create a git tag
+  (e.g. via GitHub release).
+
+For our workflow, we will need to _stages_ / main jobs: **build** and
+**deploy**. For readability, the template project proposed a _reusable workflow_
+for each step and then the main file. You can
+[check it and copy / adapt it as wanted](https://github.com/pleonex/template-csharp/tree/main/.github/workflows).
+
+The build system knows if we are running in each build mode from the version
+number (that it's generated from git history and branch names). When we run the
+_Deploy_ target, it knows if it should go to _preview_ or _production_.
+
+In order to run this workflow you will need to configure a couple of things:
+
+- **NuGet tokens**: create a GitHub secret variable with the tokens to publish
+  to your feeds.
+  - Define your secrets and pass them to `nuget_preview_token` and
+    `nuget_stable_token`.
+  - If you are using Azure DevOps for one of the feeds, create a single variable
+    and pass it to `azure_nuget_token` input. Define also `azure_nuget_feed`.
+- **Enable GitHub pages**: if you want to publish your documentation via GitHub
+  pages, you need to enable in your project settings:
+  1. Go to _Settings_ > _Pages_
+  2. In _Source_ select _GitHub Actions_
+  3. Optionally set a domain and enforce HTTPS.
 
 ## Contribution files
 
