@@ -27,6 +27,7 @@ using Cake.Frosting;
 /// Task to bundle the DocFx documentation in a zip file.
 /// </summary>
 [TaskName(DocFxTasks.BundleTaskName)]
+[TaskDescription("Bundle the DocFx documentation in a zip file")]
 [IsDependentOn(typeof(BuildTask))]
 public class BundleTask : FrostingTask<PleOpsBuildContext>
 {

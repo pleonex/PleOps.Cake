@@ -47,7 +47,11 @@ PleOps.Recipe.GitHub.UploadReleaseBinaries
 
 ### Common
 
-TODO
+| Task name        | Description                                              |
+| ---------------- | -------------------------------------------------------- |
+| `RestoreTools`   | Restore `dotnet tool` defined in the manifest file       |
+| `CleanArtifacts` | Clean the artifacts and temporary paths                  |
+| `SetGitVersion`  | Set the version of the repository with `GitVersion` tool |
 
 ### .NET
 
@@ -67,8 +71,14 @@ Complete information in [.NET projects](./dotnet.md).
 
 ### DocFX
 
-TODO
+| Task name | Description                   |
+| --------- | ----------------------------- |
+| `Build`   | Build the DocFx documentation |
+| `Bundle`  | Zip the documentation output  |
 
 ### GitHub
 
-TODO
+| Task name               | Description                                     |
+| ----------------------- | ----------------------------------------------- |
+| `ExportReleaseNotes`    | Export release notes from the GitHub repository |
+| `UploadReleaseBinaries` | Upload binaries to the release notes            |

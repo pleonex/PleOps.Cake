@@ -34,6 +34,7 @@ using Cake.Issues.DocFx;
 /// Task to build the DocFx documentation.
 /// </summary>
 [TaskName(DocFxTasks.BuildTaskName)]
+[TaskDescription("Build the DocFx documentation")]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class BuildTask : FrostingTask<PleOpsBuildContext>
 {

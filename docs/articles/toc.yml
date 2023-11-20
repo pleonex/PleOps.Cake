@@ -29,9 +29,9 @@
   href: ./recipe/buildcontext.md
 - name: .NET projects
   href: ./recipe/dotnet.md
-- name: 🚧 DocFx documentation
+- name: DocFx documentation
   href: ./recipe/docfx.md
-- name: 🚧 Common
+- name: Common
   href: ./recipe/common.md
-- name: 🚧 GitHub
+- name: GitHub
   href: ./recipe/github.md

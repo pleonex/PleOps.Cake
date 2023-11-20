@@ -83,7 +83,7 @@ public class BundleApplicationsTask : FrostingTask<PleOpsBuildContext>
         };
         context.DotNetPublish(project.ProjectPath, publishSettings);
 
-        // Copy license and third-party licence note
+        // Copy license and third-party license note
         CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "README.md"), Path.Combine(appData, "README.md"));
         CopyIfExists(context, Path.Combine(context.RepositoryRootPath, "LICENSE"), Path.Combine(appData, "LICENSE.txt"));
         CopyIfExists(context, context.ChangelogFile, Path.Combine(appData, "CHANGELOG.md"));
