@@ -79,11 +79,11 @@ following [project template](https://github.com/pleonex/template-csharp).
 
 1. Copy and adapt the workflow in
    [`.github/workflows`](https://github.com/pleonex/template-csharp/tree/main/.github/workflows).
-2. Create secret variables with the NuGet tokens
-3. Pass your variables in the inputs `nuget_stable_token`, `nuget_preview_token`
-   or `azure_nuget_token`
+2. Create secret variables with the NuGet tokens in the GitHub project settings
+3. Pass your variable's name in the inputs `nuget_stable_token`,
+   `nuget_preview_token` or `azure_nuget_token`
 4. Review `build.yml` to remove / add OS platforms to run build and tests.
-5. Enable GitHub Pages in the repository
+5. Enable GitHub Pages in the repository settings
    1. Select GitHub Actions as the source.
 
 ## Collaboration files
