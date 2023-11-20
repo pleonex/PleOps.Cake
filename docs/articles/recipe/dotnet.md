@@ -46,14 +46,15 @@ their full names.
 - Type:
   [`RestoreDependenciesTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.RestoreDependenciesTask)
 - Depends on: none
+- Condition: none
 - Build context: `PleOpsBuildContext`
   - Uses:
+    - `WarningsAsErrors`
     - `DotNetContext.SolutionPath`
     - `DotNetContext.Configuration`
     - `DotNetContext.Platform`
     - `DotNetContext.NugetConfigPath`
     - `DotNetContext.ToolingVerbosity`
-    - `WarningsAsErrors`
   - Changes: none
 
 Restore the .NET dependencies of the projects listed in the solution file. Then,
@@ -66,14 +67,15 @@ It may stop the build if there are warnings and `WarningsAsErrors` is enabled.
 - Task name: `PleOps.Recipe.Dotnet.Build`
 - Type: [`BuildTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.BuildTask)
 - Depends on: [`Restore`](#restore-dependencies)
+- Condition: none
 - Build context: `PleOpsBuildContext`
   - Uses:
+    - `WarningsAsErrors`
+    - `Version`
     - `DotNetContext.SolutionPath`
     - `DotNetContext.Configuration`
     - `DotNetContext.Platform`
     - `DotNetContext.ToolingVerbosity`
-    - `WarningsAsErrors`
-    - `Version`
   - Changes: none
 
 Build .NET projects from a solution file with the given configuration and
@@ -86,17 +88,18 @@ It may stop the build if there are warnings and `WarningsAsErrors` is enabled.
 - Task name: `PleOps.Recipe.Dotnet.Tests`
 - Type: [`TestTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.TestTask)
 - Depends on: [`Build`](#build) and [`RestoreTools`](./common.md#restore-tools)
+- Condition: none
 - Build context: `PleOpsBuildContext`
   - Uses:
+    - `WarningsAsErrors`
+    - `ArtifactsPath`
+    - `TemporaryPath`
     - `DotNetContext.SolutionPath`
     - `DotNetContext.Configuration`
     - `DotNetContext.Platform`
     - `DotNetContext.TestConfigPath`
     - `DotNetContext.TestFilter`
     - `DotNetContext.CoverageTarget`
-    - `WarningsAsErrors`
-    - `ArtifactsPath`
-    - `TemporaryPath`
   - Changes: none
 
 Run tests projects in the .NET solution with the given configuration and
@@ -112,11 +115,25 @@ coverage goal and `WarningsAsErrors` is enabled.
 - Type:
   [`BundleNuGetsTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.BundleNuGetsTask)
 - Depends on: none
+- Condition: none
 - Build context: `PleOpsBuildContext`
   - Uses:
-  - Changes: none
+    - `ChangelogNextFile`
+    - `Version`
+    - `DotNetContext.SolutionPath`
+    - `DotNetContext.Configuration`
+    - `DotNetContext.Platform`
+    - `DeliveriesContext.NuGetArtifactsPath`
+  - Changes:
+    - `DeliveriesContext.NuGetPackages`
 
-TODO: description.
+Run `dotnet pack` on the solution to create NuGet packages from the projects.
+This will ignore projects with the property `IsPackable` set to `false`.
+
+The output directory will be `NuGetArtifactsPath`.
+
+It will set properties with the current version and `PackageReleaseNotes` with
+the content from `ChangelogNextFile`.
 
 ### Bundle applications
 
@@ -124,11 +141,27 @@ TODO: description.
 - Type:
   [`BundleApplicationsTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.BundleApplicationsTask)
 - Depends on: [`RestoreTools`](./common.md#restore-tools)
+- Condition: none
 - Build context: `PleOpsBuildContext`
   - Uses:
+    - `ArtifactsPath`
+    - `TemporaryPath`
+    - `RepositoryRootPath`
+    - `ChangelogFile`
+    - `Version`
+    - `DotNetContext.ApplicationProjects`
+    - `DotNetContext.Configuration`
   - Changes:
+    - `DeliveriesContext.BinaryFiles`
 
-TODO: description.
+It runs `dotnet publish` for each project configuration in
+`ApplicationProjects`. Then zip them.
+
+In the zip it will copy (if exists) the `README.md`, `LICENSE` and
+`ChangelogFile` files.
+
+It will also run the _ThirdLicense_ tool over the project to generate and
+include `THIRD-PARTY-NOTICES.TXT`.
 
 ### Deploy NuGets
 
@@ -136,11 +169,19 @@ TODO: description.
 - Type:
   [`DeployNuGetTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.DeployNuGetTask)
 - Depends on: none
+- Condition: if `BuildKind` is not `Development`
 - Build context: `PleOpsBuildContext`
   - Uses:
-  - Changes:
+    - `BuildKind`
+    - `DotNetContext.StableNuGetFeed`
+    - `DotNetContext.StableNuGetFeedToken`
+    - `DotNetContext.PreviewNuGetFeed`
+    - `DotNetContext.PreviewNuGetFeedToken`
+    - `DeliveriesContext.NuGetPackages`
+  - Changes: none
 
-TODO: description.
+Push the NuGets packages listed in `NuGetPackages`. It will choose the _stable_
+(production) or _preview_ feed depending on the build kind.
 
 ## Group tasks
 
