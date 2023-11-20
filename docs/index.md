@@ -18,13 +18,14 @@ Complete DevOps workflow and best-practices for .NET projects based on
 ## Usage
 
 The project ships a NuGet library with [Cake Frosting](https://cakebuild.net/)
-tasks: `Cake.Frosting.PleOps.Recipe`.
+tasks: **`Cake.Frosting.PleOps.Recipe`**.
 
 To use it, create a new console application with the
 [_Cake Frosting_ template](https://cakebuild.net/docs/getting-started/setting-up-a-new-frosting-project),
 add a reference to this recipe NuGet and its tasks will be available to use.
 
-More information in the [setup guide](./articles/getting-started/tutorial.md).
+**More information in the
+[setup guide](./articles/getting-started/tutorial.md).**
 
 ## Quick demo
 

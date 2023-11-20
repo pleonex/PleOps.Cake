@@ -2,24 +2,34 @@
 - name: Introduction
   href: ../index.md
 - name: Setup guide
-  href: ./getting-started/tutorial.md
+  items:
+    - name: Creating a build orchestrator
+      href: ./getting-started/tutorial.md
+    - name: Configuring .NET projects
+      href: ./getting-started/tutorial-projects-net.md
+    - name: Building documentation
+      href: ./getting-started/tutorial-docs.md
+    - name: Setting up continuous integration
+      href: ./getting-started/tutorial-ci.md
+    - name: Defining project collaboration files
+      href: ./getting-started/tutorial-collaboration.md
+- name: Setup overview
+  href: ./getting-started/setup-checklist.md
 - name: Setup from C# Template repo
   href: ./getting-started/setup-template.md
-- name: Setup checklist
-  href: ./getting-started/setup-checklist.md
-#- name: Framework architecture
-#  href: ./getting-started/architecture.md
 - name: Orchestrator script
   href: ./getting-started/build-script.md
-- name: Setup .NET environment
+- name: .NET tips and best-practices
   href: ./getting-started/env-dotnet.md
+#- name: Framework architecture
+#  href: ./getting-started/architecture.md
 
 - name: ♻ Workflows
 - name: 🚧 Pipeline
   href: ./workflows/pipeline.md
 #- name: Versioning
 #  href: ./workflows/versioning.md
-- name: Translation
+- name: 🚧 Translation
   href: ./workflows/translation.md
 
 - name: 🗒️ Recipe tasks

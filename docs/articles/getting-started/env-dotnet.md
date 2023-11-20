@@ -1,4 +1,4 @@
-# .NET environment
+# .NET tips and best-practices
 
 As a .NET project grows, it can be tricky to manage it. There are a few
 improvements we can do to improve the maintenance. These sections are optional

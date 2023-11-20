@@ -20,11 +20,10 @@ continuous integration system like GitHub Actions.
 
 The guide will start explaining how to create the
 [build system project](#build-system-project), then we will configure your
-[.NET projects to it](#configure-net-projects) and a
-[documentation page](#building-documentation). It continues
-[setting up continuous integration](#setting-up-continuous-integration) and it
-ends with some optional but recommended
-[collaboration files](#contribution-files).
+[.NET projects](./tutorial-projects-net.md) and a
+[documentation page](./tutorial-docs.md). It continues
+[setting up continuous integration](./tutorial-ci.md) and it ends with some
+optional but recommended [collaboration files](./tutorial-collaboration.md).
 
 To understand how the build system works, the workflow and tasks
 [check-out the workflow](../workflows/pipeline.md) page.
@@ -187,26 +186,16 @@ folder:
 dotnet new tool-manifest
 ```
 
-Then install the latest version of the following tools (you can copy directly
-the file from
+Then install the latest version of the following tools via
+`dotnet tool install`. You could also copy directly the file from
 [template repo](https://github.com/pleonex/template-csharp/blob/main/.config/dotnet-tools.json)):
 
-```bash
-# Generate the project version number from Git history
-dotnet tool install gitversion.tool
-
-# Create thirdparty notice files to include in your apps
-dotnet tool install thirdlicense
-
-# Generate an HTML overview of code coverage
-dotnet tool install dotnet-reportgenerator-globaltool
-
-# Documentation generator for .NET projects
-dotnet tool install docfx
-
-# Interact with GitHub releases (extract release notes and attach files)
-dotnet tool install gitreleasemanager.tool
-```
+- `gitversion.tool`: generate the project version number from Git history
+- `thirdlicense`: create thirdparty notice files to include in your apps
+- `dotnet-reportgenerator-globaltool`: generate an overview of code coverage
+- `docfx`: documentation generator for .NET projects
+- `gitreleasemanager.tool`: interact with GitHub releases (extract release notes
+  and attach files)
 
 The _git release manager_ tool needs a configuration file. You can copy a
 [default one](https://github.com/pleonex/template-csharp/blob/main/GitReleaseManager.yaml),
@@ -221,229 +210,3 @@ create a new one with your needs, more info
 
 You may need some of the default options to your project. Check the
 [build context](../recipe/buildcontext.md) of the recipe for more information.
-
-## Configure .NET projects
-
-The build system works with a set of assumptions. It will try to find your
-solution file in the `src` folder of your repository. Then it will build, test
-and pack every project that it's included in the solution. To make this work, we
-need to configure some files.
-
-> [!NOTE]  
-> There are a few extra steps that can help you to maintain a large .NET
-> project. You can find more information in
-> [setup .NET environment](./env-dotnet.md).
-
-### Build settings for .NET projects
-
-First, if you are not using the conventions from the recipe you may want to
-adjust the _build context_. For instance, to set the location of the solution
-file. You can do this from the `Setup` method of the `BuildLifetime` class we
-just created. You can get the list of options in
-[build context](../recipe/buildcontext.md).
-
-### Configure test code coverage
-
-You can get a report on code coverage from your unit tests. Add a package
-reference to `coverlet.collector` in your test libraries. Then create a file
-[`src/Tests.runsettings`](https://github.com/pleonex/template-csharp/blob/main/src/Tests.runsettings)
-to configure what projects to include / exclude.
-
-### Packing .NET libraries
-
-The build system will run `dotnet pack` over your solution file. This will try
-to pack every library. The benefit is that it will respect the `Platform`
-setting from your solution file.
-
-In order to work, open/create a top-level `src/Directory.Build.props` and set
-inside a `PropertyGroup`: `IsPackable` to `false`. Then for each _public library
-or tool_ that you are going to create a NuGet package, set `IsPackabe` to
-`true`.
-
-### Packing .NET apps
-
-Unfortunately the previous _packing_ trick for libraries doesn't work for
-applications. The .NET tooling requires to call `dotnet publish` for each
-runtime identifier and target framework to use.
-
-The build system will call `dotnet publish` with a specific configuration on
-each configured projects. You will need to define the projects to _publish_
-inside the `Setup` method of the `BuildLifetime` class of your build system:
-
-```cs
-context.DotNetContext.ApplicationProjects.Add(
-    new ProjectPublicationInfo(
-        "./src/MyConsole", // path to folder or .csproj
-        new[] { "win-x64", "linux-x64", "osx-x64" }, // runtime identifiers
-        "net8.0")); // target framework
-```
-
-### .NET ready
-
-And voilà! 🎉 If you run this project it should be able to build and release
-your .NET project.
-
-**Build and run tests (with code coverage!)**:
-
-```bash
-# It runs the "Default" target
-dotnet run --project build/orchestrator
-```
-
-**Bundle**:
-
-```bash
-dotnet run --project build/orchestrator -- --target=Bundle
-```
-
-## Building documentation
-
-[DocFX](https://dotnet.github.io/docfx/index.html) is a static site generator
-(like Jekyll or Hugo) that can also generate API documentation of .NET projects.
-PleOps Cake provides tasks to build documentation projects with DocFx.
-
-If you don't have one project already, follow their
-[quick guide](https://dotnet.github.io/docfx/index.html) or
-[take our template project](https://github.com/pleonex/template-csharp/tree/main/docs).
-
-The
-[template project also provides](https://github.com/pleonex/template-csharp/tree/main/docs/template)
-some adjustments over the default _modern_ template. Check them out if you are
-interested. For instance, you can put your GitHub icon in the `main.js` file.
-
-The build system expects to find a `docfx.json` file in `docs/`. If you create
-the project in other folder, adjust the build context in
-`BuildLifetime.Setup()`:
-
-```cs
-context.DocFxContext.DocFxFile = "Documentation/DocFX/docfx.json";
-```
-
-You see the output by running:
-
-```bash
-dotnet docfx docs/docfx.json --serve
-```
-
-> [!IMPORTANT]  
-> If you open the build output in your browser directly (`index.html`), the site
-> will look like broken. The generated site requires an HTTP server to see
-> properly. You can use the one from DocFX:
-> `dotnet docfx serve build/artifacts/docs`
-
-### Changelog
-
-If you check the `Bundle` task we created, you will see we run first the task
-`ExportReleaseNotesTask`. This task generates two files from the release
-information in GitHub:
-
-- `CHANGELOG.md`: it contains the release notes of every released version.
-- `CHANGELOG.NEXT.md`: it contains the release notes of GitHub release that
-  matches the current build version. This will only works when building from a
-  git tag that matches the GitHub release.
-  - This file is included in the NuGet packages in the property
-    `PackageReleaseNotes`.
-
-The name of these files can be configured through _build context_. At build
-time, DocFX will take the `CHANGELOG.md` file and copy it into the documentation
-project. You can adjust this behavior and path with the build context of DocFx
-(`ChangelogDocPath`).
-
-> [!NOTE]  
-> If you don't use GitHub releases or prefer to write manually the release
-> notes, you can not add the task `ExportReleaseNotesTask`. The documentation
-> and NuGet pack will still look for those files in your repo.
-
-## Setting up continuous integration
-
-Nice, now we can fully build, test and bundle our projects locally. Time to
-setup a continuous integration pipeline to do the same.
-
-### Workflow triggers
-
-Almost everything is done already by our _Cake-based_ build system. We just need
-to install SDKs and run program with the specific task (`Default`, `Bundle` or
-`Deploy`). These tasks run at different stages / build types. From the
-[proposed workflow](../workflows/pipeline.md) there are three types of builds:
-
-- **Development**: for instance locally or on a pull request validation
-  - It runs `Default` to build and test (validate) and `Bundle` to be able to
-    download and manually test the deliveries.
-- **Preview**: publish the changes on an intermediary / staging feeds. It
-  happens on commits / merges into the main branch (`main` / `develop`).
-  - Additionally it also runs `Deploy` to push to the preview feeds.
-- **Production**: publish stable versions. It happens when we create a git tag
-  (e.g. via GitHub release).
-  - It also runs `Deploy` but the build system can detect it's for production
-    and will run additional tasks.
-
-The build system knows if we are running in each build mode from the version
-number (that it's generated from git history and branch names). When we run the
-_Deploy_ target, it knows if it should go to _preview_ or _production_.
-
-### Workflow stages
-
-For our workflow, we will need two _stages_ / main jobs: **build** and
-**deploy**. For readability, the template project proposed a _reusable workflow_
-for each step and then the main file. You can
-[check it and copy / adapt it as wanted](https://github.com/pleonex/template-csharp/tree/main/.github/workflows).
-
-- `build.yml`: we can run this steps on multiple OSes to validate the tests on
-  them, but only one should upload the artifacts.
-  - Clone the repository. Make sure to get all git history so we can generate
-    the version number from it.
-  - Install .NET SDK (we need it to run our build system).
-  - Run the `Build` target.
-  - Run the `Bundle` target.
-  - Upload the artifacts to the CI for the next stage.
-- `deploy.yml`
-  - Download the artifacts
-  - Upload the documentation to GitHub pages
-  - Clone the repository (for the build system and version)
-  - Setup .NET SDK (for the build system)
-  - Authenticate to the NuGet feeds
-  - Run the `Deploy` target.
-- `build-and-release.yml`: it just call these two workflows depending on the
-  trigger and git branch.
-
-### Workflow requirements
-
-In order to run this workflow you will need to configure a couple of things:
-
-- **NuGet tokens**: create a GitHub secret variable with the tokens to publish
-  to your feeds.
-  - Define your secrets and pass them to `nuget_preview_token` and
-    `nuget_stable_token`.
-  - If you are using Azure DevOps for one of the feeds, create a single variable
-    and pass it to `azure_nuget_token` input. Define also `azure_nuget_feed`.
-- **Enable GitHub pages**: if you want to publish your documentation via GitHub
-  pages, you need to enable in your project settings:
-  1. Go to _Settings_ > _Pages_
-  2. In _Source_ select _GitHub Actions_
-  3. Optionally set a domain and enforce HTTPS.
-
-## Contribution files
-
-While not directly related to the build system, these files will improve the
-collaboration in your project. Consider adding them:
-
-- `README.md`: include at least the main features, screenshots, getting started
-  or links to documentation and build & release instructions.
-- `LICENSE`: information about the license. Check
-  [choose a license](https://choosealicense.com/).
-- [`SECURITY.md`](https://github.com/pleonex/template-csharp/blob/main/SECURITY.md):
-  information how to report vulnerabilities properly.
-- Community:
-  - [`CONTRIBUTING.md`](https://github.com/pleonex/template-csharp/blob/main/CONTRIBUTING.md):
-    explain how to create issues and pull requests.
-  - `CODE_OF_CONDUCT.md`: GitHub can help to create it.
-- IDE support:
-  - [`.editorconfig`](https://github.com/pleonex/template-csharp/blob/main/.editorconfig):
-    code styles and code warnings.
-  - [`.vscode/`](https://github.com/pleonex/template-csharp/tree/main/.vscode):
-    VS Code support to build, run and debug the project.
-- GitHub issues / PR:
-  - [`.github/ISSUE_TEMPLATE/`](https://github.com/pleonex/template-csharp/tree/main/.github/ISSUE_TEMPLATE):
-    templates to create GitHub feature requests and bug reports.
-  - [`.github/PULL_REQUEST_TEMPLATE.md`](https://github.com/pleonex/template-csharp/blob/main/.github/pull_request_template.md):
-    Pull Request template.

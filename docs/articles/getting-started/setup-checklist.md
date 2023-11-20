@@ -1,4 +1,4 @@
-# Build system setup overview
+# Setup overview
 
 The following steps will list the actions to setup your project just like the
 following [project template](https://github.com/pleonex/template-csharp).

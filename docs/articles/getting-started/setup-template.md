@@ -1,4 +1,4 @@
-# Project setup
+# Project setup from the template repository
 
 Use the [project template](https://github.com/pleonex/template-csharp) to
 initialize a new repository, or adapt an existing one copying its file and
