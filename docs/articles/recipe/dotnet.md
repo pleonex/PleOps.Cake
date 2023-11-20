@@ -114,7 +114,7 @@ coverage goal and `WarningsAsErrors` is enabled.
 - Depends on: none
 - Build context: `PleOpsBuildContext`
   - Uses:
-  - Changes:
+  - Changes: none
 
 TODO: description.
 
@@ -159,7 +159,7 @@ These tasks do not perform any action itself. They group a set of other tasks.
 - **Deploy**:
   - Task name: `DeployProject`
   - Type:
-    [`DeployProjectTask`](xref:xref:Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask)
+    [`DeployProjectTask`](xref:Cake.Frosting.PleOps.Recipe.Dotnet.DotnetTasks.DeployProjectTask)
   - Depends on: `DeployNuget`
 
 Dependencies:
