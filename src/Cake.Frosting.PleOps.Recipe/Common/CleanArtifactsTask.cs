@@ -27,6 +27,7 @@ using Cake.Frosting;
 /// Task to clean the artifact and temporary folders if it's not an incremental build.
 /// </summary>
 [TaskName("PleOps.Recipe.Common.CleanArtifacts")]
+[TaskDescription("Clean the artifact and temporary folders if it's not an incremental build")]
 public class CleanArtifactsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

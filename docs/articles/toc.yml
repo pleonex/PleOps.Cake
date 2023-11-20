@@ -1,27 +1,47 @@
 - name: ✨ Getting started
-- name: 🚧 Introduction
+- name: Introduction
   href: ../index.md
-- name: 🚧 Getting started guide
-  href: ./getting-started/tutorial.md
-- name: 🚧 Project setup
-  href: ./getting-started/project-setup.md
-- name: 🚧 Framework architecture
-  href: ./getting-started/architecture.md
-- name: 🚧 Script format
+- name: Setup guide
+  items:
+    - name: Creating a build orchestrator
+      href: ./getting-started/tutorial.md
+    - name: Configuring .NET projects
+      href: ./getting-started/tutorial-projects-net.md
+    - name: Building documentation
+      href: ./getting-started/tutorial-docs.md
+    - name: Setting up continuous integration
+      href: ./getting-started/tutorial-ci.md
+    - name: Defining project collaboration files
+      href: ./getting-started/tutorial-collaboration.md
+- name: Setup overview
+  href: ./getting-started/setup-checklist.md
+- name: Setup from C# Template repo
+  href: ./getting-started/setup-template.md
+- name: Orchestrator script
   href: ./getting-started/build-script.md
+- name: .NET tips and best-practices
+  href: ./getting-started/env-dotnet.md
+#- name: Framework architecture
+#  href: ./getting-started/architecture.md
 
 - name: ♻ Workflows
 - name: 🚧 Pipeline
   href: ./workflows/pipeline.md
+#- name: Versioning
+#  href: ./workflows/versioning.md
 - name: 🚧 Translation
   href: ./workflows/translation.md
 
 - name: 🗒️ Recipe tasks
-- name: 🚧 .NET projects
+- name: Overview
+  href: ./recipe/overview.md
+- name: Build context
+  href: ./recipe/buildcontext.md
+- name: .NET projects
   href: ./recipe/dotnet.md
-- name: 🚧 DocFx documentation
+- name: DocFx documentation
   href: ./recipe/docfx.md
-- name: 🚧 Common
+- name: Common
   href: ./recipe/common.md
-- name: 🚧 GitHub
+- name: GitHub
   href: ./recipe/github.md

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2023 Benito Palacios Sánchez
+// Copyright (c) 2023 Benito Palacios Sánchez
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -17,38 +17,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-namespace Cake.Frosting.PleOps.Recipe.Common;
+namespace Cake.Frosting.PleOps.Recipe.Dotnet;
 
-using System.Text;
-using Cake.Common;
-using Cake.Core;
-using Cake.Core.IO;
+using Cake.Common.Tools.DotNet.MSBuild;
 
 /// <summary>
-/// Task to restore or update .NET tools available in the manifest.
+/// Extensions for MSBuild settings.
 /// </summary>
-[TaskName("PleOps.Recipe.Common.RestoreTools")]
-[TaskDescription("Restore .NET tools available in the manifest")]
-public class RestoreToolsTask : FrostingTask<PleOpsBuildContext>
+internal static class MSBuildSettingExtensions
 {
-    /// <inheritdoc />
-    public override void Run(PleOpsBuildContext context)
+    /// <summary>
+    /// Hide the detailed summary for compatibility with VS Code.
+    /// </summary>
+    /// <param name="settings">Settings parameter.</param>
+    /// <returns>The same instance.</returns>
+    /// <exception cref="ArgumentNullException">Settings is null.</exception>
+    public static DotNetMSBuildSettings HideDetailedSummary(this DotNetMSBuildSettings settings)
     {
-        var argBuilder = new StringBuilder()
-            .Append(" tool").Append(" restore");
-
-        if (File.Exists(context.DotNetContext.NugetConfigPath)) {
-            _ = argBuilder.AppendFormat(" --configfile \"{0}\"", context.DotNetContext.NugetConfigPath);
+        if (settings == null) {
+            throw new ArgumentNullException(nameof(settings));
         }
 
-        int retcode = context.StartProcess(
-            "dotnet",
-            new ProcessSettings {
-                Arguments = argBuilder.ToString(),
-            });
-
-        if (retcode != 0) {
-            throw new CakeException($"Cannot restore build tools: {retcode}");
-        }
+        settings.DetailedSummary = false;
+        return settings;
     }
 }

@@ -32,10 +32,10 @@ using Cake.Core.Diagnostics;
 /// Cake Frosting task to set the project's version from the tool "GitVersion".
 /// </summary>
 /// <remarks>
-/// It requires the dotnet tool: GitVersion.Tool. Make sure to install it
-/// via 'dotnet tool install GitVersion.Tool' or using InstallTool().
+/// It requires the dotnet tool: GitVersion.Tool.
 /// </remarks>
 [TaskName("PleOps.Recipe.Common.SetGitVersion")]
+[TaskDescription("Set the project's version using GitVersion tool")]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class SetGitVersionTask : FrostingTask<PleOpsBuildContext>
 {
