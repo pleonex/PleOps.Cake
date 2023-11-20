@@ -33,6 +33,7 @@ using Cake.Frosting.PleOps.Recipe.Common;
 /// Task to publish and bundle .NET applications.
 /// </summary>
 [TaskName(DotnetTasks.BundleAppsTaskName)]
+[TaskDescription("Run Publish target and bundle in zip")]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class BundleApplicationsTask : FrostingTask<PleOpsBuildContext>
 {

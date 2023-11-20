@@ -34,6 +34,7 @@ using Cake.Frosting.PleOps.Recipe.Common;
 /// Run the tests of the .NET projects from the solution level.
 /// </summary>
 [TaskName(DotnetTasks.TestTaskName)]
+[TaskDescription("Run .NET test projects and create code coverage report")]
 [IsDependentOn(typeof(BuildTask))]
 [IsDependentOn(typeof(RestoreToolsTask))]
 public class TestTask : FrostingTask<PleOpsBuildContext>

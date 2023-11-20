@@ -29,6 +29,7 @@ using Cake.Frosting;
 /// Task to bundle projects as NuGet packages.
 /// </summary>
 [TaskName(DotnetTasks.BundleNuGetsTaskName)]
+[TaskDescription("Bundle projects as NuGet packages")]
 public class BundleNuGetsTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

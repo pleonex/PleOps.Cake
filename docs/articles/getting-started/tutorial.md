@@ -21,7 +21,7 @@ continuous integration system like GitHub Actions.
 The guide will start explaining how to create the
 [build system project](#build-system-project), then we will configure your
 [.NET projects to it](#configure-net-projects) and a
-[documentation page](#adding-documentation). It continues
+[documentation page](#building-documentation). It continues
 [setting up continuous integration](#setting-up-continuous-integration) and it
 ends with some optional but recommended
 [collaboration files](#contribution-files).
@@ -39,6 +39,8 @@ And if you have any question along the way don't hesitate to
 > provides the skeleton of everything covered in this guide, you will just need
 > to replace some placeholders. Get more information at
 > [template setup](./setup-template.md).
+
+<!-- ignore warning -->
 
 > [!NOTE]  
 > This guide details each file and step. There is a shorter step list in

@@ -28,6 +28,7 @@ using Cake.Frosting;
 /// Build the .NET projects.
 /// </summary>
 [TaskName(DotnetTasks.BuildTaskName)]
+[TaskDescription("Build .NET projects")]
 [IsDependentOn(typeof(RestoreDependenciesTask))]
 public class BuildTask : FrostingTask<PleOpsBuildContext>
 {
@@ -70,27 +71,5 @@ public class BuildTask : FrostingTask<PleOpsBuildContext>
 #if CAKE_ISSUES
         context.IssuesContext.Parameters.InputFiles.AddMsBuildBinaryLogFile(logPath);
 #endif
-    }
-}
-
-/// <summary>
-/// Extensions for MSBuild settings.
-/// </summary>
-internal static class MSBuildSettingExtensions
-{
-    /// <summary>
-    /// Hide the detailed summary for compatibility with VS Code.
-    /// </summary>
-    /// <param name="settings">Settings parameter.</param>
-    /// <returns>The same instance.</returns>
-    /// <exception cref="ArgumentNullException">Settings is null.</exception>
-    public static DotNetMSBuildSettings HideDetailedSummary(this DotNetMSBuildSettings settings)
-    {
-        if (settings == null) {
-            throw new ArgumentNullException(nameof(settings));
-        }
-
-        settings.DetailedSummary = false;
-        return settings;
     }
 }

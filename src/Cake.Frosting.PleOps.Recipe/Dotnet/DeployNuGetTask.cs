@@ -28,6 +28,7 @@ using Cake.Frosting;
 /// Tasks to deploy NuGet packages to the preview or stable feed.
 /// </summary>
 [TaskName(DotnetTasks.DeployNuGetTaskName)]
+[TaskDescription("Deploy NuGet packages to the preview or stable feed")]
 public class DeployNuGetTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

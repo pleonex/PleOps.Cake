@@ -30,6 +30,7 @@ using Cake.Frosting;
 /// Restore dependencies of .NET projects.
 /// </summary>
 [TaskName(DotnetTasks.RestoreTaskName)]
+[TaskDescription("Restore NuGet dependencies and run Clean target")]
 public class RestoreDependenciesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

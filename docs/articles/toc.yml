@@ -19,13 +19,15 @@
   href: ./workflows/pipeline.md
 - name: 🚧 Versioning
   href: ./workflows/versioning.md
-- name: 🚧 Translation
+- name: Translation
   href: ./workflows/translation.md
 
 - name: 🗒️ Recipe tasks
-- name: 🚧 Build context
+- name: Overview
+  href: ./recipe/overview.md
+- name: Build context
   href: ./recipe/buildcontext.md
-- name: 🚧 .NET projects
+- name: .NET projects
   href: ./recipe/dotnet.md
 - name: 🚧 DocFx documentation
   href: ./recipe/docfx.md
