@@ -20,6 +20,7 @@
 using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Frosting;
+using Cake.Frosting.PleOps.Recipe;
 using Cake.Frosting.PleOps.Recipe.Dotnet;
 
 return new CakeHost()
@@ -60,7 +61,7 @@ public sealed class BuildLifetime : FrostingLifetime<MyCustomContext>
 
         // Update build parameters from command line arguments.
         context.ReadArguments();
-        context.IfArgIsPresent("custom-setting", x => context.CustomSetting = x);
+        context.Arguments.SetIfPresent("custom-setting", x => context.CustomSetting = x);
 
         // HERE you can force values non-overridables.
         context.DotNetContext.Configuration = "Samples";

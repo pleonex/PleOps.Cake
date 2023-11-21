@@ -155,29 +155,17 @@ public class PleOpsBuildContext : FrostingContext
 #endif
 
     /// <summary>
-    /// Run the setter if the argument name is present.
-    /// </summary>
-    /// <param name="argName">Argument name.</param>
-    /// <param name="setter">Setter to run.</param>
-    public void IfArgIsPresent(string argName, Action<string> setter)
-    {
-        if (Arguments.HasArgument(argName)) {
-            setter(Arguments.GetArgument(argName));
-        }
-    }
-
-    /// <summary>
     /// Initialize the build context with command-line arguments if present.
     /// </summary>
     public virtual void ReadArguments()
     {
-        IfArgIsPresent("artifacts", x => ArtifactsPath = Path.GetFullPath(x));
-        IfArgIsPresent("temp", x => TemporaryPath = Path.GetFullPath(x));
-        IfArgIsPresent("version", x => Version = x);
-        WarningsAsErrors = WarningsAsErrors || Arguments.HasArgument("warn-as-error");
-        IsIncrementalBuild = IsIncrementalBuild || Arguments.HasArgument("incremental");
-        IfArgIsPresent("changelog-next", x => ChangelogNextFile = x);
-        IfArgIsPresent("changelog", x => ChangelogFile = x);
+        Arguments.SetIfPresent("artifacts", x => ArtifactsPath = Path.GetFullPath(x));
+        Arguments.SetIfPresent("temp", x => TemporaryPath = Path.GetFullPath(x));
+        Arguments.SetIfPresent("version", x => Version = x);
+        Arguments.SetIfPresent("warn-as-error", x => WarningsAsErrors = x);
+        Arguments.SetIfPresent("incremental", x => IsIncrementalBuild = x);
+        Arguments.SetIfPresent("changelog-next", x => ChangelogNextFile = x);
+        Arguments.SetIfPresent("changelog", x => ChangelogFile = x);
 
         DotNetContext.ReadArguments(this);
         DocFxContext.ReadArguments(this);
