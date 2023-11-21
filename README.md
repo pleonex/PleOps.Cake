@@ -74,7 +74,7 @@ public sealed class DefaultTask : FrostingTask
 
 > [!TIP]  
 > Find a detailed setup guide in the
-> [documentation site](<[docs/articles/getting-started/tutorial.md](https://www.pleonex.dev/PleOps.Cake/docs/getting-started/tutorial.html)>).
+> [documentation site](https://www.pleonex.dev/PleOps.Cake/docs/getting-started/tutorial.html).
 
 ### Preview releases
 
