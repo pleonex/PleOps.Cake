@@ -27,6 +27,8 @@
 - name: ♻ Workflows
 - name: 🚧 Pipeline
   href: ./workflows/pipeline.md
+- name: Git flow
+  href: ./workflows/gitflow.md
 #- name: Versioning
 #  href: ./workflows/versioning.md
 - name: 🚧 Translation
