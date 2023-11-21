@@ -146,10 +146,10 @@ public class DotNetBuildContext
             _ => throw new NotSupportedException("Unknown Cake verbosity"),
         };
 
-        context.IfArgIsPresent("dotnet-configuration", x => Configuration = x);
-        context.IfArgIsPresent("dotnet-platform", x => Platform = x);
+        context.Arguments.SetIfPresent("dotnet-configuration", x => Configuration = x);
+        context.Arguments.SetIfPresent("dotnet-platform", x => Platform = x);
 
-        context.IfArgIsPresent("dotnet-test-filter", x => TestFilter = x);
+        context.Arguments.SetIfPresent("dotnet-test-filter", x => TestFilter = x);
 
         PreviewNuGetFeedToken = context.Environment.GetEnvironmentVariable("PREVIEW_NUGET_FEED_TOKEN");
         StableNuGetFeedToken = context.Environment.GetEnvironmentVariable("STABLE_NUGET_FEED_TOKEN");

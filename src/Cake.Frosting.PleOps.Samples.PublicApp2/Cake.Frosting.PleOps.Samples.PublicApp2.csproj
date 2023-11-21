@@ -9,9 +9,6 @@
 
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <IsPublishable>true</IsPublishable>
   </PropertyGroup>
-
 
 </Project>
