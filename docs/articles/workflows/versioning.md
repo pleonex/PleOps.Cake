@@ -102,6 +102,9 @@ gitGraph LR:
   commit id: "3.3.503-dev3" type: HIGHLIGHT tag: "cherry-pick hotfix2"
 ```
 
+> [!NOTE]  
+> This diagram assumes a _git squash_ strategy for merging branches.
+
 ## Increasing the version
 
 GitVersion increases the `minor` number automatically after a release (git tag).

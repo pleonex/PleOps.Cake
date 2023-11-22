@@ -102,12 +102,9 @@ numbers.
 Pushing changes into a release branch should happen only via pull requests that
 are carefully reviewed. A new commit will trigger a new _preview_ build.
 
-Once the release is ready (stakeholders signs-off) git tag the latest commit.
-This will trigger a new _production build_. Depending on the build system and
-_sign-off_ process a _production build_ may not involve re-building again but
-downloading the latest artifacts and deploying them. For instance by using in
-Azure DevOps a _manual approval_ task and keeping the _preview_ builds from a
-release branch blocked.
+Once the release is ready, stakeholders would signs-off / approve the release
+and its quality assurance results. This approval is transformed into a new git
+tag to the latest commit. Pushing a tag will trigger a new _production build_.
 
 After the release is out, a _release_ (also known as _support_) branch can be
 used to work on regular patch release like for _long-term support (LTS)_
@@ -132,7 +129,7 @@ epic is merged into the `main` branch as it were a _big_ feature branch.
 Try to minimize the usage of _epic_ branches to prevent huge merge conflicts
 later.
 
-> [!INFO]  
+> [!NOTE]  
 > This schema does not use a `master` branch as the original
 > [_git flow_](https://nvie.com/posts/a-successful-git-branching-model/)
 > proposed. This branch has not much use. It's possible to get the latest stable

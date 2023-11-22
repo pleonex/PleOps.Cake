@@ -1,8 +1,5 @@
-- name: ✨ Getting started
-- name: Introduction
+- name: 🏠 Introduction
   href: ../index.md
-- name: Project architecture
-  href: ./getting-started/architecture.md
 
 - name: 📁 Repository setup
 - name: Setup guide
@@ -27,7 +24,7 @@
   href: ./getting-started/env-dotnet.md
 
 - name: ♻ Workflows
-- name: 🚧 Pipeline
+- name: Pipeline
   href: ./workflows/pipeline.md
 - name: Git flow
   href: ./workflows/gitflow.md
