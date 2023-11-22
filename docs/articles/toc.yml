@@ -1,6 +1,7 @@
-- name: ✨ Getting started
-- name: Introduction
+- name: 🏠 Introduction
   href: ../index.md
+
+- name: 📁 Repository setup
 - name: Setup guide
   items:
     - name: Creating a build orchestrator
@@ -21,14 +22,14 @@
   href: ./getting-started/build-script.md
 - name: .NET tips and best-practices
   href: ./getting-started/env-dotnet.md
-#- name: Framework architecture
-#  href: ./getting-started/architecture.md
 
 - name: ♻ Workflows
-- name: 🚧 Pipeline
+- name: Pipeline
   href: ./workflows/pipeline.md
-#- name: Versioning
-#  href: ./workflows/versioning.md
+- name: Git flow
+  href: ./workflows/gitflow.md
+- name: Versioning
+  href: ./workflows/versioning.md
 - name: 🚧 Translation
   href: ./workflows/translation.md
 
