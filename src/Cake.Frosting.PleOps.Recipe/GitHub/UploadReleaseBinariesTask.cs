@@ -30,6 +30,7 @@ using Cake.Frosting;
 /// This action only runs for stable builds if the GitHub token is present.
 /// </remarks>
 [TaskName("PleOps.Recipe.GitHub.UploadReleaseBinaries")]
+[IsDependentOn(typeof(Common.RestoreToolsTask))]
 public class UploadReleaseBinariesTask : FrostingTask<PleOpsBuildContext>
 {
     /// <inheritdoc />

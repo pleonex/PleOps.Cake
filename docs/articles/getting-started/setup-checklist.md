@@ -85,6 +85,8 @@ following [project template](https://github.com/pleonex/template-csharp).
 4. Review `build.yml` to remove / add OS platforms to run build and tests.
 5. Enable GitHub Pages in the repository settings
    1. Select GitHub Actions as the source.
+   2. From _Environments_, select `github-pages`. Under _Deployment branches and
+      tags_ add a new rule to allow publishing docs from the tags `v*`.
 
 ## Collaboration files
 
