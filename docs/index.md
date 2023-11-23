@@ -1,24 +1,4 @@
-# PleOps Cake ![logo](./images/logo_48.png)
-
-<!-- markdownlint-disable MD033 -->
-<p align="center">
-  <a href="https://www.nuget.org/packages/Cake.Frosting.PleOps.Recipe">
-    <img alt="Stable version" src="https://img.shields.io/nuget/v/Cake.Frosting.PleOps.Recipe?label=nuget.org&logo=nuget" />
-  </a>
-  &nbsp;
-  <a href="https://dev.azure.com/benito356/NetDevOpsTest/_packaging?_a=feed&feed=PleOps">
-    <img alt="GitHub commits since latest release (by SemVer)" src="https://img.shields.io/github/commits-since/pleonex/PleOps.Cake/latest?sort=semver" />
-  </a>
-  &nbsp;
-  <a href="https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release">
-    <img alt="Build and release" src="https://github.com/pleonex/PleOps.Cake/workflows/Build%20and%20release/badge.svg?branch=main&event=push" />
-  </a>
-  &nbsp;
-  <a href="https://choosealicense.com/licenses/mit/">
-    <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" />
-  </a>
-  &nbsp;
-</p>
+# PleOps Cake ![MIT license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 
 Complete DevOps workflow and best-practices for .NET projects based on
 [Cake](https://cakebuild.net/).
