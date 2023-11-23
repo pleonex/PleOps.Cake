@@ -14,7 +14,7 @@
 
   <PropertyGroup>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/pleonex/PleOps.Cake</PackageProjectUrl>
+    <PackageProjectUrl>https://www.pleonex.dev/PleOps.Cake/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/pleonex/PleOps.Cake</RepositoryUrl>
     <PackageIcon>icon.png</PackageIcon>
     <PackageTags>net;csharp;devops;pipeline;github-actions</PackageTags>
