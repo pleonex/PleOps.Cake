@@ -19,7 +19,9 @@
 // SOFTWARE.
 namespace Cake.Frosting.PleOps.Recipe.GitHub;
 
-using Cake.Common.Tools.GitReleaseManager;
+using System.Text;
+using Cake.Common.Tools.DotNet;
+using Cake.Core.Diagnostics;
 using Cake.Frosting;
 
 /// <summary>
@@ -42,13 +44,19 @@ public class UploadReleaseBinariesTask : FrostingTask<PleOpsBuildContext>
     public override void Run(PleOpsBuildContext context)
     {
         string tagName = $"v{context.Version}";
-        foreach (string artifact in context.DeliveriesContext.BinaryFiles) {
-            context.GitReleaseManagerAddAssets(
-                context.GitHubContext.GitHubToken,
-                context.GitHubContext.RepositoryOwner,
-                context.GitHubContext.RepositoryName,
-                tagName,
-                artifact);
-        }
+        string artifacts = string.Join(
+            ",",
+            context.DeliveriesContext.BinaryFiles.Select(x => $"\"{x}\""));
+
+        context.Log.Information("Uploading assets: {0}", artifacts);
+        string args = new StringBuilder().Append("addasset ")
+            .AppendFormat(" --tagName {0}", tagName)
+            .AppendFormat(" --token {0}", context.GitHubContext.GitHubToken)
+            .AppendFormat(" --owner {0}", context.GitHubContext.RepositoryOwner)
+            .AppendFormat(" --repository {0}", context.GitHubContext.RepositoryName)
+            .AppendFormat(" --assets {0}", artifacts)
+            .ToString();
+
+        context.DotNetTool("dotnet-gitreleasemanager " + args);
     }
 }
