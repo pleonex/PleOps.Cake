@@ -46,7 +46,7 @@ the current version (if any) into `ChangelogNextFile`.
 - Task name: `PleOps.Recipe.GitHub.UploadReleaseBinaries`
 - Type:
   [`UploadReleaseBinaries`](xref:Cake.Frosting.PleOps.Recipe.GitHub.UploadReleaseBinariesTask)
-- Depends on: none
+- Depends on: [`RestoreTools`](./common.md#restore-tools)
 - Condition: build type is `Stable` and `GitHubToken` is not empty.
 - Build context: `PleOpsBuildContext`
   - Uses:
