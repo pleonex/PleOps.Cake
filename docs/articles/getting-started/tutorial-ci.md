@@ -65,3 +65,6 @@ In order to run this workflow you will need to configure a couple of things:
   1. Go to _Settings_ > _Pages_
   2. In _Source_ select _GitHub Actions_
   3. Optionally set a domain and enforce HTTPS.
+  4. Go to _Environments_ and select `github-pages`
+  5. Under _Deployment branches and tags_ add a new rule to allow publishing
+     docs from the tags `v*`.
