@@ -87,6 +87,9 @@ following [project template](https://github.com/pleonex/template-csharp).
    1. Select GitHub Actions as the source.
    2. From _Environments_, select `github-pages`. Under _Deployment branches and
       tags_ add a new rule to allow publishing docs from the tags `v*`.
+   3. Enable write permissions to publish GitHub Pages. From Actions, "General",
+      go to "Workflow permissions" and ensure it's set to "Read and write
+      permissions".
 
 ## Collaboration files
 
@@ -99,7 +102,9 @@ following [project template](https://github.com/pleonex/template-csharp).
       explain how to create issues and pull requests.
    2. `CODE_OF_CONDUCT.md`: GitHub can help to create it.
 3. Create IDE support files:
-   1. [`.editorconfig`](https://github.com/pleonex/template-csharp/blob/main/.editorconfig):
+   1. [`.editorconfig`](https://github.com/pleonex/template-csharp/blob/main/.editorconfig)
+      and
+      [`.prettierrc.yaml`](https://github.com/pleonex/template-csharp/blob/main/.prettierrc.yaml):
       code styles and code warnings.
    2. [`.vscode/`](https://github.com/pleonex/template-csharp/tree/main/.vscode):
       VS Code support to build, run and debug the project.
