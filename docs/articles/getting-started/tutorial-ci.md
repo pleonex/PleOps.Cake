@@ -62,9 +62,14 @@ In order to run this workflow you will need to configure a couple of things:
     and pass it to `azure_nuget_token` input. Define also `azure_nuget_feed`.
 - **Enable GitHub pages**: if you want to publish your documentation via GitHub
   pages, you need to enable in your project settings:
-  1. Go to _Settings_ > _Pages_
-  2. In _Source_ select _GitHub Actions_
-  3. Optionally set a domain and enforce HTTPS.
-  4. Go to _Environments_ and select `github-pages`
-  5. Under _Deployment branches and tags_ add a new rule to allow publishing
-     docs from the tags `v*`.
+  - Enable publishing from a GitHub Action:
+    1. Go to _Settings_ > _Pages_
+    2. In _Source_ select _GitHub Actions_
+    3. Optionally set a domain and enforce HTTPS.
+  - Allow to publish documentation from a tag (release builds):
+    1. Go to _Environments_ and select `github-pages`
+    2. Under _Deployment branches and tags_ add a new rule to allow publishing
+       docs from the tags `v*`.
+  - Give write permissions to `GITHUB_TOKEN`:
+    1. Go to _Actions_ > _General_
+    2. Under _Workflow permissions_ select _Read and write permissions_.

@@ -13,7 +13,7 @@ structure. Then follow this checklist to adapt the template to your project.
 
 1. Rename, edit, remove the project folders inside `src/` and the solution file.
 2. Edit the project name and URL in `src/Directory.Build.props`
-3. Add, remove, update dependencies in `src/Directory.Build.targets`
+3. Add, remove, update dependencies in `src/Directory.Packages.props`
 4. Update the `.csproj` files with the correct dependencies.
 5. Update `build/orchestrator/Program.cs` with the list of publishable .NET
    projects in `ApplicationProjects`.
@@ -37,7 +37,9 @@ structure. Then follow this checklist to adapt the template to your project.
    `nuget_preview_token` or `azure_nuget_token`
 3. Review `build.yml` to remove / add OS platforms to run build and tests.
 4. Enable GitHub Pages in the repository settings
-   1. Select GitHub Actions as the source.
+   1. Pages -> Select GitHub Actions as the source.
+   2. Environments -> github-pages -> Add new rule for tags `v*`
+   3. Actions -> General -> Workflow permissions -> Read and write permissions
 
 ## Collaboration files
 
