@@ -59,3 +59,6 @@ the current version (if any) into `ChangelogNextFile`.
 
 Upload the release artifact binaries into the GitHub release that matches the
 current version.
+
+The task will not fail if there are no binaries. It will just log a message and
+do nothing.
