@@ -43,6 +43,11 @@ public class UploadReleaseBinariesTask : FrostingTask<PleOpsBuildContext>
     /// <inheritdoc />
     public override void Run(PleOpsBuildContext context)
     {
+        if (context.DeliveriesContext.BinaryFiles.Count == 0) {
+            context.Log.Information("No binaries to upload found.");
+            return;
+        }
+
         string tagName = $"v{context.Version}";
         string artifacts = string.Join(
             ",",
