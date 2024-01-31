@@ -39,7 +39,9 @@ structure. Then follow this checklist to adapt the template to your project.
 4. Enable GitHub Pages in the repository settings
    1. Pages -> Select GitHub Actions as the source.
    2. Environments -> github-pages -> Add new rule for tags `v*`
-   3. Actions -> General -> Workflow permissions -> Read and write permissions
+5. Allow to add release artifacts and publish docs with the built-in
+   GITHUB_TOKEN via: Actions -> General -> Workflow permissions -> Read and
+   write permissions
 
 ## Collaboration files
 

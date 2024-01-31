@@ -12,3 +12,4 @@ src/*/build
 .vs/
 tools/
 *.csproj.user
+launchSettings.json
