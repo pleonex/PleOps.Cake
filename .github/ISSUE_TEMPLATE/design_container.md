@@ -1,15 +1,16 @@
 ---
 name: Design
-about: "Design a new software container, component or feature"
+about: "Design a new software container / application / product"
 title: "[Design] "
 labels: "design"
 assignees: ""
 ---
 
-## Overview
+## Context
 
-TODO: describe the new feature or product. TODO: System context diagram (level-1
-in C4).
+TODO: describe the context that requires the new product.
+
+TODO: System context diagram (level-1 in C4).
 
 ### User stories
 
@@ -17,31 +18,43 @@ TODO: user stories in "AS A/I WANT/SO THAT" format or requirement list.
 
 ### State of the art
 
-TODO: is there any way to implement or use it with the current state? Is there
-any other production implementing it similar?
+TODO: is there an existing product that matches some of the requirements? is
+there any other similar product?
 
 ## Architecture study
 
-**Decision:**
+**Decision:** TODO
 
-### Option XXX
+### Architecture AAA
 
-TODO: Description
+TODO: Description and fill the following points
 
-TODO: business coverage (requirements) TODO: agreements / theory (trade-offs),
-TODO: implementation effort (overview of tasks and global effort) TODO: quality,
-up-to-day to modern standards, maintainability TODO: extensibility TODO:
-security, TODO: performance TODO: compliance TODO: cost
+TODO: container diagram (level-2 in C4)
 
+- Business coverage: TODO
+- Assumptions: TODO list of known agreements and out-of-scope responsability
+- Limitations: TODO
+- Implementation effort: TODO overview of main tasks and estimation
+- Maintanance effort: TODO
+- Quality, up-to-day to modern standards: TODO
+- Extensibility: TODO e.g., reusability
+- Security: TODO
+- Performance: TODO
+- Compliance: TODO if applies
+- Cost: TODO
 - Resources: TODO links
 
 ## High level components
 
-TODO: diagram
+TODO: component diagram (level-3 in C4)
 
 ### Component 1
 
 TODO: describe the component, what it does and how it interacts with others
+
+## Data persistency
+
+TODO: how to persist data? what data? database model or file formats?
 
 ## Public API
 
